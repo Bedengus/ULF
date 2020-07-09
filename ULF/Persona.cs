@@ -65,6 +65,8 @@ namespace ULF
       this.Motus=0;
       this.Tempus=0;
       this.Lotus=new double[2];
+      this.Lotus[0]=0;
+      this.Lotus[1]=0;
 		}
 
 		public void Utor(){
@@ -611,27 +613,27 @@ namespace ULF
 		}
     public void Spectare(string verbum="panoplia"){
       if(verbum=="panoplia"){
-        for(int i=0;i<this.panoN.Length;i++){
-          if(this.panoN[i]==null){
+        for(int u=0;u<this.panoN.Length;u++){
+          if(this.panoN[u]==null){
 
           } else{
-            Console.WriteLine(this.panoN[i]);
+            Console.WriteLine(this.panoN[u]);
           }
         }
       } else if(verbum=="repertoire"){
-        for(int i=0;i<this.Repertoire.Length;i++){
-          if(this.Repertoire[i]==null){
+        for(int u=0;u<this.Repertoire.Length;u++){
+          if(this.Repertoire[u]==null){
 
           } else{
-            Console.WriteLine(this.Repertoire[i]);
+            Console.WriteLine(this.Repertoire[u]);
           }
         }
       } else if(verbum=="actus"){
-        for(int i=0;i<this.Actus.Length;i++){
-          if(this.Actus[i]==null){
+        for(int u=0;u<this.Actus.Length;u++){
+          if(this.Actus[u]==null){
 
           } else{
-            Console.WriteLine(this.Actus[i]);
+            Console.WriteLine(this.Actus[u]);
           }
         }
       }
@@ -1372,6 +1374,12 @@ namespace ULF
     public bool rec=false;
     public bool ergo=false;
     public bool mag=false;
+    public bool inferi=false;
+
+    public Yuno Yuno = new Yuno();
+    public string Sensus="Mulus";
+
+    public Regio Regio = new Regio();
   }
 }
     /*  Use Purgo for debugging to skip to name, roll or race phase.

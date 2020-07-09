@@ -221,5 +221,11 @@ namespace ULF
         "Type 'exit' to leave.";
     public static string scriptum = "\nDocumentation for the Adventum Class.\n\n"+
         "This calculates based on your characters parameters. Use 'mechanics' to get directly to the mechanics menu.";
+
+    public static string aux = "\nWelcome to your adventure.\n\n"+
+        "See this almost at any time by typing 'help'.\n"+
+        "Also remember the ubiquitous commands 'look', 'go', 'save' and 'doc'.\n"+
+        "Less used, but often present, is 'inventory'."+
+        "Use of 'exit' to end the game.\n\n";
   }
 }

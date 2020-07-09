@@ -50,19 +50,42 @@ namespace ULF
       Hostis["h"].Actus[2]="Slash";
       Hostis["h"].Actus[1]="Strike";
       Hostis["h"].Actus[3]="Thrust";
-      Hostis["h"].Lotus[0]=700;
-      Hostis["h"].Lotus[1]=700;
+      Hostis["h"].Actus[0]="Step";
+      Hostis["h"].Actus[4]="Wait";
+      Hostis["h"].Lotus[0]=100;
+      Hostis["h"].Lotus[1]=100;
+      Hostis["h"].PV[1]=10;
+
+      Hostis["j"] = new Persona();
+      Hostis["j"].Nomen = "j";
+      Hostis["j"].Cognomen = "j";
+      Hostis["j"].Genus.Auto("human", Hostis["j"].Nomen);
+      Hostis["j"].Arma = Arma.Ornare("steel sword");
+      Hostis["j"].Actus[2]="Slash";
+      Hostis["j"].Actus[1]="Strike";
+      Hostis["j"].Actus[3]="Thrust";
+      Hostis["j"].Actus[0]="Step";
+      Hostis["j"].Actus[4]="Wait";
+      Hostis["j"].Lotus[0]=10;
+      Hostis["j"].Lotus[1]=10;
+      Hostis["j"].PV[1]=10;
 
 
 
       
       homo.Porto("Su");
 
+
       Hostis[homo.Cognomen] = new Persona();
       Hostis[homo.Cognomen] = homo;
+      Console.WriteLine(Adventum.aux);
+      Console.ReadLine();
+      homo.Regio.Iter(1, "Emerald Village", homo);
 
-      Actus.Gestus("Cast", homo);
-      Actus.Ergo("Cast", homo);
+      // Mechanicae.Chronus(homo, Hostis["h"]);
+
+      /*Actus.Gestus("Cast", homo);
+      Actus.Ergo("Cast", homo);*/
 
 
 
@@ -75,7 +98,9 @@ namespace ULF
       Hostis["j"].Arma = Arma.Ornare("steel sword");
       Hostis["j"].Actus[2]="Slash";
       Hostis["j"].Actus[1]="Strike";
-      Hostis["j"].Actus[3]="Thrust";*/
+      Hostis["j"].Actus[3]="Thrust";
+      Hostis["j"].Actus[0]="Step";
+      Hostis["j"].Actus[4]="Wait";*/
       // Mechanicae.Chronus(homo, Hostis["h"]);
       
 
