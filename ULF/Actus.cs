@@ -5,7 +5,7 @@ namespace ULF
   public static class Actus
   {
 
-    public static void Gestus(string ges, Persona Ego){
+    public static void Gestus(string ges, Persona Ego, bool yuno=false){
       switch(ges){
         case "Step":
           Ego.sum+=1;
@@ -37,6 +37,11 @@ namespace ULF
           
           Ego.sum+=Ego.Mana.Spargo(Σ.noton, Ego).Incantatio;
           break;
+        case "Wait":
+          Console.WriteLine("Inform for how long.");
+          Σ.noto[70]=Console.ReadLine();
+          Ego.sum+= String.IsNullOrEmpty(Σ.noto[70]) ? 1 : Convert.ToInt32(Σ.noto[70]);
+        break;
         default:
           Console.WriteLine("Unknown Action; your stupidity waste your time");
           Ego.sum+=1;
@@ -44,13 +49,13 @@ namespace ULF
       }
       Ego.ergo=true;
     }
-    public static void Ergo(string ges, Persona Ego){
+    public static void Ergo(string ges, Persona Ego, bool yuno=false){
       switch(ges){
         case "Step":
-          Step(Ego);
+          Step(Ego, yuno);
           break;
         case "Strike":
-          Strike(Ego);
+          Strike(Ego, yuno);
           Ego.rec=true;
           Ego.sum+=1;
           break;
@@ -67,6 +72,8 @@ namespace ULF
         case "Cast":
           Cast(Ego);
           break;
+        case "Wait":
+        break;
         default:
           Console.WriteLine("Unknown Action; your stupidity waste your time");
           Ego.sum+=1;
@@ -75,19 +82,40 @@ namespace ULF
       Ego.ergo=false;
     }
 
-    public static void Step(Persona Ego){
-      double dis;
-      string dir;
-      Console.WriteLine("\nHow long?");
-      Σ.rector=Console.ReadLine();
-      dis=String.IsNullOrEmpty(Σ.rector) ? 50 : Convert.ToInt32(Σ.rector);
-      if(dis>50){
+    public static void Step(Persona Ego, bool yuno=false){
+      double dis=0;
+      string dir="";
+      if(!yuno){
+        Console.WriteLine("\nHow long?");
+        Σ.rector=Console.ReadLine();
+        dis=String.IsNullOrEmpty(Σ.rector) ? 50 : Convert.ToInt32(Σ.rector);
+        if(dis>50){
+          dis=50;
+        } else if(dis<1){
+          dis=1;
+        }
+        Console.WriteLine("Whither?");
+        dir=Console.ReadLine();
+      } else{
         dis=50;
-      } else if(dis<1){
-        dis=1;
+        if(Primor.homo.Lotus[1]>Ego.Lotus[1]&&Primor.homo.Lotus[0]>Ego.Lotus[0]){
+          dir="ne";
+        } else if(Primor.homo.Lotus[1]>Ego.Lotus[1]&&Primor.homo.Lotus[0]<Ego.Lotus[0]){
+          dir="nw";
+        } else if(Primor.homo.Lotus[1]<Ego.Lotus[1]&&Primor.homo.Lotus[0]>Ego.Lotus[0]){
+          dir="se";
+        } else if(Primor.homo.Lotus[1]<Ego.Lotus[1]&&Primor.homo.Lotus[0]<Ego.Lotus[0]){
+          dir="sw";
+        } else if(Primor.homo.Lotus[1]>Ego.Lotus[1]){
+          dir="n";
+        } else if(Primor.homo.Lotus[0]>Ego.Lotus[0]){
+          dir="w";
+        } else if(Primor.homo.Lotus[1]<Ego.Lotus[1]){
+          dir="s";
+        } else if(Primor.homo.Lotus[0]<Ego.Lotus[0]){
+          dir="e";
+        }
       }
-      Console.WriteLine("Whither?");
-      dir=Console.ReadLine();
 
       if(dir=="n"||dir=="north"){
         Ego.Lotus[1]+=dis;
@@ -116,16 +144,21 @@ namespace ULF
       } else{
         Ego.Lotus[1]+=dis;
       }
-      Console.WriteLine("You are at x:"+Ego.Lotus[0]+" y:"+Ego.Lotus[1]+" no dosu he.");
+      Console.WriteLine(Ego.Cognomen+" is at x:"+Ego.Lotus[0]+" y:"+Ego.Lotus[1]+" no dosu he.");
     }
 
-    public static void Strike(Persona Ego){
-      Console.WriteLine("\nInform the target.");
-      Σ.notou = Console.ReadLine();
-      Console.WriteLine("Inform how much Capacity to use.\nYou have "+Ego.Capacitas+" Capacity.\nLeave empty for full; insert '0' to use naught.");
-      Σ.notod = Console.ReadLine();
-      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:1);
-      Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
+    public static void Strike(Persona Ego, bool yuno=false){
+      if(!yuno){
+        Console.WriteLine("\nInform the target.");
+        Σ.notou = Console.ReadLine();
+        Console.WriteLine("Inform how much Capacity to use.\nYou have "+Ego.Capacitas+" Capacity.\nLeave empty for full; insert '0' to use naught.");
+        Σ.notod = Console.ReadLine();
+        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:1);
+        Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
+      } else{
+        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.homo, dam:1, yuno:true);
+        Console.WriteLine(Primor.homo.Cognomen+" has "+Primor.homo.PV[1]+" out of "+Primor.homo.PV[0]+".");
+      }   
     }
     public static void Slash(Persona Ego){
       Console.WriteLine("Inform the target.");
@@ -154,7 +187,7 @@ namespace ULF
 
     public static void Recovery(Persona Ego){
       Ego.rec=false;
-      Console.WriteLine("You recover.");
+      Console.WriteLine(Ego.Cognomen+" recovers.");
     }
   }
 }
