@@ -58,7 +58,7 @@ namespace ULF
 
       public static void Merc(Persona Ego){
         Console.WriteLine("Welcome to the NAME GENERATOR Shop.");
-        Console.WriteLine("\nWe have here for sale: *rolls random dices*"+
+        /*Console.WriteLine("\nWe have here for sale: *rolls random dices*"+
         "\n"+Ego.Arma.Ornare("steel sword").Nomen+": "+Ego.Arma.Ornare("steel sword").Pretium+"C"+
         "\n"+Ego.Arma.Ornare("steel long sword").Nomen+": "+Ego.Arma.Ornare("steel long sword").Pretium+"C"+
         "\n"+Ego.Arma.Ornare("steel dagger").Nomen+": "+Ego.Arma.Ornare("steel dagger").Pretium+"C"+
@@ -75,24 +75,29 @@ namespace ULF
           }
         } else{
           Console.WriteLine("\nThat is not real.");
-        }
+        }*/
         Console.WriteLine("Anything else? Type to exit.");
         Σ.rector = Console.ReadLine().ToLower();
       }
 
       public static void Panoplia(Persona Ego){
-          Console.WriteLine("\nWhat do you want to do with your inventory?\n'look'\n'equip'");
+          Console.WriteLine("\nWhat do you want to do with your inventory?\n Use 'look' or name an item to select it.");
           Σ.rector = Console.ReadLine().ToLower();
           if(Σ.rector=="look"){
             Ego.Spectare();
             Console.ReadLine();
-          } else if(Σ.rector=="equip"){
-            Console.WriteLine("\nWhat do you want to equip?");
+          } else if(Ego.ArchTrac(Σ.rector).Nomen==Σ.rector){
+            Console.WriteLine("\nYou have selected "+Σ.rector+".\n"+
+            Ego.ArchTrac(Σ.rector).Depictium+
+            "\nIt weights "+Ego.ArchTrac(Σ.rector).Pondus+"."+
+            "\nYou have "+Ego.ArchTrac(Σ.rector).Quantitas+".");
+            // type delete, 'probable use', and equip?
+            Console.WriteLine("Anything else? Type to exit.");
             Σ.rector = Console.ReadLine();
-            if(Array.Exists(Ego.panoN,i=>i==Σ.rector)){
-            Ego.Arma = Ego.Arma.Ornare(Σ.rector.ToLower());
-            Ego.Arma.Index();
-            Ego.Virtus();
+            if(Ego.panaN[Σ.rector]>0){
+              Ego.Arma = Arma.Ornare(Σ.rector);
+              Ego.Arma.Index();
+              Ego.Virtus();
             } else{
             Console.WriteLine("\nYou do not have that item.");
             }

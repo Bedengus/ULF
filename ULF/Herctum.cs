@@ -73,7 +73,7 @@ namespace ULF
     public string[] SapientiaB=new string[11];
 
     public string armaN;
-    public string[] panoN = new string[20];
+    public Dictionary<string, int> panaN = new Dictionary<string, int>();
     public double[] lotus=new double[2];
   }
 }

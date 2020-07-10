@@ -47,6 +47,15 @@ namespace ULF
                             Panoplia(Ego);
                         } while (Σ.rector == "");       
                     break;
+                    case "walk":
+                        if(Mechanicae.Volvere(4)>2){
+                            do{
+                                Console.WriteLine("You have been ambushed by 'Bandit'!");
+                                Mechanicae.Chronus(Ego, true, Primor.Hostis["Bandit"]);
+                                Σ.rector="e";
+                            } while(Σ.rector=="");
+                        }
+                    break;
                     case "doc":
                         Console.WriteLine(scriptum);
                         Console.ReadLine();
@@ -96,10 +105,10 @@ namespace ULF
             } else if(Σ.rector=="equip"){
                 Console.WriteLine("\nWhat do you want to equip?");
                 Σ.rector = Console.ReadLine();
-                if(Array.Exists(Ego.panoN,i=>i==Σ.rector)){
-                Ego.Arma = Ego.Arma.Ornare(Σ.rector.ToLower());
-                Ego.Arma.Index();
-                Ego.Virtus();
+                if(Ego.panaN[Σ.rector]>0){
+                    Ego.Arma = Arma.Ornare(Σ.rector);
+                    Ego.Arma.Index();
+                    Ego.Virtus();
                 } else{
                 Console.WriteLine("\nYou do not have that item.");
                 }
@@ -111,6 +120,7 @@ namespace ULF
 
         public static string scriptum = "\nThis is a city."+
         "\nA city is a mid-point to seek events outside or inside, travel or use any facilities such as inns, shops and guilds."+
+        "\nUse 'walk' to take a walk."+
         "\nUse 'look' and 'go' to move to new locations.";
     }
 }

@@ -19,6 +19,13 @@ namespace ULF
         case "Thrust":
           Ego.sum+=2;
           break;
+        case "Shoot":
+          if(Ego.Arma.Typus!="bow"){
+            Console.WriteLine("You cannot shoot with that.");
+          } else{
+            Ego.sum+=2;
+          }
+        break;
         case "Cast":
           Console.WriteLine("Inform the target.");
           Σ.notoo = Console.ReadLine();
@@ -68,6 +75,9 @@ namespace ULF
           Thrust(Ego);
           Ego.rec=true;
           Ego.sum+=1;
+          break;
+        case "Shoot":
+          Shoot(Ego);
           break;
         case "Cast":
           Cast(Ego);
@@ -153,10 +163,10 @@ namespace ULF
         Σ.notou = Console.ReadLine();
         Console.WriteLine("Inform how much Capacity to use.\nYou have "+Ego.Capacitas+" Capacity.\nLeave empty for full; insert '0' to use naught.");
         Σ.notod = Console.ReadLine();
-        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:1);
+        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:0);
         Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
       } else{
-        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.homo, dam:1, yuno:true);
+        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.homo, dam:0, yuno:true);
         Console.WriteLine(Primor.homo.Cognomen+" has "+Primor.homo.PV[1]+" out of "+Primor.homo.PV[0]+".");
       }   
     }
@@ -165,7 +175,7 @@ namespace ULF
       Σ.notou = Console.ReadLine();
       Console.WriteLine("Inform how much Capacity to use.\nYou have "+Ego.Capacitas+" Capacity.\nLeave empty for full; insert '0' to use naught.");
       Σ.notod = Console.ReadLine();
-      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:2);
+      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:1);
       Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
     }
     public static void Thrust(Persona Ego){
@@ -173,10 +183,24 @@ namespace ULF
       Σ.notou = Console.ReadLine();
       Console.WriteLine("Inform how much Capacity to use.\nYou have "+Ego.Capacitas+" Capacity.\nLeave empty for full; insert '0' to use naught.");
       Σ.notod = Console.ReadLine();
-      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:3);
+      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:2);
       Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
     }
-    
+
+    public static void Shoot(Persona Ego){
+      Console.WriteLine("Inform the target.");
+      Σ.notou = Console.ReadLine();
+      Console.WriteLine("Inform the missile type.");
+      Σ.notod = Console.ReadLine();
+      if(Ego.ArchTrac(Σ.notod)!=null){
+        Ego.ArchTrac(Σ.notod).Quantitas--;
+        Console.WriteLine("You have "+Ego.ArchTrac(Σ.notod).Quantitas+" "+Ego.ArchTrac(Σ.notod).Nomen+" left.");
+        Mechanicae.PulsareLonge(Ego, Primor.Hostis[Σ.notou], Ego.Arma.DamnumT, Ego.ArchTrac(Σ.notod).Value, Ego.ArchTrac(Σ.notod).Pondus, 2);
+        Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
+      } else{
+        Console.WriteLine("You cannot shoot with that.");
+      }
+    } 
     public static void Cast(Persona Ego){
       Mechanicae.Spargo(Ego.Mana.Spargo(Σ.noton, Ego),Ego, Primor.Hostis[Σ.notoo], Σ.decem);
       Console.WriteLine(Σ.notoo+" has "+Primor.Hostis[Σ.notoo].PV[1]+" out of "+Primor.Hostis[Σ.notoo].PV[0]+" Points de Vie.");

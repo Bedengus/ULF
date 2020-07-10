@@ -168,7 +168,7 @@ namespace ULF
 
     // Conputat Impetum 
 
-    public static void PulsareJux(Persona Ego, Arma arma, Persona hostis, string dir="front", bool demi=false, int vis=-1, int dam=0, bool yuno=false){
+    public static void PulsareJux(Persona Ego, Arma arma, Persona hostis, string dir="front", bool demi=false, int vis=-1, int dam=3, bool yuno=false){
 
       if(vis<0){
         vis=Ego.Capacitas;
@@ -242,11 +242,11 @@ namespace ULF
                 Σ.unus=Primor.homo.Arma.DamnumT;
               }
             } else{
-              if(dam==1&&Primor.homo.Arma.Obtusus>0){
+              if(dam==0&&Primor.homo.Arma.Obtusus>0){
                 Σ.unus=Primor.homo.Arma.Obtusus;
-              } else if(dam==2&&Primor.homo.Arma.Acutus>0){
+              } else if(dam==1&&Primor.homo.Arma.Acutus>0){
                 Σ.unus=Primor.homo.Arma.Acutus;
-              } else if(dam==3&&Primor.homo.Arma.Acutulus>0){
+              } else if(dam==2&&Primor.homo.Arma.Acutulus>0){
                 Σ.unus=Primor.homo.Arma.Acutulus;
               } else{
                 Σ.unus=Primor.homo.Arma.DamnumT;
@@ -314,6 +314,7 @@ namespace ULF
         
         Battum(Ego);
         DanusPhysicus(Ego, vis, dan, pon, gra:gra);
+        velo-=Convert.ToInt32(Calculus("hypod",Math.Abs(Ego.Lotus[0]-hostis.Lotus[0]),Math.Abs(Ego.Lotus[1]-hostis.Lotus[1]))/100);
         Crisimus(Ego, hostis);
       } else{
         Console.WriteLine(Ego.Cognomen+" missed.");

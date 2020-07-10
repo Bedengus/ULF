@@ -58,9 +58,10 @@ namespace ULF
       Virtus();
       Genus.Renovamen(genus);
 
-      this.panoN=new string[20];
       this.Repertoire=new string[20];
       this.Actus=new string[20];
+      this.Actus[0]="Step";
+      this.Actus[1]="Wait";
 
       this.Motus=0;
       this.Tempus=0;
@@ -241,18 +242,19 @@ namespace ULF
           Discere("VB");
           Discere("DB");
           Discere("CB");
+          this.Addicio("actus", "Slash", "Thrust");
           // Goat Leather Armour
 
           Console.WriteLine("Do you wish for 'Sword' Mastery or 'Long' Sword Mastery?");
 			    Σ.rector=Console.ReadLine().ToLower();
           if(Σ.rector=="long"||Σ.rector=="long sword"){
             Discere("MLG");
-            this.panoN[1]="Steel Long Sword";
-            this.Arma=Arma.Ornare(this.panoN[1].ToLower());
+            this.ArchAdd(Caussae.Acquirere("Steel Long Sword"));
+            this.Arma=Arma.Ornare("Steel Long Sword");
           } else{
             Discere("MG");
-            this.panoN[1]="Steel Sword";
-            this.Arma=Arma.Ornare(this.panoN[1].ToLower());
+            this.ArchAdd(Caussae.Acquirere("Steel Sword"));
+            this.Arma=Arma.Ornare("Steel Sword");
           }
           Console.WriteLine("\nYou are a Swordsman; a progressive agressive class of the melee tree.");
 			    Console.ReadLine();
@@ -262,12 +264,14 @@ namespace ULF
 
           Discere("MB");//mastery and spell
           Discere("IB");//resistance I E
+          this.Addicio("actus", "Cast", "Strike");
 
-          this.panoN[1]="Chestnut Staff"; //Simple Robe Set
-          this.Arma=Arma.Ornare(this.panoN[1].ToLower());
+          this.ArchAdd(Caussae.Acquirere("Chestnut Staff")); //Simple Robe Set
+          this.Arma=Arma.Ornare("Chestnut Staff");
 
           do{
             Console.WriteLine("\nWhich elementar discipline do you wish to follow?");
+            Console.WriteLine("\n*****pyromancy with Fireball and glacemancy with Icicle are the only choices for now*****");
 			      Σ.rector=Console.ReadLine().ToLower();
 
             switch(Σ.rector){
@@ -318,15 +322,15 @@ namespace ULF
           Discere("MA");
           Discere("DB");
           Discere("SB");
-          this.panoN[1]="Maple Bow"; // 30Light Arrows or 20 Heavy Arrows
-          this.Arma=Arma.Ornare(this.panoN[1].ToLower());
+          this.ArchAdd(Caussae.Acquirere("Maple Bow"));
+          this.Arma=Arma.Ornare("Maple Bow");
 
           Console.WriteLine("Do you want 30 'Light' Arrows or 20 'Heavy' Arrows?");
 			    Σ.rector=Console.ReadLine().ToLower();
           if(Σ.rector=="heavy"||Σ.rector=="heavy arrows"){
-            // heavy arrows 20
+            this.ArchAdd(Caussae.Acquirere("Heavy Arrow", 20));
           } else{
-            // light arrows 30
+            this.ArchAdd(Caussae.Acquirere("Light Arrow", 30));
           }
           Console.WriteLine("\nYou are an Archer; a hunter class of the ranged tree.");
 			    Console.ReadLine();
@@ -338,8 +342,9 @@ namespace ULF
           Discere("MS");
           Discere("DB");
           Discere("SB");
-          this.panoN[1]="Steel Dagger"; //Goat Leather Armour
-          this.Arma=Arma.Ornare(this.panoN[1].ToLower());
+          this.Addicio("actus", "Slash", "Thrust");
+          this.ArchAdd(Caussae.Acquirere("Steel Dagger"));//Goat Leather Armour
+          this.Arma=Arma.Ornare("Steel Dagger");
 
           Console.WriteLine("\nYou are a Rogue; a instant agressive class of the melee tree.");
 			    Console.ReadLine();
@@ -613,11 +618,11 @@ namespace ULF
 		}
     public void Spectare(string verbum="panoplia"){
       if(verbum=="panoplia"){
-        for(int u=0;u<this.panoN.Length;u++){
-          if(this.panoN[u]==null){
+        for(int u=0;u<this.Archivum.Length;u++){
+          if(this.Archivum[u]==null){
 
           } else{
-            Console.WriteLine(this.panoN[u]);
+            Console.WriteLine(this.Archivum[u].Nomen+" x"+this.Archivum[u].Quantitas);
           }
         }
       } else if(verbum=="repertoire"){
@@ -638,18 +643,8 @@ namespace ULF
         }
       }
     }
-    public void Addicio(string verbum="panoplia", params string[] mers){
-      if(verbum=="panoplia"){
-        for(int u=0;u<mers.Length;u++){
-          for(int d=0;d<this.panoN.Length;d++){
-            if(this.panoN[d]==null){
-              this.panoN[d]=mers[u];
-              Console.WriteLine("\nYou have acquired "+this.panoN[d]+"!");
-              break;
-            }
-          }
-        }    
-      } else if(verbum=="repertoire"){
+    public void Addicio(string verbum="actus", params string[] mers){
+      if(verbum=="repertoire"){
         for(int u=0;u<mers.Length;u++){
           for(int d=0;d<this.Repertoire.Length;d++){
             if(this.Repertoire[d]==null){
@@ -671,7 +666,37 @@ namespace ULF
         } 
     }
   }
-       
+
+    public void ArchAdd(params Caussae[] mers){
+      for(int u=0;u<mers.Length;u++){
+        for(int d=0;d<this.Archivum.Length;d++){
+          if(this.Archivum[d]==null){
+            this.Archivum[d]=mers[u];
+            this.panaN[mers[u].Nomen]=mers[u].Quantitas;
+            if(mers[u].Quantitas>1){
+              Console.WriteLine("\nYou have acquired "+mers[u].Nomen+" x"+mers[u].Quantitas+"!");
+            } else{
+              Console.WriteLine("\nYou have acquired "+mers[u].Nomen+"!");
+            }
+            break;
+          }
+        }
+      } 
+    }
+    public Caussae ArchTrac(string mers){
+      foreach(var c in this.Archivum){
+        if(c!=null){
+          if(c.Nomen==mers){
+            return c;
+          }
+        }
+      }
+      return null;
+    }
+    public void ArchRec(){
+      
+    }
+
     public void Dominatus(){
       foreach (var u in this.Ordo){
         Console.WriteLine(u.Key);
@@ -1001,7 +1026,11 @@ namespace ULF
       data.SapientiaB = this.SapientiaB;
 
       data.armaN = this.Arma.Nomen;
-      data.panoN = this.panoN;
+      for(int u=0;u<this.Archivum.Length;u++){
+        if(this.Archivum[u]!=null){
+          data.panaN[this.Archivum[u].Nomen]=this.Archivum[u].Quantitas;
+        }
+      }
       data.lotus = this.Lotus;
 
       bi.Serialize(file, data);
@@ -1080,12 +1109,19 @@ namespace ULF
       this.DexteritateB = data.DexteritateB;
       this.IntelligentiaB = data.IntelligentiaB;
       this.SapientiaB = data.SapientiaB;
-
-      this.panoN = data.panoN;
+      
+      foreach(var u in data.panaN){
+        for(int d=0;d<this.Archivum.Length;d++){
+          if(this.Archivum[d]==null){
+            this.Archivum[d]=Caussae.Acquirere(u.Key, u.Value);
+            break;
+          }
+        }
+      }
       this.Lotus = data.lotus;
 
       this.Genus.Renovamen(this.Genus.typus);
-      this.Arma = this.Arma.Ornare(data.armaN.ToLower());
+      this.Arma = Arma.Ornare(data.armaN.ToLower());
       
       }
     }
@@ -1282,12 +1318,8 @@ namespace ULF
           writer.WriteLine("Moves--> ");
           writer.WriteLine("");
           writer.WriteLine("Inventory--> ");
-          for(int i=0;i<panoN.Length;i++){
-            if(panoN[i]==null){
-
-            } else{
-              writer.WriteLine(panoN[i]);
-            }
+          foreach(var u in panaN){
+            writer.WriteLine(u.Key+" x"+u.Value);
           }
           writer.WriteLine("\n******************************************************************************************");
         }
@@ -1362,7 +1394,8 @@ namespace ULF
     public string[] SapientiaB{get; set;}
 
     public Arma Arma = new Arma();
-    public string[] panoN;
+    public Dictionary<string, int> panaN = new Dictionary<string, int>();
+    public Caussae[] Archivum = new Caussae[20];
 
     public double Motus{get; set;}
     public double Tempus{get; set;}

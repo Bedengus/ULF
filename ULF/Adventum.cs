@@ -106,8 +106,8 @@ namespace ULF
       } else if(Σ.rector=="equip"){
         Console.WriteLine("\nWhat do you want to equip?");
         Σ.rector = Console.ReadLine();
-        if(Array.Exists(Ego.panoN,i=>i==Σ.rector)){
-          Ego.Arma = Ego.Arma.Ornare(Σ.rector.ToLower());
+        if(Ego.panaN[Σ.rector]>0){
+          Ego.Arma = Arma.Ornare(Σ.rector);
           Ego.Arma.Index();
           Ego.Virtus();
         } else{
@@ -120,7 +120,7 @@ namespace ULF
     }
     public static void Forum(Persona Ego){
       Console.WriteLine("Welcome to the NAME GENERATOR Shop.");
-      Console.WriteLine("\nWe have here for sale: *rolls random dices*"+
+      /*Console.WriteLine("\nWe have here for sale: *rolls random dices*"+
       "\n"+Ego.Arma.Ornare("steel sword").Nomen+": "+Ego.Arma.Ornare("steel sword").Pretium+"C"+
       "\n"+Ego.Arma.Ornare("steel long sword").Nomen+": "+Ego.Arma.Ornare("steel long sword").Pretium+"C"+
       "\n"+Ego.Arma.Ornare("steel dagger").Nomen+": "+Ego.Arma.Ornare("steel dagger").Pretium+"C"+
@@ -137,7 +137,7 @@ namespace ULF
         }
       } else{
         Console.WriteLine("\nThat is not real.");
-      }
+      }*/
       Console.WriteLine("Anything else? Type to exit.");
       Σ.rector = Console.ReadLine().ToLower();
     }
@@ -225,7 +225,8 @@ namespace ULF
     public static string aux = "\nWelcome to your adventure.\n\n"+
         "See this almost at any time by typing 'help'.\n"+
         "Also remember the ubiquitous commands 'look', 'go', 'save' and 'doc'.\n"+
-        "Less used, but often present, is 'inventory'."+
+        "Less used, but often present, is 'inventory'.\n"+
+        "Be most careful to letter casing in names: I am unforgiving.\n"+
         "Use of 'exit' to end the game.\n\n";
   }
 }

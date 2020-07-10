@@ -1,0 +1,69 @@
+******************************************************************************************
+
+Ji Galao
+Elf
+PV: 94/94
+MP: 664/664
+Credits: 0
+Classes--> 
+Archer
+
+Attributes--> 
+STR: 1
+DEX: 21
+CON: 20
+INT: 2
+WIS: 16
+
+Parameters--> 
+Capacity: 6
+Potency: 12
+Speed: 2,1
+Precision: 10,5
+Perception: 1,6
+
+Proportions--> 
+Height: 180
+Width: 45
+Thickness: 10
+Reach: 160
+Weight: 56
+Volume: 81000
+Front: 8150
+Side: 1800
+Head: 253,12cm²
+Eyes: 3,98cm²
+Neck: 126,56cm²
+Heart: 126,56cm²
+Spine: 620,55cm²
+Arms: 620,55cm²
+Stomach: 1012,5cm²
+Legs: 810cm²
+
+Actions--> 
+
+Buffs--> 
+Agility I(E)
+Focus I(E)
+
+Spells--> 
+
+Passives--> 
+Mechanical Conversion: 1
+Gracefulness: 1
+Energy Flow: 1
+Fitness: 3
+
+Mastery--> 
+Ranged Proficiency: 1
+Bow Mastery: 1
+
+Knowledge--> 
+
+Moves--> 
+
+Inventory--> 
+Maple Bow
+Light Arrow
+
+******************************************************************************************
