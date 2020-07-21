@@ -1,4 +1,6 @@
 using System;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace ULF
 {
@@ -15,7 +17,7 @@ namespace ULF
     public int Deficio{get; private set;}
   
     public Arma(string nom="", string mat="", string typ="hand", int Dtyp=0, int tus=4, int lus=4, int sus=4, double pon=1, double pre=1, double spa=0, double tol=1, string pe="", int def=0){
-      Materia = Materia.Tributare(mat);
+      this.Materia = Materia.Tributare(mat);
 
       this.Nomen = nom;
 
@@ -87,8 +89,61 @@ namespace ULF
       }
     }   
   
-    public void Index(){
+    public override void Index(){
       Console.WriteLine($"\n{this.Nomen}\n{this.Materia.Nomen}\nSharp: 1d{this.Acutus}\nPenetration: 1d{this.Acutulus}\nBlunt: 1d{this.Obtusus}\nWeith: {this.Pondus}Kg\nPrice: {this.Pretium}C\nReach: {this.Spatium}cm\nDurability: {this.Toleratio}");  
+    }
+
+    public void Salvare(){
+      if(Directory.Exists(".\\Archivum\\Arma\\")){
+
+      } else{
+        Directory.CreateDirectory(".\\Archivum\\Arma\\");
+      }
+      BinaryFormatter bi = new BinaryFormatter();
+      FileStream file = File.Create(".\\Archivum\\Arma\\" + this.Nomen + ".aes");
+
+      HerctumA data = new HerctumA();
+
+      data.Peritia=this.Peritia;
+      data.Acutus=this.Acutus;
+      data.Acutulus=this.Acutulus;
+      data.Obtusus=this.Obtusus;
+      data.DamnumT=this.DamnumT;
+      data.Spatium=this.Spatium;
+      data.Toleratio=this.Toleratio;
+      data.Deficio=this.Deficio;
+      data.Mat=this.Materia.Nomen;
+      data.Nomen=this.Nomen;
+      data.Typus=this.Typus;
+      data.Pondus=this.Pondus;
+      data.Pretium=this.Pretium;
+
+      bi.Serialize(file, data);
+      file.Close();
+    }
+    public void Porto(string nom){
+      if (File.Exists(".\\Archivum\\Arma\\" + nom + ".aes")){
+        BinaryFormatter bi = new BinaryFormatter();
+        FileStream file = File.Open(".\\Archivum\\Arma\\" + nom + ".aes", FileMode.Open);
+
+        HerctumA data = (HerctumA)bi.Deserialize(file);
+        file.Close();
+
+        this.Peritia=data.Peritia;
+        this.Acutus=data.Acutus;
+        this.Acutulus=data.Acutulus;
+        this.Obtusus=data.Obtusus;
+        this.DamnumT=data.DamnumT;
+        this.Spatium=data.Spatium;
+        this.Toleratio=data.Toleratio;
+        this.Deficio=data.Deficio;
+        this.Nomen=data.Nomen;
+        this.Typus=data.Typus;
+        this.Pondus=data.Pondus;
+        this.Pretium=data.Pretium;
+
+        this.Materia=Materia.Tributare(data.Mat);
+      }
     }
   }
 }

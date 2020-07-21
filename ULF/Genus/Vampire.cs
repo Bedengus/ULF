@@ -2,20 +2,20 @@ using System;
 
 namespace ULF
 {
-  public class Vampire : Genus
+  public static class Vampire
   {
-    public void Apto(){
+    public static void Apto(Persona Ego){
       int vis=0;
       int vel=0;
       Console.WriteLine("\nDo you wish to increase 4 points into 'wis' or 'con'?");
       Σ.rector=Console.ReadLine().ToLower();
 
       if(Σ.rector=="wis"){
-          Primor.homo.Sapientia+=4;
-          Console.WriteLine("\nYour Wisdom is: "+Primor.homo.Sapientia);
+          Ego.Sapientia[0]+=4;
+          Console.WriteLine("\nYour Wisdom is: "+Ego.Sapientia[0]);
       } else if(Σ.rector=="con"){
-          Primor.homo.Conditio+=4;
-          Console.WriteLine("\nYour Constitution is: "+Primor.homo.Conditio);
+          Ego.Conditio[0]+=4;
+          Console.WriteLine("\nYour Constitution is: "+Ego.Conditio[0]);
       } else{
           Console.WriteLine("\nVery well; it goes to naught. Life strips you even of your natural racial advantages.");
       }
@@ -26,116 +26,114 @@ namespace ULF
           Σ.rector=Console.ReadLine().ToLower();
 
           if(Σ.rector=="str"){
-              Primor.homo.Vigor++;
-              Console.WriteLine("\nYour Strength is: "+Primor.homo.Vigor);
+              Ego.Vigor[0]++;
+              Console.WriteLine("\nYour Strength is: "+Ego.Vigor[0]);
               vis++;
           } else if(Σ.rector=="dex"){
-              Primor.homo.Dexteritate++;
-              Console.WriteLine("\nYour Dexterity is: "+Primor.homo.Dexteritate);
+              Ego.Dexteritate[0]++;
+              Console.WriteLine("\nYour Dexterity is: "+Ego.Dexteritate[0]);
               vel++;
           } else{
               Console.WriteLine("\nVery well; it goes to naught. Life strips you even of your natural racial advantages.");
           }
 
           if(vis==3 && vel==0){
-              Primor.homo.Dexteritate++;
+              Ego.Dexteritate[0]++;
               i++;
-              Console.WriteLine("\nYour Dexterity is: "+Primor.homo.Dexteritate);
+              Console.WriteLine("\nYour Dexterity is: "+Ego.Dexteritate[0]);
           } else if(vel==3 && vis==0){
-              Primor.homo.Vigor++;
+              Ego.Vigor[0]++;
               i++;
-              Console.WriteLine("\nYour Strength is: "+Primor.homo.Vigor);
+              Console.WriteLine("\nYour Strength is: "+Ego.Vigor[0]);
           }  
       }
-      Primor.homo.Genus.Cisterna(Primor.homo.Genus.typus.ToLower());
-      Console.WriteLine($"\n{Primor.homo.Nomen} {Primor.homo.Cognomen} you are a vampire and may you soar as an adventurer so that your puny statuses do not bring shame upon your galant race:");
-      Primor.homo.Index();
+      Console.WriteLine($"\n{Ego.Nomen} {Ego.Cognomen} you are a vampire and may you soar as an adventurer so that your puny statuses do not bring shame upon your galant race:");
+      Ego.Index();
     }
-    public void Cisterna(){
+    public static void Cisterna(Persona Ego){
       Σ.rector = Console.ReadLine().ToLower();
 
       if(Σ.rector=="roll"){
         Console.WriteLine("\nAs a vampire you have 40 base health and adds to it 1d8-1 for each CON point.");
-        Primor.homo.PV[0]=40;
-        for (int i=0; i <= Primor.homo.Conditio; i++){
-          Primor.homo.PV[0] += Mechanicae.Volvere(8, mut: -1);
+        Ego.PV[0]=40;
+        for (int i=0; i <= Ego.Conditio[0]; i++){
+          Ego.PV[0] += Mechanicae.Volvere(8, mut: -1);
           Console.ReadLine();
         }
         Console.WriteLine("\nAs a vampire you have 640 base mana and adds to it 2d8 for each INT point.");
-        Primor.homo.PM[0]=640;
-        for (int i=0; i <= Primor.homo.Intelligentia*2; i++){
-          Primor.homo.PM[0] += Mechanicae.Volvere(8);
+        Ego.PM[0]=640;
+        for (int i=0; i <= Ego.Intelligentia[0]*2; i++){
+          Ego.PM[0] += Mechanicae.Volvere(8);
           Console.ReadLine();
         }
       } else{
-        Primor.homo.PV[0] = Mechanicae.Volvere(8, Primor.homo.Conditio, -1)+40;
-        Primor.homo.PM[0] = Mechanicae.Volvere(8, Primor.homo.Intelligentia*2)+640;
+        Ego.PV[0] = Mechanicae.Volvere(8, Ego.Conditio[0], -1)+40;
+        Ego.PM[0] = Mechanicae.Volvere(8, Ego.Intelligentia[0]*2)+640;
       }
-      Primor.homo.PV[1]=Primor.homo.PV[0];
-      Primor.homo.PM[1]=Primor.homo.PM[0];
-      Console.WriteLine("\nPV: "+Primor.homo.PV[0]);
-      Console.WriteLine("MP: "+Primor.homo.PM[0]);
+      Ego.PV[1]=Ego.PV[0];
+      Ego.PM[1]=Ego.PM[0];
+      Console.WriteLine("\nPV: "+Ego.PV[0]);
+      Console.WriteLine("MP: "+Ego.PM[0]);
       Console.ReadLine();
-      Primor.homo.Genus.Mensura(Primor.homo.Genus.typus.ToLower());
     }
-    public void Mensura(){
+    public static void Mensura(Persona Ego){
       Σ.rector=Console.ReadLine().ToLower();
 
       if(Σ.rector=="roll"){
-        Primor.homo.Altitudo = 130 + Mechanicae.Volvere(10,10);
-        Primor.homo.Latitudo = Math.Round((Primor.homo.Altitudo / 100) * (20 + Mechanicae.Volvere(10)), 2);
-        Primor.homo.Crassitudo[1] = 4 + Mechanicae.Volvere(4);
-      	Primor.homo.Crassitudo[0] = Math.Round((Primor.homo.Altitudo / 100) * Primor.homo.Crassitudo[1], 2);
-        Primor.homo.Carnatio = Math.Round(Primor.homo.Altitudo * Primor.homo.Latitudo * Primor.homo.Crassitudo[0], 2);
-        Primor.homo.Pondus = Math.Round((Primor.homo.Carnatio * 0.7) / 1000, 2);
-        Primor.homo.Spatium[0] = Math.Round(Primor.homo.Altitudo / 2);
-        Primor.homo.Spatium[1] = Math.Round(Primor.homo.Altitudo / 2);
-        Primor.homo.Planitia[0]= Math.Round(Primor.homo.Altitudo * Primor.homo.Latitudo, 2);
-        Primor.homo.Planitia[1]= Math.Round(Primor.homo.Altitudo * Primor.homo.Crassitudo[0], 2);
+        Ego.Altitudo = 130 + Mechanicae.Volvere(10,10);
+        Ego.Latitudo = Math.Round((Ego.Altitudo / 100) * (20 + Mechanicae.Volvere(10)), 2);
+        Ego.Crassitudo[1] = 4 + Mechanicae.Volvere(4);
+      	Ego.Crassitudo[0] = Math.Round((Ego.Altitudo / 100) * Ego.Crassitudo[1], 2);
+        Ego.Carnatio = Math.Round(Ego.Altitudo * Ego.Latitudo * Ego.Crassitudo[0], 2);
+        Ego.Pondus = Math.Round((Ego.Carnatio * 0.7) / 1000, 2);
+        Ego.Spatium[0] = Math.Round(Ego.Altitudo / 2);
+        Ego.Spatium[1] = Math.Round(Ego.Altitudo / 2);
+        Ego.Planitia[0]= Math.Round(Ego.Altitudo * Ego.Latitudo, 2);
+        Ego.Planitia[1]= Math.Round(Ego.Altitudo * Ego.Crassitudo[0], 2);
       } else{
-        Primor.homo.Altitudo=180;
-        Primor.homo.Latitudo=45;
-        Primor.homo.Crassitudo[1]=6;
-				Primor.homo.Crassitudo[0]=10;
-        Primor.homo.Carnatio=180*45*10;
-        Primor.homo.Pondus=56;
-        Primor.homo.Spatium[0]=90;
-        Primor.homo.Spatium[1]=90;
-        Primor.homo.Planitia[0]=8100;
-        Primor.homo.Planitia[1]=1840;
+        Ego.Altitudo=180;
+        Ego.Latitudo=45;
+        Ego.Crassitudo[1]=6;
+				Ego.Crassitudo[0]=10;
+        Ego.Carnatio=180*45*10;
+        Ego.Pondus=56;
+        Ego.Spatium[0]=90;
+        Ego.Spatium[1]=90;
+        Ego.Planitia[0]=8100;
+        Ego.Planitia[1]=1840;
       }
-			Primor.homo.Index("dimensions");
+			Ego.Index("dimensions");
       Console.ReadLine();
     }
-    public void NovaMensura(int cel=3){
+    public static void NovaMensura(Persona Ego, int cel=3){
 			if(cel>=3){
-				Primor.homo.Crassitudo[1] = 4 + Mechanicae.Volvere(4);
+				Ego.Crassitudo[1] = 4 + Mechanicae.Volvere(4);
 			} else if(cel==2){
-				Primor.homo.Crassitudo[1] = Math.Round((4 + Mechanicae.Volvere(4))*1.2);
+				Ego.Crassitudo[1] = Math.Round((4 + Mechanicae.Volvere(4))*1.2);
 			} else if(cel==1){
-				Primor.homo.Crassitudo[1] = Math.Round((4 + Mechanicae.Volvere(4))*1.5);
+				Ego.Crassitudo[1] = Math.Round((4 + Mechanicae.Volvere(4))*1.5);
 			}
-      Primor.homo.Crassitudo[0] = Math.Round((Primor.homo.Altitudo / 100) * Primor.homo.Crassitudo[1], 2);
-      Primor.homo.Carnatio = Math.Round(Primor.homo.Altitudo * Primor.homo.Latitudo * Primor.homo.Crassitudo[0], 2);
-      Primor.homo.Pondus = Math.Round((Primor.homo.Carnatio * 0.7) / 1000, 2);
-      Primor.homo.Planitia[0]= Math.Round(Primor.homo.Altitudo * Primor.homo.Latitudo, 2);
-      Primor.homo.Planitia[1]= Math.Round(Primor.homo.Altitudo * Primor.homo.Crassitudo[0], 2);
-			Primor.homo.Index("dimensions");
+      Ego.Crassitudo[0] = Math.Round((Ego.Altitudo / 100) * Ego.Crassitudo[1], 2);
+      Ego.Carnatio = Math.Round(Ego.Altitudo * Ego.Latitudo * Ego.Crassitudo[0], 2);
+      Ego.Pondus = Math.Round((Ego.Carnatio * 0.7) / 1000, 2);
+      Ego.Planitia[0]= Math.Round(Ego.Altitudo * Ego.Latitudo, 2);
+      Ego.Planitia[1]= Math.Round(Ego.Altitudo * Ego.Crassitudo[0], 2);
+			Ego.Index("dimensions");
       Console.ReadLine();
     }
 
-    public void Auto(string hostis){
+    public static void Auto(string hostis){
       
       Primor.Hostis[hostis].PV[0] = 100;
       Primor.Hostis[hostis].PM[0] = 600;
       Primor.Hostis[hostis].PV[1]=Primor.Hostis[hostis].PV[0];
       Primor.Hostis[hostis].PM[1]=Primor.Hostis[hostis].PM[0];
 
-      Primor.Hostis[hostis].Vigor = 11;
-      Primor.Hostis[hostis].Dexteritate = 13;
-      Primor.Hostis[hostis].Conditio = 10;
-      Primor.Hostis[hostis].Intelligentia = 10;
-      Primor.Hostis[hostis].Sapientia = 14;
+      Primor.Hostis[hostis].Vigor[0] = 11;
+      Primor.Hostis[hostis].Dexteritate[0] = 13;
+      Primor.Hostis[hostis].Conditio[0] = 10;
+      Primor.Hostis[hostis].Intelligentia[0] = 10;
+      Primor.Hostis[hostis].Sapientia[0] = 14;
       Primor.Hostis[hostis].Virtus();
 
       Primor.Hostis[hostis].Altitudo=180;

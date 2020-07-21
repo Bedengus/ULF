@@ -4,208 +4,172 @@ namespace ULF
 {
   public class Genus
   {
-    public Human Human;
-    public Orc Orc;
-    public Vampire Vampire;
-    public Dwarf Dwarf;
-    public Elf Elf;
-    public Werewolf Werewolf;
     public string typus;
-    public void Linea(string genus){
-				switch(genus){
-						case "human":
-              typus="Human";
-              Human = new Human();
-              Human.Apto();
-              break;
-						case "orc":
-              typus="Orc";
-              Orc = new Orc();
-              Orc.Apto();
-              break;
-						case "vampire":
-              typus="Vampire";
-              Vampire = new Vampire();
-              Vampire.Apto();
-              break;
-						case "dwarf":
-              typus="Dwarf";
-              Dwarf = new Dwarf();
-              Dwarf.Apto();
-              break;
-						case "elf":
-              typus="Elf";
-              Elf = new Elf();
-              Elf.Apto();
-              break;
-						case "werewolf":
-              typus="Werewolf";
-              Werewolf = new Werewolf();
-              Werewolf.Apto();
-              break;
-						default:
-              Console.WriteLine("Currently extinct.");
-              Σ.rector = "ex";
-              break;    
-			}
+    public void Linea(string genus, Persona Ego){
+      genus=genus.ToLower();
+      switch(genus){
+        case "human":
+          typus="Human";
+          Human.Apto(Ego);
+          break;
+        case "orc":
+          typus="Orc";
+          Orc.Apto(Ego);
+          break;
+        case "vampire":
+          typus="Vampire";
+          Vampire.Apto(Ego);
+          break;
+        case "dwarf":
+          typus="Dwarf";
+          Dwarf.Apto(Ego);
+          break;
+        case "elf":
+          typus="Elf";
+          Elf.Apto(Ego);
+          break;
+        case "werewolf":
+          typus="Werewolf";
+          Werewolf.Apto(Ego);
+          break;
+        default:
+          Console.WriteLine("Currently extinct.");
+          Σ.rector = "ex";
+          break;    
+      }
+      Cisterna(typus, Ego);
 	  }
-    public void Cisterna(string genus){
+    public void Cisterna(string genus, Persona Ego){
 			Console.WriteLine("\nYour life points, HP as hit points or PV as points de vie, and mana points, MP, are determinated by your race and statuses.");
 			Console.WriteLine("Type 'roll' to see the rolls one by one or anything else to skip.");
 
+        genus=genus.ToLower();
 				switch(genus){
 					case "human":
-						Human.Cisterna();
+						Human.Cisterna(Ego);
 						break;
 					case "orc":
-						Orc.Cisterna();
+						Orc.Cisterna(Ego);
 						break;
 					case "vampire":
-						Vampire.Cisterna();
+						Vampire.Cisterna(Ego);
 						break;
 					case "dwarf":
-						Dwarf.Cisterna();
+						Dwarf.Cisterna(Ego);
 						break;
 					case "elf":
-						Elf.Cisterna();
+						Elf.Cisterna(Ego);
 						break;
 					case "werewolf":
-						Werewolf.Cisterna();
+						Werewolf.Cisterna(Ego);
 						break;
 					default:
 						break;  
 			}
+      Mensura(typus, Ego);
 		}
-    public void Mensura(string genus){
+    public void Mensura(string genus, Persona Ego){
 			Console.WriteLine("Type 'roll' to randomize proportions; input anything else to use your race's standard measures.");
 
+      genus=genus.ToLower();
       switch(genus){
         case "human":
-          Human.Mensura();
+          Human.Mensura(Ego);
           break;
         case "orc":
-          Orc.Mensura();
+          Orc.Mensura(Ego);
           break;
         case "vampire":
-          Vampire.Mensura();
+          Vampire.Mensura(Ego);
           break;
         case "dwarf":
-          Dwarf.Mensura();
+          Dwarf.Mensura(Ego);
           break;
         case "elf":
-          Elf.Mensura();
+          Elf.Mensura(Ego);
           break;
         case "werewolf":
-          Werewolf.Mensura();
+          Werewolf.Mensura(Ego);
           break;
         default:
           break;  
       }
-      Primor.homo.Caput[0]=Math.Round((Primor.homo.Altitudo/8)*1, 2);
-      Primor.homo.Caput[1]=Math.Round(Primor.homo.Caput[0]*0.5, 2);
-      Primor.homo.Caput[2]=Math.Round(Primor.homo.Caput[0]*Primor.homo.Caput[1], 2);
-      Primor.homo.Ocullus[0]=Math.Round((Primor.homo.Caput[1]/4)*0.5, 2);
-      Primor.homo.Ocullus[1]=Math.Round(Primor.homo.Ocullus[0]*2, 2);
-      Primor.homo.Ocullus[2]=Math.Round(Primor.homo.Ocullus[0]*Primor.homo.Ocullus[1], 2);
-      Primor.homo.Collum[0]=Math.Round((Primor.homo.Altitudo/16)*1, 2);
-      Primor.homo.Collum[1]=Math.Round(Primor.homo.Collum[0]*1, 2);
-      Primor.homo.Collum[2]=Math.Round(Primor.homo.Collum[0]*Primor.homo.Collum[1], 2);
-      Primor.homo.Cor[0]=Math.Round((Primor.homo.Altitudo/16)*1, 2);
-      Primor.homo.Cor[1]=Math.Round(Primor.homo.Cor[0]*1, 2);
-      Primor.homo.Cor[2]=Math.Round(Primor.homo.Cor[0]*Primor.homo.Cor[1], 2);
-      Primor.homo.Tergum[0]=Math.Round((Primor.homo.Altitudo/8)*3.5, 2);
-      Primor.homo.Tergum[1]=Math.Round(Primor.homo.Tergum[0]*0.1, 2);
-      Primor.homo.Tergum[2]=Math.Round(Primor.homo.Tergum[0]*Primor.homo.Tergum[1], 2);
-      Primor.homo.Bracchium[0]=Math.Round((Primor.homo.Altitudo/8)*3.5, 2);
-      Primor.homo.Bracchium[1]=Math.Round(Primor.homo.Bracchium[0]*0.1, 2);
-      Primor.homo.Bracchium[2]=Math.Round(Primor.homo.Bracchium[0]*Primor.homo.Bracchium[1], 2);
-      Primor.homo.Stomachus[0]=Math.Round((Primor.homo.Altitudo/8)*1, 2);
-      Primor.homo.Stomachus[1]=Math.Round(Primor.homo.Stomachus[0]*2, 2);
-      Primor.homo.Stomachus[2]=Math.Round(Primor.homo.Stomachus[0]*Primor.homo.Stomachus[1], 2);
-      Primor.homo.Crus[0]=Math.Round((Primor.homo.Altitudo/2)*1, 2);
-      Primor.homo.Crus[1]=Math.Round(Primor.homo.Crus[0]*0.1, 2);
-      Primor.homo.Crus[2]=Math.Round(Primor.homo.Crus[0]*Primor.homo.Crus[1], 2);
+      Ego.Caput[0]=Math.Round((Ego.Altitudo/8)*1, 2);
+      Ego.Caput[1]=Math.Round(Ego.Caput[0]*0.5, 2);
+      Ego.Caput[2]=Math.Round(Ego.Caput[0]*Ego.Caput[1], 2);
+      Ego.Ocullus[0]=Math.Round((Ego.Caput[1]/4)*0.5, 2);
+      Ego.Ocullus[1]=Math.Round(Ego.Ocullus[0]*2, 2);
+      Ego.Ocullus[2]=Math.Round(Ego.Ocullus[0]*Ego.Ocullus[1], 2);
+      Ego.Collum[0]=Math.Round((Ego.Altitudo/16)*1, 2);
+      Ego.Collum[1]=Math.Round(Ego.Collum[0]*1, 2);
+      Ego.Collum[2]=Math.Round(Ego.Collum[0]*Ego.Collum[1], 2);
+      Ego.Cor[0]=Math.Round((Ego.Altitudo/16)*1, 2);
+      Ego.Cor[1]=Math.Round(Ego.Cor[0]*1, 2);
+      Ego.Cor[2]=Math.Round(Ego.Cor[0]*Ego.Cor[1], 2);
+      Ego.Tergum[0]=Math.Round((Ego.Altitudo/8)*3.5, 2);
+      Ego.Tergum[1]=Math.Round(Ego.Tergum[0]*0.1, 2);
+      Ego.Tergum[2]=Math.Round(Ego.Tergum[0]*Ego.Tergum[1], 2);
+      Ego.Bracchium[0]=Math.Round((Ego.Altitudo/8)*3.5, 2);
+      Ego.Bracchium[1]=Math.Round(Ego.Bracchium[0]*0.1, 2);
+      Ego.Bracchium[2]=Math.Round(Ego.Bracchium[0]*Ego.Bracchium[1], 2);
+      Ego.Stomachus[0]=Math.Round((Ego.Altitudo/8)*1, 2);
+      Ego.Stomachus[1]=Math.Round(Ego.Stomachus[0]*2, 2);
+      Ego.Stomachus[2]=Math.Round(Ego.Stomachus[0]*Ego.Stomachus[1], 2);
+      Ego.Crus[0]=Math.Round((Ego.Altitudo/2)*1, 2);
+      Ego.Crus[1]=Math.Round(Ego.Crus[0]*0.1, 2);
+      Ego.Crus[2]=Math.Round(Ego.Crus[0]*Ego.Crus[1], 2);
 		}
-    public void NovaMensura(string genus){
+
+    /*public void NovaMensura(string genus){
 				switch(genus){
 					case "human":
-						Human.NovaMensura(Primor.homo.CorpusAptus);
+						Human.NovaMensura(Ego.CorpusAptus);
 						break;
 					case "orc":
-						Orc.NovaMensura(Primor.homo.CorpusAptus);
+						Orc.NovaMensura(Ego.CorpusAptus);
 						break;
 					case "vampire":
-						Vampire.NovaMensura(Primor.homo.CorpusAptus);
+						Vampire.NovaMensura(Ego.CorpusAptus);
 						break;
 					case "dwarf":
-						Dwarf.NovaMensura(Primor.homo.CorpusAptus);
+						Dwarf.NovaMensura(Ego.CorpusAptus);
 						break;
 					case "elf":
-						Elf.NovaMensura(Primor.homo.CorpusAptus);
+						Elf.NovaMensura(Ego.CorpusAptus);
 						break;
 					case "werewolf":
-						Werewolf.NovaMensura(Primor.homo.CorpusAptus);
+						Werewolf.NovaMensura(Ego.CorpusAptus);
 						break;
 					default:
 						break;  
 			}
-		}
-
-    public void Renovamen(string genus){
-				switch(genus){
-						case "Human":
-              Human = new Human();
-              break;
-						case "Orc":
-              Orc = new Orc();
-              break;
-						case "Vampire":
-              Vampire = new Vampire();
-              break;
-						case "Dwarf":
-              Dwarf = new Dwarf();
-              break;
-						case "Elf":
-              Elf = new Elf();
-              break;
-						case "Werewolf":
-              Werewolf = new Werewolf();
-              break;
-						default:
-              Console.WriteLine("Currently extinct.");
-              Σ.rector = "ex";
-              break;    
-			}
-		}
+		}*/
   
     public void Auto(string genus, string nomen){
+      genus=genus.ToLower();
       switch(genus){
 						case "human":
-              Human = new Human();
               Human.Auto(nomen);
               break;
 						case "orc":
-              Orc = new Orc();
               Orc.Auto(nomen);
               break;
 						case "vampire":
-              Vampire = new Vampire();
               Vampire.Auto(nomen);
               break;
 						case "dwarf":
-              Dwarf = new Dwarf();
               Dwarf.Auto(nomen);
               break;
 						case "elf":
-              Elf = new Elf();
               Elf.Auto(nomen);
               break;
 						case "werewolf":
-              Werewolf = new Werewolf();
               Werewolf.Auto(nomen);
               break;
+            case "quadrupod":
+              Quadrupod.Auto(nomen);
+              break;
 						default:
-              Human = new Human();
               Human.Auto(nomen);
               break;
       } 

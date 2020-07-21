@@ -40,10 +40,17 @@ namespace ULF
             Σ.decem += String.IsNullOrEmpty(Σ.noto[u]) ? -1 : Convert.ToInt32(Σ.noto[u]);
           }
         }
-          Console.WriteLine("Inform how much Potency to use.\nYou have "+Ego.Potentia+" Potency.\nLeave empty for full; insert '0' to use naught.");
+          // Console.WriteLine("Inform how much Potency to use.\nYou have "+Ego.Potentia+" Potency.\nLeave empty for full; insert '0' to use naught.");
           
           Ego.sum+=Ego.Mana.Spargo(Σ.noton, Ego).Incantatio;
-          break;
+        break;
+        case "Buff":
+        if(Ego.leavo){
+          Console.WriteLine("You body cannot take further buffs, motherfucker.");
+        } else{
+          Buff(Ego);
+        } 
+        break;
         case "Wait":
           Console.WriteLine("Inform for how long.");
           Σ.noto[70]=Console.ReadLine();
@@ -82,6 +89,8 @@ namespace ULF
         case "Cast":
           Cast(Ego);
           break;
+        case "Buff":
+          break;
         case "Wait":
         break;
         default:
@@ -99,62 +108,33 @@ namespace ULF
         Console.WriteLine("\nHow long?");
         Σ.rector=Console.ReadLine();
         dis=String.IsNullOrEmpty(Σ.rector) ? 50 : Convert.ToInt32(Σ.rector);
-        if(dis>50){
-          dis=50;
-        } else if(dis<1){
-          dis=1;
-        }
+        if(dis>50)dis=50;
+        else if(dis<1)dis=1;
+
         Console.WriteLine("Whither?");
         dir=Console.ReadLine();
       } else{
         dis=50;
-        if(Primor.homo.Lotus[1]>Ego.Lotus[1]&&Primor.homo.Lotus[0]>Ego.Lotus[0]){
-          dir="ne";
-        } else if(Primor.homo.Lotus[1]>Ego.Lotus[1]&&Primor.homo.Lotus[0]<Ego.Lotus[0]){
-          dir="nw";
-        } else if(Primor.homo.Lotus[1]<Ego.Lotus[1]&&Primor.homo.Lotus[0]>Ego.Lotus[0]){
-          dir="se";
-        } else if(Primor.homo.Lotus[1]<Ego.Lotus[1]&&Primor.homo.Lotus[0]<Ego.Lotus[0]){
-          dir="sw";
-        } else if(Primor.homo.Lotus[1]>Ego.Lotus[1]){
-          dir="n";
-        } else if(Primor.homo.Lotus[0]>Ego.Lotus[0]){
-          dir="w";
-        } else if(Primor.homo.Lotus[1]<Ego.Lotus[1]){
-          dir="s";
-        } else if(Primor.homo.Lotus[0]<Ego.Lotus[0]){
-          dir="e";
-        }
+        if(Primor.homo.Lotus.Y>Ego.Lotus.Y&&Primor.homo.Lotus.X>Ego.Lotus.X)dir="ne";
+        else if(Primor.homo.Lotus.Y>Ego.Lotus.Y&&Primor.homo.Lotus.X<Ego.Lotus.X)dir="nw";
+        else if(Primor.homo.Lotus.Y<Ego.Lotus.Y&&Primor.homo.Lotus.X>Ego.Lotus.X)dir="se";
+        else if(Primor.homo.Lotus.Y<Ego.Lotus.Y&&Primor.homo.Lotus.X<Ego.Lotus.X)dir="sw";
+        else if(Primor.homo.Lotus.Y>Ego.Lotus.Y)dir="n";
+        else if(Primor.homo.Lotus.X>Ego.Lotus.X)dir="w";
+        else if(Primor.homo.Lotus.Y<Ego.Lotus.Y)dir="s";
+        else if(Primor.homo.Lotus.X<Ego.Lotus.X)dir="e";
       }
 
-      if(dir=="n"||dir=="north"){
-        Ego.Lotus[1]+=dis;
-      } else if(dir=="w"||dir=="west"){
-        Ego.Lotus[0]-=dis;
-      } else if(dir=="s"||dir=="south"){
-        Ego.Lotus[1]-=dis;
-      } else if(dir=="e"||dir=="east"){
-        Ego.Lotus[0]+=dis;
-      } else if(dir=="nw"||dir=="northwest"){
-        dis=Mechanicae.Calculus("hypo", dis);
-        Ego.Lotus[0]+=dis;
-        Ego.Lotus[1]-=dis;
-      } else if(dir=="sw"||dir=="southwest"){
-        dis=Mechanicae.Calculus("hypo", dis);
-        Ego.Lotus[0]-=dis;
-        Ego.Lotus[1]-=dis;
-      } else if(dir=="se"||dir=="southeast"){
-        dis=Mechanicae.Calculus("hypo", dis);
-        Ego.Lotus[0]-=dis;
-        Ego.Lotus[1]+=dis;
-      } else if(dir=="ne"||dir=="northeast"){
-        dis=Mechanicae.Calculus("hypo", dis);
-        Ego.Lotus[0]+=dis;
-        Ego.Lotus[1]+=dis;
-      } else{
-        Ego.Lotus[1]+=dis;
-      }
-      Console.WriteLine(Ego.Cognomen+" is at x:"+Ego.Lotus[0]+" y:"+Ego.Lotus[1]+" no dosu he.");
+      if(dir=="n"||dir=="north")Mechanicae.Momentum(Ego, y:dis);
+      else if(dir=="w"||dir=="west")Mechanicae.Momentum(Ego, x:-dis);
+      else if(dir=="s"||dir=="south")Mechanicae.Momentum(Ego, y:-dis);
+      else if(dir=="e"||dir=="east")Mechanicae.Momentum(Ego, x:dis);
+      else dis=Mechanicae.Calculus("hypo", dis);
+
+      if(dir=="nw"||dir=="northwest")Mechanicae.Momentum(Ego, dis, -dis);
+      else if(dir=="sw"||dir=="southwest")Mechanicae.Momentum(Ego, -dis, -dis);
+      else if(dir=="se"||dir=="southeast")Mechanicae.Momentum(Ego, -dis, +dis);
+      else if(dir=="ne"||dir=="northeast")Mechanicae.Momentum(Ego, dis, dis);
     }
 
     public static void Strike(Persona Ego, bool yuno=false){
@@ -207,6 +187,25 @@ namespace ULF
       Console.WriteLine("You have "+Ego.PM[1]+" out of "+Ego.PM[0]+" Points de Mana.");
     }
 
+    public static void Buff(Persona Ego){
+      Console.WriteLine("Inform the buff.");
+      Σ.notoo = Console.ReadLine();
+      if(β.Buff(Σ.notoo)!=null){
+        if(Ego.RepertoireB.ContainsKey(Σ.notoo)){
+          if(Ego.RepertoireB[Σ.notoo]!="E"){
+            Console.WriteLine("Inform the target.");
+            Σ.noton = Console.ReadLine();
+          } else{
+            Σ.noton = "E";
+          }
+        } else{
+          Console.WriteLine("You do not have that buff yet.");
+        }
+      } else{
+        Console.WriteLine("That buff does not exist.");
+      }
+      Mechanicae.Laevo(Ego, β.Buff(Σ.notoo));
+    }
     // Reaction
 
     public static void Recovery(Persona Ego){

@@ -5,46 +5,87 @@ namespace ULF
 {
   public class Regio
   {
-    public string Nomen{get; private set;}
-    public Urbs praesenurbs = new ULF.Urbs("", new Dictionary<string, int>{{"",0}});
-    public Forum praesenforum = new ULF.Forum("", new Dictionary<string, int>{{"",0}});
+    public string Nomen{get; protected set;}
     public int regioid;
-    public Dictionary<string, int> Amplexus = new Dictionary<string, int>();
+    public int lumen;
+    public int nox;
+    public Dictionary<string, string> Amplexus = new Dictionary<string, string>();
+
+    public Regio(string nomen="", Dictionary<string, string> ample=null, int lum=0, int noc=86400){
+      this.Nomen=nomen;
+      this.Amplexus=ample; 
+      this.lumen=lum;
+      this.nox=noc;
+    }
 
     public void Iter(string reg, Persona Ego){
-      if(Amplexus.ContainsKey(reg)){
-        Iter(Amplexus[reg], reg, Ego);
+      if(this.Amplexus.ContainsKey(reg)){
+        Iter(this.Amplexus[reg], reg, Ego);
       }else{
         Console.WriteLine("That place does not exist or is not avaliable from here.");
       }
     }
 
-    public void Iter(int id, string reg, Persona Ego){
-      switch(id){
-        case 1:
-          Urbs(reg, Ego);
+    public void Iter(string id, string reg, Persona Ego){
+      switch(id.Substring(0,1)){
+        case "1":
+          Urbs(id, reg, Ego);
           break;
-        case 2:
-          Forum(reg, Ego);
+        case "2":
+          Forum(id, reg, Ego);
           break;
-        default:
-          
+        case "3":
+          Societas(id, reg, Ego);
+          break;
+        case "4":
+          Taberna(id, reg, Ego);
           break;
       }
     }
-    public void Urbs(string reg, Persona Ego){
-      praesenurbs = ULF.Urbs.Advenire(reg);
-      this.Nomen=praesenurbs.Nomen;
-      this.Amplexus=ULF.Urbs.Amplexus;
-      this.regioid=1;
-      ULF.Urbs.Utor(Ego);
+    public static Regio Labor(string reg){
+      if(ULF.Urbs.Advenire(reg)!=null){
+        return ULF.Urbs.Advenire(reg);
+      } else if(ULF.Forum.Advenire(reg)!=null){
+        return ULF.Forum.Advenire(reg);
+      } else if(ULF.Societas.Advenire(reg)!=null){
+        return ULF.Societas.Advenire(reg);
+      } else if(ULF.Taberna.Advenire(reg)!=null){
+        return ULF.Taberna.Advenire(reg);
+      } else{
+        return null;
+      }
     }
-    public void Forum(string reg, Persona Ego){
-      praesenforum = ULF.Forum.Advenire(reg);
-      this.Nomen=praesenforum.Nomen;
-      this.Amplexus=ULF.Forum.Amplexus;
+    public void Urbs(string id, string reg, Persona Ego){ 
+      this.Nomen=ULF.Urbs.Advenire(reg).Nomen;
+      this.Amplexus=ULF.Urbs.Advenire(reg).Amplexus;
+      this.regioid=1;
+      Agrum.Centuria[0]+=Convert.ToInt32(id.Substring(1,5));
+      Agrum.Aeon();
+      ULF.Urbs.Advenire(reg).Utor(Ego);
+    }
+    public void Forum(string id, string reg, Persona Ego){
+      this.Nomen=ULF.Forum.Advenire(reg).Nomen;
+      this.Amplexus=ULF.Forum.Advenire(reg).Amplexus;
       this.regioid=2;
-      ULF.Forum.Utor(Ego);
+      Agrum.Centuria[0]+=Convert.ToInt32(id.Substring(1,5));
+      Agrum.Aeon();
+      ULF.Forum.Advenire(reg).Utor(Ego);
+    }
+    public void Societas(string id, string reg, Persona Ego){
+      this.Nomen=ULF.Societas.Advenire(reg).Nomen;
+      this.Amplexus=ULF.Societas.Advenire(reg).Amplexus;
+      this.regioid=3;
+      Agrum.Centuria[0]+=Convert.ToInt32(id.Substring(1,5));
+      Agrum.Aeon();
+      ULF.Societas.Advenire(reg).Utor(Ego);
+    }
+    public void Taberna(string id, string reg, Persona Ego){
+      this.Nomen=ULF.Taberna.Advenire(reg).Nomen;
+      this.Amplexus=ULF.Taberna.Advenire(reg).Amplexus;
+      this.regioid=4;
+      Agrum.Centuria[0]+=Convert.ToInt32(id.Substring(1,5));
+      Agrum.Aeon();
+      ULF.Taberna.Advenire(reg).Utor(Ego);
     }
   }
 }
