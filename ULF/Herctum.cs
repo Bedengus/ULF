@@ -15,13 +15,16 @@ namespace ULF
 		public double[] pm=new double[2];
     public double credits;
     public string[] repertoire=new string[20];
-    public string[] actus=new string[20];
+    public Dictionary<string, string> repertoireB = new Dictionary<string, string>();
+    public string[] actus = new string[20];
+    public Dictionary<string, int> metier = new Dictionary<string, int>();
+    public Dictionary<string, int> peritia = new Dictionary<string, int>();
 
-		public int vigor;
-		public int dexteritate;
-		public int conditio;
-		public int intelligentia;
-		public int sapientia;
+    public int[] Vigor = new int[2];
+		public int[] Dexteritate = new int[2];
+		public int[] Conditio = new int[2];
+		public int[] Intelligentia = new int[2];
+		public int[] Sapientia = new int[2];
 
 		public double altitudo;
 		public double latitudo;
@@ -58,22 +61,23 @@ namespace ULF
 		public int fluentaAnima;
 		public int corpusAptus;
 
-    public int PeritiaLamina;
-    public int PeritiaDistantia;
-    public int MagisteriumGladium;
-    public int MagisteriumLongumGladium;
-    public int MagisteriumBaculum;
-    public int MagisteriumArcum;
-    public int MagisteriumSicarum;
-
-    public string[] VigorB=new string[11];
-    public string[] ConditioB=new string[11];
-    public string[] DexteritateB=new string[11];
-    public string[] IntelligentiaB=new string[11];
-    public string[] SapientiaB=new string[11];
-
     public string armaN;
     public Dictionary<string, int> panaN = new Dictionary<string, int>();
-    public double[] lotus=new double[2];
+  }
+  [Serializable] class HerctumA
+  {
+    public string Peritia;
+    public int Acutus;
+    public int Acutulus;
+    public int Obtusus;
+    public int DamnumT;
+    public double Spatium;
+    public double Toleratio;
+    public int Deficio;
+    public string Mat;
+    public string Nomen;
+    public string Typus;
+    public double Pondus;
+    public double Pretium;
   }
 }

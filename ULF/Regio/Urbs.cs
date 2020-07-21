@@ -3,124 +3,66 @@ using System.Collections.Generic;
 
 namespace ULF
 {
-    public class Urbs
-    {
-        public string Nomen{get; private set;}
-        // public string[] Amplexus;
-        public static Dictionary<string, int> Amplexus = new Dictionary<string, int>();
-        public Urbs(string nomen, Dictionary<string, int> ample){
-            Nomen=nomen;
-            Amplexus=ample;
-
-            /*Amplexus=new string[20];
-            for(int u=0;u<ample.Length;u++){
-                for(int d=0;d<this.Amplexus.Length;d++){
-                    if(this.Amplexus[d]==null){
-                    this.Amplexus[d]=ample[u];
-                    break;
-                    }
-                }
-            }*/
-        }
-
-        public static void Utor(Persona Ego){
-            do{
-                Console.WriteLine("\nYou are in "+Primor.homo.Regio.Nomen+"\n");
-                Σ.rector = Console.ReadLine().ToLower();
-                
-                switch(Σ.rector){
-                    case "save":
-                        Ego.Salvare();
-                    break;
-                    case "look":
-                        foreach (var u in Amplexus){
-                            Console.WriteLine(u.Key+"\n");
-                        }
-                    break;
-                    case "go":
-                        Console.WriteLine("Whither?");
-                        Σ.rector = Console.ReadLine();
-                        Ego.Regio.Iter(Σ.rector, Ego);
-                    break;
-                    case "inventory":   
-                        do{
-                            Panoplia(Ego);
-                        } while (Σ.rector == "");       
-                    break;
-                    case "walk":
-                        if(Mechanicae.Volvere(4)>2){
-                            do{
-                                Console.WriteLine("You have been ambushed by 'Bandit'!");
-                                Mechanicae.Chronus(Ego, true, Primor.Hostis["Bandit"]);
-                                Σ.rector="e";
-                            } while(Σ.rector=="");
-                        }
-                    break;
-                    case "doc":
-                        Console.WriteLine(scriptum);
-                        Console.ReadLine();
-                    break;
-                    case "help":
-                        Console.WriteLine(Adventum.aux);
-                        Console.ReadLine();
-                    break;
-                    default:
-                    break;
-                }
-            } while(Σ.rector!="exit");
-            Environment.Exit(0);
-        }
-
-        public static Urbs Advenire(string urb){
-            Urbs EmeraldVillage = new Urbs("Emerald Village", new Dictionary<string, int>{{"Baazar",2}});
-
-            switch(urb){
-                case "Emerald Village":
-                    return EmeraldVillage;
-                case "dex":
-                    //call
-                    break;
-                case "con":
-                    //call
-                    break;
-                case "int":
-                    //call
-                    break;
-                case "wis":
-                    //call
-                    break;
-                default:
-                    
-                    break;
-            }
-            return EmeraldVillage;
-        }
-
-        public static void Panoplia(Persona Ego){
-            Console.WriteLine("\nWhat do you want to do with your inventory?\n'look'\n'equip'");
-            Σ.rector = Console.ReadLine().ToLower();
-            if(Σ.rector=="look"){
-                Ego.Spectare();
-                Console.ReadLine();
-            } else if(Σ.rector=="equip"){
-                Console.WriteLine("\nWhat do you want to equip?");
-                Σ.rector = Console.ReadLine();
-                if(Ego.panaN[Σ.rector]>0){
-                    Ego.Arma = Arma.Ornare(Σ.rector);
-                    Ego.Arma.Index();
-                    Ego.Virtus();
-                } else{
-                Console.WriteLine("\nYou do not have that item.");
-                }
-                Console.ReadLine();
-            }
-            Console.WriteLine("Type to exit:");
-            Σ.rector = Console.ReadLine().ToLower();
-        }
-
-        public static string scriptum = "\nThis is a city."+
-        "\nA city is a mid-point to seek events outside or inside, travel or use any facilities such as inns, shops and guilds."+
-        "\nUse 'walk' to take a walk."+
-        "\nUse 'look' and 'go' to move to new locations.";
+  public class Urbs : Regio
+  {
+    
+    public Urbs(string nomen="", Dictionary<string, string> ample=null, int lum=0, int noc=86400) : base(nomen, ample, lum, noc){
+      
     }
+
+    public void Utor(Persona Ego){
+      do{
+        Console.WriteLine("\nYou are in "+Primor.homo.Regio.Nomen+" at "+Agrum.Centuria[2]+":"+Agrum.Centuria[1]+":"+Agrum.Centuria[0]+".\n");
+        Σ.rector = Console.ReadLine().ToLower();
+
+        switch (Σ.rector){
+          case "walk":
+            if(Mechanicae.Volvere(4) > 2){
+              do
+              {
+                Console.WriteLine("You have been ambushed by 'Bandit'!");
+                Adventum.Bellum(Ego, true, Primor.Hostis["Bandit"]);
+              } while (Σ.rector == "");
+            }
+            Agrum.Centuria[0]+=600;
+            Agrum.Aeon();
+            break;
+          case "doc":
+            Console.WriteLine(scriptum);
+            Console.ReadLine();
+            break;
+          default:
+            Adventum.Generalis(Ego);
+            break;
+        }
+      } while (Σ.rector != "exit");
+      Environment.Exit(0);
+    }
+
+    public static Urbs Advenire(string urb){
+      Urbs EmeraldVillage = new Urbs("Emerald Village", new Dictionary<string, string>{{"Baazar","200500"},{"Mage Guild","300300"},{"Tiny Equine Inn","400300"}});
+
+      switch (urb)
+      {
+        case "Emerald Village":
+          return EmeraldVillage;
+        case "dex":
+            //call
+        case "con":
+          //call
+        case "int":
+          //call
+        case "wis":
+          //call
+        default:
+          return null;
+      }
+    }
+
+
+    public static string scriptum = "\nThis is a city." +
+    "\nA city is a mid-point to seek events outside or inside, travel or use any facilities such as inns, shops and guilds." +
+    "\nUse 'walk' to take a walk." +
+    "\nUse 'look' and 'go' to move to new locations.";
+  }
 }

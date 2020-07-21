@@ -13,11 +13,11 @@ namespace ULF
       this.Genus.typus=genus;
       this.PV=new int[2];
       this.PM=new double[2];
-			this.Vigor=vigor;
-			this.Dexteritate=dexteritate;
-			this.Conditio=conditio;
-			this.Intelligentia=intelligentia;
-			this.Sapientia=sapientia;
+			this.Vigor[0]=vigor;
+			this.Dexteritate[0]=dexteritate;
+			this.Conditio[0]=conditio;
+			this.Intelligentia[0]=intelligentia;
+			this.Sapientia[0]=sapientia;
 
 			this.Altitudo=alt;
 			this.Latitudo=lat;
@@ -41,33 +41,14 @@ namespace ULF
 			this.Liguritio=gra;
 			this.FluentaAnima=enf;
 
-      this.PeritiaLamina=0;
-      this.PeritiaDistantia=0;
-      this.MagisteriumGladium=0;
-      this.MagisteriumLongumGladium=0;
-      this.MagisteriumBaculum=0;
-      this.MagisteriumArcum=0;
-      this.MagisteriumSicarum=0;
-
-      this.VigorB=new string[11];
-      this.ConditioB=new string[11];
-      this.DexteritateB=new string[11];
-      this.IntelligentiaB=new string[11];
-      this.SapientiaB=new string[11];
-
       Virtus();
-      Genus.Renovamen(genus);
 
-      this.Repertoire=new string[20];
-      this.Actus=new string[20];
       this.Actus[0]="Step";
       this.Actus[1]="Wait";
 
+      this.Lotus = new Lotus();
       this.Motus=0;
       this.Tempus=0;
-      this.Lotus=new double[2];
-      this.Lotus[0]=0;
-      this.Lotus[1]=0;
 		}
 
 		public void Utor(){
@@ -84,30 +65,24 @@ namespace ULF
 
 				if(Σ.rector=="balanced"){
 					int[] cybus = new int[6];
-					for(int i=1; i < 6; i++){
-						cybus[i]=Mechanicae.Volvere(4)+10;
-						if(i==5){
-							PersonaV(cybus[1], cybus[2], cybus[3], cybus[4], cybus[5]);
-							}
-						}           
+					for(int u=1;u<6;u++){
+						cybus[u]=Mechanicae.Volvere(4)+10;
+						if(u==5)PersonaV(cybus[1], cybus[2], cybus[3], cybus[4], cybus[5]);
+					}           
 				} else if(Σ.rector=="wild"){
 						int[] cybus = new int[6];
-						for(int i=1; i < 6; i++){
-							cybus[i]=Mechanicae.Volvere(20);
-							if(i==5){
-								PersonaV(cybus[1], cybus[2], cybus[3], cybus[4], cybus[5]);
-							}
+						for(int u=1;u<6;u++){
+							cybus[u]=Mechanicae.Volvere(20);
+							if(u==5)PersonaV(cybus[1], cybus[2], cybus[3], cybus[4], cybus[5]);
 						}
-				} else{
-						Σ.rector ="virtus";
-				}
+				} else Σ.rector ="virtus";
 			}while(Σ.rector=="virtus");
 			
 			do{
 				Console.WriteLine("\nChoose your race.\nTheir details are found on the ULF TRPG documentation; which you should have read before coming here.");
 				Console.WriteLine("All basic races are available; 'human', 'orc', 'vampire', 'dwarf', 'elf' and 'werewolf'.");
 
-				Genus.Linea(Console.ReadLine().ToLower());
+				Genus.Linea(Console.ReadLine(), this);
 			}while(Σ.rector=="ex");
 
       Console.WriteLine("\nWhat starting class do you wish?");
@@ -122,21 +97,15 @@ namespace ULF
 			Console.ReadLine();
       Console.WriteLine("Type 'sheet' to see complete character sheet; type anything else to skip.");
       Σ.rector=Console.ReadLine().ToLower();
-      if(Σ.rector=="sheet"){
-        Epistola();
-      }
+      if(Σ.rector=="sheet")Epistola();
 
       Console.WriteLine("Do you wish to 'save' this character?");
 			Σ.rector=Console.ReadLine().ToLower();
-      if(Σ.rector=="save"){
-        Salvare();
-      }
+      if(Σ.rector=="save")Salvare();
 
       Console.WriteLine("Print sheet to .txt?");
       Σ.rector = Console.ReadLine();
-      if(Σ.rector=="yes"){
-        Scribere(Cognomen);
-      }
+      if(Σ.rector=="yes")Scribere(Cognomen);
 		}
 
 
@@ -153,39 +122,33 @@ namespace ULF
 
             if(Σ.rector=="balanced"){
               int[] cybus = new int[6];
-              for(int i=1; i < 6; i++){
-                cybus[i]=Mechanicae.Volvere(4)+10;
-                if(i==5){
-                  PersonaV(cybus[1], cybus[2], cybus[3], cybus[4], cybus[5]);
-                  }
+              for(int u=1;u<6;u++){
+                cybus[u]=Mechanicae.Volvere(4)+10;
+                if(u==5)PersonaV(cybus[1], cybus[2], cybus[3], cybus[4], cybus[5]);
                 }           
             } else if(Σ.rector=="wild"){
                 int[] cybus = new int[6];
-                for(int i=1; i < 6; i++){
-                  cybus[i]=Mechanicae.Volvere(20);
-                  if(i==5){
-                    PersonaV(cybus[1], cybus[2], cybus[3], cybus[4], cybus[5]);
-                  }
+                for(int u=1;u<6;u++){
+                  cybus[u]=Mechanicae.Volvere(20);
+                  if(u==5)PersonaV(cybus[1], cybus[2], cybus[3], cybus[4], cybus[5]);
                 }
-            } else{
-                Σ.rector ="virtus";
-            }
+            } else Σ.rector ="virtus";
           }while(Σ.rector=="virtus");
       } else if(insectum=="genus"){
           do{
             Console.WriteLine("Choose your race.\nTheir details are found on the ULF TRPG documentation; which you should have read before coming here.");
             Console.WriteLine("All basic races are available; 'human', 'orc', 'vampire', 'dwarf', 'elf' and 'werewolf'.");
             Index();
-            this.Genus.typus = Console.ReadLine().ToLower();
+            this.Genus.typus = Console.ReadLine();
 
             Console.WriteLine(">Integrum\n>Cisterna\n>Mensura.");
             Σ.rector = Console.ReadLine().ToLower();
             if(Σ.rector=="cisterna"){
-              Genus.Cisterna(this.Genus.typus);
+              Genus.Cisterna(this.Genus.typus, this);
             } else if(Σ.rector=="mensura"){
-              Genus.Mensura(this.Genus.typus);
+              Genus.Mensura(this.Genus.typus, this);
             } else{
-              Genus.Linea(this.Genus.typus);
+              Genus.Linea(this.Genus.typus, this);
             }
           }while(Σ.rector=="ex");
       } else if(insectum=="orgo"){
@@ -204,11 +167,11 @@ namespace ULF
 			Console.WriteLine("\nWelcome into existence, "+this.Cognomen+"-boy.");
 		}
 		public void PersonaV(int vigor, int dexteritate, int conditio, int intelligentia, int sapientia){
-			this.Vigor=vigor;
-			this.Dexteritate=dexteritate;
-			this.Conditio=conditio;
-			this.Intelligentia=intelligentia;
-			this.Sapientia=sapientia;
+			this.Vigor[0]=vigor;
+			this.Dexteritate[0]=dexteritate;
+			this.Conditio[0]=conditio;
+			this.Intelligentia[0]=intelligentia;
+			this.Sapientia[0]=sapientia;
 			Index();
 		}
 		public void PersonaD(int mec=1, int gra=1, int enf=1, int cel=3, int acc=1, int per=1){
@@ -219,18 +182,30 @@ namespace ULF
       this.AccuratioP=acc;
       this.PerceptioP=per;
 		}
-		public void Virtus(){
-			this.Capacitas=Mechanicae.Capacitas(this.Vigor, this.ConvertioMechanica);
-			this.Potentia=Mechanicae.Capacitas(this.Intelligentia, this.FluentaAnima);
-			this.Celeritas=Mechanicae.Celeritas(this.Dexteritate, this.CorpusAptus);
-			this.Accuratio=Mechanicae.Accuratio(this.Dexteritate, this.AccuratioP);
-			this.Perceptio=Mechanicae.Perceptio(this.Sapientia, this.PerceptioP);
+		public void Virtus(string ret="reset"){
+      switch(ret){
+        case "reset":
+          this.Vigor[1]=this.Vigor[0];
+          this.Dexteritate[1]=this.Dexteritate[0];
+          this.Conditio[1]=this.Conditio[0];
+          this.Intelligentia[1]=this.Intelligentia[0];
+          this.Sapientia[1]=this.Sapientia[0];
+          this.leavo=false;
+          goto case "att";
+        case "att":
+          this.Capacitas=Mechanicae.Capacitas(this.Vigor[1], this.ConvertioMechanica);
+          this.Potentia=Mechanicae.Capacitas(this.Intelligentia[1], this.FluentaAnima);
+          this.Celeritas=Mechanicae.Celeritas(this.Dexteritate[1], this.CorpusAptus);
+          this.Accuratio=Mechanicae.Accuratio(this.Dexteritate[1], this.AccuratioP);
+          this.Perceptio=Mechanicae.Perceptio(this.Sapientia[1], this.PerceptioP);
 
-      this.AgiT=Mechanicae.Lapsus(Celeritas);
-      this.PerT=Mechanicae.Lapsus(Perceptio);
-      this.CasT=Mechanicae.Lapsus(Intelligentia);
+          this.AgiT=Mechanicae.Lapsus(Celeritas);
+          this.PerT=Mechanicae.Lapsus(Perceptio);
+          this.CasT=Mechanicae.Lapsus(Intelligentia[1]);
 
-      this.Spatium[1] = this.Spatium[0] + Arma.Spatium;
+          this.Spatium[1] = this.Spatium[0] + this.Arma.Spatium;
+          break;
+      }
 		}
     public void InitusOrdo(string ordo=""){
       
@@ -238,33 +213,35 @@ namespace ULF
         case "swordsman":
           this.Ordo["Swordsman"]=true;
 
-          Discere("PL");
-          Discere("VB");
-          Discere("DB");
-          Discere("CB");
-          this.Addicio("actus", "Slash", "Thrust");
+          AddicioM("Blade Proficiency", 1, "peritia");
+          AddicioB("Strength I", "E");
+          AddicioB("Agility I", "E");
+          AddicioB("Endurance I", "E");
+          this.Addicio("actus", "Slash", "Thrust", "Buff");
           // Goat Leather Armour
 
           Console.WriteLine("Do you wish for 'Sword' Mastery or 'Long' Sword Mastery?");
 			    Σ.rector=Console.ReadLine().ToLower();
           if(Σ.rector=="long"||Σ.rector=="long sword"){
-            Discere("MLG");
+            AddicioM("Long Sword Mastery", 1, "peritia");
             this.ArchAdd(Caussae.Acquirere("Steel Long Sword"));
             this.Arma=Arma.Ornare("Steel Long Sword");
           } else{
-            Discere("MG");
+            AddicioM("Sword Mastery", 1, "peritia");
             this.ArchAdd(Caussae.Acquirere("Steel Sword"));
             this.Arma=Arma.Ornare("Steel Sword");
           }
+          this.Credits=5;
+          
           Console.WriteLine("\nYou are a Swordsman; a progressive agressive class of the melee tree.");
 			    Console.ReadLine();
           break;
         case "elementalist":
           this.Ordo["Elementalist"]=true;
 
-          Discere("MB");//mastery and spell
-          Discere("IB");//resistance I E
-          this.Addicio("actus", "Cast", "Strike");
+          AddicioM("Staff Mastery", 1, "peritia");
+          AddicioB("Potentia I", "E");//resistance I E
+          this.Addicio("actus", "Cast", "Strike", "Buff");
 
           this.ArchAdd(Caussae.Acquirere("Chestnut Staff")); //Simple Robe Set
           this.Arma=Arma.Ornare("Chestnut Staff");
@@ -275,30 +252,14 @@ namespace ULF
 			      Σ.rector=Console.ReadLine().ToLower();
 
             switch(Σ.rector){
-              case "pyromancy":
-                Mana.Disciplinae("pyro", 1);
-                break;
-              case "aermancy":
-                Mana.Disciplinae("aer", 1);
-                break;
-              case "aquamancy":
-                Mana.Disciplinae("aqua", 1);
-                break;
-              case "taromancy":
-                Mana.Disciplinae("taro", 1);
-                break;
-              case "glacemancy":
-                Mana.Disciplinae("glace", 1);
-                break;
-              case "denkoumancy":
-                Mana.Disciplinae("denkou", 1);
-                break;
-              case "almancy":
-                Mana.Disciplinae("al", 1);
-                break;
-              case "yamimancy":
-                Mana.Disciplinae("yami", 1);
-                break;
+              case "pyromancy":Mana.Disciplinae("pyro", 1);break;
+              case "aermancy":Mana.Disciplinae("aer", 1);break;
+              case "aquamancy":Mana.Disciplinae("aqua", 1);break;
+              case "taromancy":Mana.Disciplinae("taro", 1);break;
+              case "glacemancy":Mana.Disciplinae("glace", 1);break;
+              case "denkoumancy":Mana.Disciplinae("denkou", 1);break;
+              case "almancy":Mana.Disciplinae("al", 1);break;
+              case "yamimancy":Mana.Disciplinae("yami", 1);break;
               default:
                 Console.WriteLine("You should know better; that is invalid.");
                 Console.ReadLine();
@@ -311,6 +272,7 @@ namespace ULF
           Console.WriteLine("Be meticulous on the study of magic and properly capitalize the spells' names.");
 			    Σ.rector=Console.ReadLine();
           Mana.Magus(Σ.rector, this);
+          this.Credits=10;
 
           Console.WriteLine("\nYou are an Elementalist; a sorcerer class of the mage tree.");
 			    Console.ReadLine();
@@ -318,33 +280,34 @@ namespace ULF
         case "archer":
           this.Ordo["Archer"]=true;
 
-          Discere("PD");
-          Discere("MA");
-          Discere("DB");
-          Discere("SB");
+          AddicioM("Ranged Proficiency", 1, "peritia");
+          AddicioM("Bow Mastery", 1, "peritia");
+          AddicioB("Agility I", "E");
+          AddicioB("Focus I", "E");
           this.ArchAdd(Caussae.Acquirere("Maple Bow"));
           this.Arma=Arma.Ornare("Maple Bow");
+          this.Addicio("actus", "Shoot", "Buff");
 
           Console.WriteLine("Do you want 30 'Light' Arrows or 20 'Heavy' Arrows?");
 			    Σ.rector=Console.ReadLine().ToLower();
-          if(Σ.rector=="heavy"||Σ.rector=="heavy arrows"){
-            this.ArchAdd(Caussae.Acquirere("Heavy Arrow", 20));
-          } else{
-            this.ArchAdd(Caussae.Acquirere("Light Arrow", 30));
-          }
+          if(Σ.rector=="heavy"||Σ.rector=="heavy arrows")this.ArchAdd(Caussae.Acquirere("Heavy Arrow", 20));
+            else this.ArchAdd(Caussae.Acquirere("Light Arrow", 30));
+          this.Credits=5;
+
           Console.WriteLine("\nYou are an Archer; a hunter class of the ranged tree.");
 			    Console.ReadLine();
           break;
         case "rogue":
           this.Ordo["Rogue"]=true;
 
-          Discere("PL");
-          Discere("MS");
-          Discere("DB");
-          Discere("SB");
-          this.Addicio("actus", "Slash", "Thrust");
+          AddicioM("Blade Proficiency", 1, "peritia");
+          AddicioM("Dagger Mastery", 1, "peritia");
+          AddicioB("Agility I", "E");
+          AddicioB("Focus I", "E");
+          this.Addicio("actus", "Slash", "Thrust", "Buff");
           this.ArchAdd(Caussae.Acquirere("Steel Dagger"));//Goat Leather Armour
           this.Arma=Arma.Ornare("Steel Dagger");
+          this.Credits=5;
 
           Console.WriteLine("\nYou are a Rogue; a instant agressive class of the melee tree.");
 			    Console.ReadLine();
@@ -356,256 +319,22 @@ namespace ULF
           break;
       }
     }
-    public void Discere(string dis, int livel=1, string sco="E"/*Ego Autrem Duo*/){
-
-      switch(dis){
-        case "MLG":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              //call
-              break;
-            case 2:
-              //call
-              break;
-            case 1:
-              this.MagisteriumLongumGladium=1;
-              this.Vigor++;
-              break;
-          }
-          break;
-        case "MG":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              //call
-              break;
-            case 2:
-              //call
-              break;
-            case 1:
-              this.MagisteriumGladium=1;
-              this.Dexteritate++;
-              break;
-          }
-          break;
-        case "MS":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              //call
-              break;
-            case 2:
-              //call
-              break;
-            case 1:
-              this.MagisteriumSicarum=1;
-              this.Dexteritate++;
-              break;
-          }
-          break;
-        case "MA":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              //call
-              break;
-            case 2:
-              //call
-              break;
-            case 1:
-              this.MagisteriumArcum=1;
-              this.Dexteritate++;
-              break;
-          }
-          break;
-        case "MB":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              //call
-              break;
-            case 2:
-              //call
-              break;
-            case 1:
-              this.MagisteriumBaculum=1;
-              this.Intelligentia++;
-              break;
-          }
-          break;
-        case "PD":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              //call
-              break;
-            case 2:
-              //call
-              break;
-            case 1:
-              this.PeritiaDistantia=1;
-              break;
-          }
-          break;
-        case "PL":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              //call
-              break;
-            case 2:
-              //call
-              break;
-            case 1:
-              this.PeritiaLamina=1;
-              break;
-          }
-          break;
-        case "VB":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              this.VigorB[3]=sco;
-              break;
-            case 2:
-              this.VigorB[2]=sco;
-              break;
-            case 1:
-              this.VigorB[1]=sco;
-              break;
-          }
-          break;
-        case "DB":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              this.DexteritateB[3]=sco;
-              break;
-            case 2:
-              this.DexteritateB[2]=sco;
-              break;
-            case 1:
-              this.DexteritateB[1]=sco;
-              break;
-          }
-          break;
-        case "CB":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              this.ConditioB[3]=sco;
-              break;
-            case 2:
-              this.ConditioB[2]=sco;
-              break;
-            case 1:
-              this.ConditioB[1]=sco;
-              break;
-          }
-          break;
-        case "IB":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              this.IntelligentiaB[3]=sco;
-              break;
-            case 2:
-              this.IntelligentiaB[2]=sco;
-              break;
-            case 1:
-              this.IntelligentiaB[1]=sco;
-              break;
-          }
-          break;
-        case "SB":
-          switch(livel){
-            case 5:
-              //call
-              break;
-            case 4:
-              //call
-              break;
-            case 3:
-              this.SapientiaB[3]=sco;
-              break;
-            case 2:
-              this.SapientiaB[2]=sco;
-              break;
-            case 1:
-              this.SapientiaB[1]=sco;
-              break;
-          }
-          break;
-        default:
-          Console.WriteLine("A mispelling error must have occured.");
-          Console.Read();
-          break;
-      }
-    }
 
 		public void Index(string petitio="attributes"){
 			switch(petitio){
 				case "attributes":
-					Console.WriteLine("STR: "+this.Vigor+"\n"+"DEX: "+this.Dexteritate+"\n"+"CON: "+this.Conditio+"\n"+"INT: "+this.Intelligentia+"\n"+"WIS: "+this.Sapientia);
+					Console.WriteLine("STR: "+this.Vigor[0]+"\n"+
+          "DEX: "+this.Dexteritate[0]+
+          "\n"+"CON: "+this.Conditio[0]+
+          "\n"+"INT: "+this.Intelligentia[0]+
+          "\n"+"WIS: "+this.Sapientia[0]);
 					break;
 				case "parameters":
-					Console.WriteLine("Capacity: "+this.Capacitas+"\n"+"Potency: "+this.Potentia+"\n"+"Speed: "+this.Celeritas+"\n"+"Precision: "+this.Accuratio+"\n"+"Perception: "+this.Perceptio);
+					Console.WriteLine("Capacity: "+this.Capacitas+
+          "\n"+"Potency: "+this.Potentia+
+          "\n"+"Speed: "+this.Celeritas+
+          "\n"+"Precision: "+this.Accuratio+
+          "\n"+"Perception: "+this.Perceptio);
 					break;
 				case "proportions":
 					Console.WriteLine("Height: "+this.Altitudo+"\n"+"Width: "+this.Latitudo+"\n"+"Thickness: "+this.Crassitudo[0]+"\n"+"Reach: "+this.Spatium[1]+"\n"+"Weight: "+this.Pondus+"\n"+"Volume: "+this.Carnatio+"\n"+"Front: "+this.Planitia[0]+"\n"+"Side: "+this.Planitia[1]);
@@ -618,29 +347,19 @@ namespace ULF
 		}
     public void Spectare(string verbum="panoplia"){
       if(verbum=="panoplia"){
-        for(int u=0;u<this.Archivum.Length;u++){
-          if(this.Archivum[u]==null){
-
-          } else{
-            Console.WriteLine(this.Archivum[u].Nomen+" x"+this.Archivum[u].Quantitas);
-          }
-        }
+        for(int u=0;u<this.Archivum.Length;u++)if(this.Archivum[u]!=null)Console.WriteLine(this.Archivum[u].Nomen+" x"+this.Archivum[u].Quantitas);
       } else if(verbum=="repertoire"){
-        for(int u=0;u<this.Repertoire.Length;u++){
-          if(this.Repertoire[u]==null){
-
-          } else{
-            Console.WriteLine(this.Repertoire[u]);
-          }
-        }
+        for(int u=0;u<this.Repertoire.Length;u++)if(this.Repertoire[u]!=null)Console.WriteLine(this.Repertoire[u]);
       } else if(verbum=="actus"){
-        for(int u=0;u<this.Actus.Length;u++){
-          if(this.Actus[u]==null){
-
-          } else{
-            Console.WriteLine(this.Actus[u]);
-          }
-        }
+        for(int u=0;u<this.Actus.Length;u++)if(this.Actus[u]!=null)Console.WriteLine(this.Actus[u]);
+      } else if(verbum=="ordo"){
+        foreach (var u in this.Ordo)Console.WriteLine(u.Key);
+      } else if(verbum=="laevo"){
+        foreach (var u in this.RepertoireB)Console.WriteLine(u.Key);
+      } else if(verbum=="metier"){
+        foreach (var u in this.Metier)Console.WriteLine(u.Key+" "+u.Value);
+      } else if(verbum=="peritia"){
+        foreach (var u in this.Peritia)Console.WriteLine(u.Key+" "+u.Value);
       }
     }
     public void Addicio(string verbum="actus", params string[] mers){
@@ -664,24 +383,62 @@ namespace ULF
             }
           }
         } 
+      }
     }
-  }
+
+    public void AddicioB(string mers, string sco="E" /*Ego Autrem Duo*/){
+      if(!this.RepertoireB.ContainsKey(mers)){
+        this.RepertoireB[mers]=sco;
+        if(sco=="D")Console.WriteLine("\nYou have learnt "+mers+"!");
+        else Console.WriteLine("\nYou have learnt "+mers+" "+this.RepertoireB[mers]+"!");
+      }
+    }
+
+    public void AddicioM(string met, int lev=1, string verbum="metier"){
+        // Hunter
+      if(verbum=="metier")this.Metier[met]=lev;
+      else if(verbum=="peritia")this.Peritia[met]=lev;
+        // Blade Proficiency
+        // Ranged Proficiency
+        // Sword Mastery dex?
+        // Long Sword Mastery str?
+        // Dagger Mastery dex?
+        // Bow Mastery dex?
+        // Staff Mastery int?
+        
+      Console.WriteLine("\nYou have learnt "+met+" "+lev+"!");
+    }
 
     public void ArchAdd(params Caussae[] mers){
+      bool est;
+      if(Σ.unus<1)Σ.unus=1;
+
       for(int u=0;u<mers.Length;u++){
-        for(int d=0;d<this.Archivum.Length;d++){
-          if(this.Archivum[d]==null){
-            this.Archivum[d]=mers[u];
-            this.panaN[mers[u].Nomen]=mers[u].Quantitas;
-            if(mers[u].Quantitas>1){
-              Console.WriteLine("\nYou have acquired "+mers[u].Nomen+" x"+mers[u].Quantitas+"!");
-            } else{
-              Console.WriteLine("\nYou have acquired "+mers[u].Nomen+"!");
+        est=false;
+        foreach(var d in this.Archivum){
+          if(d!=null){
+            if(d.Nomen==mers[u].Nomen){
+              d.Quantitas+=Σ.unus;
+              Console.WriteLine("\nYou have acquired more "+Σ.unus+" "+mers[u].Nomen+"!");
+              est=true;
             }
-            break;
           }
-        }
-      } 
+        } 
+        if(!est){
+          for(int d=0;d<this.Archivum.Length;d++){
+            if(this.Archivum[d]==null){
+              Σ.unus=mers[u].Quantitas;
+              this.Archivum[d]=mers[u];
+              this.Archivum[d].Quantitas=Σ.unus;
+              this.panaN[mers[u].Nomen]=Σ.unus;
+              if(mers[u].Quantitas>1)Console.WriteLine("\nYou have acquired "+mers[u].Nomen+" x"+mers[u].Quantitas+"!");
+              else Console.WriteLine("\nYou have acquired "+mers[u].Nomen+"!");
+              break;
+            }
+          }
+        } 
+      }
+      
     }
     public Caussae ArchTrac(string mers){
       foreach(var c in this.Archivum){
@@ -694,130 +451,41 @@ namespace ULF
       return null;
     }
     public void ArchRec(){
-      
-    }
+      Console.WriteLine("\nWhat do you want to do with your inventory?\nUse 'look', name a slot or name an item to select it.");
+      Σ.rector = Console.ReadLine();
 
-    public void Dominatus(){
-      foreach (var u in this.Ordo){
-        Console.WriteLine(u.Key);
-      }
-    }
-    public void Laevo(){
-      string romanus="";
-      for(int i=0;i<this.VigorB.Length;i++){
-        switch(i){
-          case 1:
-            romanus="I";
-            break;
-          case 2:
-            romanus="II";
-            break;
-          case 3:
-            romanus="III";
-            break;
-        }
-        if(this.VigorB[i]==null){
+      if(Σ.rector=="look"){
+        Spectare();
+        Console.ReadLine();
+      } else if(Σ.rector=="hands"){
+        if(this.Arma==null)Console.WriteLine("\nEmpty hands, boy.");
+        else this.Arma.Index();
+      } else if(Σ.rector==""){
 
-        } else{
-          Console.WriteLine("Strength "+romanus+"("+this.VigorB[i]+")");
-        }
-      }
-      for(int i=0;i<this.DexteritateB.Length;i++){
-        switch(i){
-          case 1:
-            romanus="I";
-            break;
-          case 2:
-            romanus="II";
-            break;
-          case 3:
-            romanus="III";
-            break;
-        }
-        if(this.DexteritateB[i]==null){
+      } else if(ArchTrac(Σ.rector).Nomen==Σ.rector){
+        Console.WriteLine("\nYou have selected "+Σ.rector+".\n"+
+        ArchTrac(Σ.rector).Depictium+
+        "\nIt weights "+ArchTrac(Σ.rector).Pondus+"."+
+        "\nYou have "+ArchTrac(Σ.rector).Quantitas+".");
+        if(Arma.Ornare(Σ.rector)!=null)Arma.Ornare(Σ.rector).Index();
+        
+        Console.WriteLine("\nType 'delete' to destroy it.");
+        if(Arma.Ornare(Σ.rector)!=null)Console.WriteLine("Type 'equip' to use it.");
+        Σ.notou = Console.ReadLine();
 
-        } else{
-          Console.WriteLine("Agility "+romanus+"("+this.DexteritateB[i]+")");
-        }
-      }
-      for(int i=0;i<this.ConditioB.Length;i++){
-        switch(i){
-          case 1:
-            romanus="I";
-            break;
-          case 2:
-            romanus="II";
-            break;
-          case 3:
-            romanus="III";
-            break;
-        }
-        if(this.ConditioB[i]==null){
-
-        } else{
-          Console.WriteLine("Endurance "+romanus+"("+this.ConditioB[i]+")");
-        }
-      }
-      for(int i=0;i<this.IntelligentiaB.Length;i++){
-        switch(i){
-          case 1:
-            romanus="I";
-            break;
-          case 2:
-            romanus="II";
-            break;
-          case 3:
-            romanus="III";
-            break;
-        }
-        if(this.IntelligentiaB[i]==null){
-
-        } else{
-          Console.WriteLine("Potency "+romanus+"("+this.IntelligentiaB[i]+")");
-        }
-      }
-      for(int i=0;i<this.SapientiaB.Length;i++){
-        switch(i){
-          case 1:
-            romanus="I";
-            break;
-          case 2:
-            romanus="II";
-            break;
-          case 3:
-            romanus="III";
-            break;
-        }
-        if(this.SapientiaB[i]==null){
-
-        } else{
-          Console.WriteLine("Focus "+romanus+"("+this.SapientiaB[i]+")");
+        if(Σ.notou=="delete"){
+          Array.Clear(Archivum, Array.IndexOf(Archivum, ArchTrac(Σ.rector)), 1);
+          panaN.Remove(Σ.rector);
+          if(this.Arma.Nomen==Σ.rector)this.Arma=null;
+          Console.WriteLine("You have gotten rid of "+Σ.rector+".");
+        } else if(Σ.notou=="equip"){
+          this.Arma=ULF.Arma.Ornare(Σ.rector);
+          this.Arma.Index();
+          Virtus();
         }
       }
     }
-    public void Peritia(){
-      if(this.PeritiaLamina>0){
-        Console.WriteLine("Blade Proficiency: "+this.PeritiaLamina);
-      }
-      if(this.PeritiaDistantia>0){
-        Console.WriteLine("Ranged Proficiency: "+this.PeritiaDistantia);
-      }
-      if(this.MagisteriumSicarum>0){
-        Console.WriteLine("Dagger Mastery: "+this.MagisteriumSicarum);
-      }
-      if(this.MagisteriumGladium>0){
-        Console.WriteLine("Sword Mastery: "+this.MagisteriumGladium);
-      }
-      if(this.MagisteriumLongumGladium>0){
-        Console.WriteLine("Long Sword Mastery: "+this.MagisteriumLongumGladium);
-      }
-      if(this.MagisteriumBaculum>0){
-        Console.WriteLine("Staff Mastery: "+this.MagisteriumBaculum);
-      }
-      if(this.MagisteriumArcum>0){
-        Console.WriteLine("Bow Mastery: "+this.MagisteriumArcum);
-      }
-    }
+
 		public void Epistola(){
       Console.WriteLine("******************************************************************************************\n");
 			Console.WriteLine(this.Nomen+" "+this.Cognomen);
@@ -826,7 +494,7 @@ namespace ULF
 			Console.WriteLine("MP: "+this.PM[1]+"/"+this.PM[0]);
       Console.WriteLine("Credits: "+this.Credits);
       Console.WriteLine("Classes--> ");
-			Dominatus();
+			Spectare("ordo");
 			Console.ReadLine();
       Console.WriteLine("Attributes--> ");
 			Index();
@@ -841,7 +509,7 @@ namespace ULF
       Spectare("actus");
       Console.ReadLine();
 			Console.WriteLine("Buffs--> ");
-      Laevo();
+      Spectare("laevo");
       Console.ReadLine();
 			Console.WriteLine("Spells--> ");
       Spectare("repertoire");
@@ -853,9 +521,10 @@ namespace ULF
 			Console.WriteLine("Fitness: "+this.CorpusAptus);
       Console.ReadLine();
 			Console.WriteLine("Mastery--> ");
-      Peritia();
+      Spectare("peritia");
       Console.ReadLine();
 			Console.WriteLine("Knowledge--> ");
+      Spectare("metier");
       Console.ReadLine();
 			Console.WriteLine("Moves--> ");
       Console.ReadLine();
@@ -869,9 +538,8 @@ namespace ULF
       Console.WriteLine("Do you wish to create a 'new' being or reanimate an 'old' one?");
 			Σ.rector = Console.ReadLine().ToLower();
       
-      if(Σ.rector!="old"){
-        Utor();
-      } else {
+      if(Σ.rector!="old")Utor();
+      else {
         Console.WriteLine("Recollect his family name from the depths of your memory:");
         Σ.rector = Console.ReadLine();
         if (File.Exists(".\\Baratrum\\" + Σ.rector + ".jkk")){
@@ -881,24 +549,18 @@ namespace ULF
 
           Console.WriteLine("Show character sheet?");
           Σ.rector = Console.ReadLine().ToLower();
-          if(Σ.rector=="yes"||Σ.rector=="y"){
-            Epistola();
-          }
+          if(Σ.rector=="yes"||Σ.rector=="y")Epistola();
 
           Console.WriteLine("Print sheet to .txt?");
           Σ.rector = Console.ReadLine().ToLower();
-          if(Σ.rector=="yes"||Σ.rector=="y"){
-            Scribere(this.Cognomen);
-          }
+          if(Σ.rector=="yes"||Σ.rector=="y")Scribere(this.Cognomen);
+          
         } else{
           Console.WriteLine("\nThat does not exist.");
           Console.WriteLine("Type 'new' to make a character or anything else to exit.");
 			    Σ.rector = Console.ReadLine().ToLower();
-          if(Σ.rector=="new"){
-            Utor();
-          } else{
-            Environment.Exit(0);
-          }         
+          if(Σ.rector=="new")Utor();
+          else Environment.Exit(0);
         }
       }
     }
@@ -955,6 +617,8 @@ namespace ULF
     // Jigoku Kara Kita
 
     public void Salvare(){
+      if(!Directory.Exists(".\\Baratrum\\"))Directory.CreateDirectory(".\\Baratrum\\");
+
       BinaryFormatter bi = new BinaryFormatter();
       FileStream file = File.Create(".\\Baratrum\\" + this.Cognomen + ".jkk");
 
@@ -969,13 +633,16 @@ namespace ULF
       data.pm = this.PM;
       data.credits = this.Credits;
       data.repertoire = this.Repertoire;
+      data.repertoireB = this.RepertoireB;
       data.actus = this.Actus;
+      data.metier = this.Metier;
+      data.peritia = this.Peritia;
 
-      data.vigor = this.Vigor;
-      data.dexteritate = this.Dexteritate;
-      data.conditio = this.Conditio;
-      data.intelligentia = this.Intelligentia;
-      data.sapientia = this.Sapientia;
+      data.Vigor = this.Vigor;
+      data.Dexteritate = this.Dexteritate;
+      data.Conditio = this.Conditio;
+      data.Intelligentia = this.Intelligentia;
+      data.Sapientia = this.Sapientia;
 
       data.altitudo = this.Altitudo;
       data.latitudo = this.Latitudo;
@@ -1011,125 +678,91 @@ namespace ULF
       data.fluentaAnima = this.FluentaAnima;
       data.corpusAptus = this.CorpusAptus;
 
-      data.PeritiaLamina = this.PeritiaLamina;
-      data.PeritiaDistantia = this.PeritiaDistantia;
-      data.MagisteriumGladium = this.MagisteriumGladium;
-      data.MagisteriumLongumGladium = this.MagisteriumLongumGladium;
-      data.MagisteriumBaculum = this.MagisteriumBaculum;
-      data.MagisteriumArcum = this.MagisteriumArcum;
-      data.MagisteriumSicarum = this.MagisteriumSicarum;
-
-      data.VigorB = this.VigorB;
-      data.ConditioB = this.ConditioB;
-      data.DexteritateB = this.DexteritateB;
-      data.IntelligentiaB = this.IntelligentiaB;
-      data.SapientiaB = this.SapientiaB;
-
       data.armaN = this.Arma.Nomen;
-      for(int u=0;u<this.Archivum.Length;u++){
-        if(this.Archivum[u]!=null){
-          data.panaN[this.Archivum[u].Nomen]=this.Archivum[u].Quantitas;
-        }
-      }
-      data.lotus = this.Lotus;
+      for(int u=0;u<this.Archivum.Length;u++)if(this.Archivum[u]!=null)data.panaN[this.Archivum[u].Nomen]=this.Archivum[u].Quantitas;
 
       bi.Serialize(file, data);
       file.Close();
     }
     public void Porto(string cog){
-      if (File.Exists(".\\Baratrum\\" + cog + ".jkk"))
-      {
-      BinaryFormatter bi = new BinaryFormatter();
-      FileStream file = File.Open(".\\Baratrum\\" + cog + ".jkk", FileMode.Open);
+      if (File.Exists(".\\Baratrum\\" + cog + ".jkk")){
+        BinaryFormatter bi = new BinaryFormatter();
+        FileStream file = File.Open(".\\Baratrum\\" + cog + ".jkk", FileMode.Open);
 
-      Herctum data = (Herctum)bi.Deserialize(file);
-      file.Close();
+        Herctum data = (Herctum)bi.Deserialize(file);
+        file.Close();
 
-      this.Nomen = data.nomen; 
-      this.Cognomen = data.cognomen; 
+        this.Nomen = data.nomen; 
+        this.Cognomen = data.cognomen; 
 
-      this.Genus.typus = data.Gtypus; 
-      this.Ordo = data.ordo;
-      this.PV = data.pv; 
-      this.PM = data.pm; 
-      this.Credits = data.credits;
-      this.Repertoire = data.repertoire;
-      this.Actus = data.actus;
+        this.Genus.typus = data.Gtypus; 
+        this.Ordo = data.ordo;
+        this.PV = data.pv; 
+        this.PM = data.pm; 
+        this.Credits = data.credits;
+        this.Repertoire = data.repertoire;
+        this.RepertoireB = data.repertoireB;
+        this.Actus = data.actus;
+        this.Metier = data.metier;
+        this.Peritia = data.peritia;
 
-      this.Vigor = data.vigor; 
-      this.Dexteritate = data.dexteritate; 
-      this.Conditio = data.conditio; 
-      this.Intelligentia = data.intelligentia; 
-      this.Sapientia = data.sapientia; 
+        this.Vigor = data.Vigor; 
+        this.Dexteritate = data.Dexteritate; 
+        this.Conditio = data.Conditio; 
+        this.Intelligentia = data.Intelligentia; 
+        this.Sapientia = data.Sapientia; 
 
-      this.Altitudo = data.altitudo; 
-      this.Latitudo = data.latitudo; 
-      this.Crassitudo = data.crassitudo; 
-      this.Pondus = data.pondus; 
-      this.Spatium = data.spatium; 
-      this.Carnatio = data.carnatio; 
-      this.Planitia = data.planitia; 
-      this.Caput = data.caput; 
-      this.Ocullus = data.ocullus; 
-      this.Collum = data.collum; 
-      this.Cor = data.cor; 
-      this.Tergum = data.tergum; 
-      this.Bracchium = data.bracchium; 
-      this.Stomachus = data.stomachus; 
-      this.Crus = data.crus; 
-      
-      this.Capacitas = data.capacitas; 
-      this.Potentia = data.potentia; 
-      this.Celeritas = data.celeritas; 
-      this.Accuratio = data.accuratio; 
-      this.Perceptio = data.perceptio; 
+        this.Altitudo = data.altitudo; 
+        this.Latitudo = data.latitudo; 
+        this.Crassitudo = data.crassitudo; 
+        this.Pondus = data.pondus; 
+        this.Spatium = data.spatium; 
+        this.Carnatio = data.carnatio; 
+        this.Planitia = data.planitia; 
+        this.Caput = data.caput; 
+        this.Ocullus = data.ocullus; 
+        this.Collum = data.collum; 
+        this.Cor = data.cor; 
+        this.Tergum = data.tergum; 
+        this.Bracchium = data.bracchium; 
+        this.Stomachus = data.stomachus; 
+        this.Crus = data.crus; 
+        
+        this.Capacitas = data.capacitas; 
+        this.Potentia = data.potentia; 
+        this.Celeritas = data.celeritas; 
+        this.Accuratio = data.accuratio; 
+        this.Perceptio = data.perceptio; 
 
-      this.Agilitas = data.agilitas; 
-      this.AccuratioP = data.accuratioP; 
-      this.PerceptioP = data.perceptioP;
-      this.AgiT = data.agiT; 
-      this.PerT = data.perT; 
-      this.CasT = data.casT; 
+        this.Agilitas = data.agilitas; 
+        this.AccuratioP = data.accuratioP; 
+        this.PerceptioP = data.perceptioP;
+        this.AgiT = data.agiT; 
+        this.PerT = data.perT; 
+        this.CasT = data.casT; 
 
-      this.ConvertioMechanica = data.convertioMechanica; 
-      this.Liguritio = data.liguritio; 
-      this.FluentaAnima = data.fluentaAnima; 
-      this.CorpusAptus = data.corpusAptus;
-
-      this.PeritiaLamina = data.PeritiaLamina;
-      this.PeritiaDistantia = data.PeritiaDistantia;
-      this.MagisteriumGladium = data.MagisteriumGladium;
-      this.MagisteriumLongumGladium = data.MagisteriumLongumGladium;
-      this.MagisteriumBaculum = data.MagisteriumBaculum;
-      this.MagisteriumArcum = data.MagisteriumArcum;
-      this.MagisteriumSicarum = data.MagisteriumSicarum;
-
-      this.VigorB = data.VigorB;
-      this.ConditioB = data.ConditioB;
-      this.DexteritateB = data.DexteritateB;
-      this.IntelligentiaB = data.IntelligentiaB;
-      this.SapientiaB = data.SapientiaB;
-      
-      foreach(var u in data.panaN){
-        for(int d=0;d<this.Archivum.Length;d++){
-          if(this.Archivum[d]==null){
-            this.Archivum[d]=Caussae.Acquirere(u.Key, u.Value);
-            break;
+        this.ConvertioMechanica = data.convertioMechanica; 
+        this.Liguritio = data.liguritio; 
+        this.FluentaAnima = data.fluentaAnima; 
+        this.CorpusAptus = data.corpusAptus;
+        
+        this.panaN = data.panaN;
+        foreach(var u in data.panaN){
+          for(int d=0;d<this.Archivum.Length;d++){
+            if(this.Archivum[d]==null){
+              this.Archivum[d]=Caussae.Acquirere(u.Key, u.Value);
+              break;
+            }
           }
         }
-      }
-      this.Lotus = data.lotus;
 
-      this.Genus.Renovamen(this.Genus.typus);
-      this.Arma = Arma.Ornare(data.armaN.ToLower());
-      
+        this.Arma = Arma.Ornare(data.armaN.ToLower());
+        this.Virtus();
       }
     }
     public void Scribere(string cog){
-      using (FileStream text = new FileStream(".\\Baratrum\\" + cog + ".txt", FileMode.Create))
-      {
-        using (StreamWriter writer = new StreamWriter(text))
-        {
+      using (FileStream text = new FileStream(".\\Baratrum\\" + cog + ".txt", FileMode.Create)){
+        using (StreamWriter writer = new StreamWriter(text)){
           writer.WriteLine("******************************************************************************************\n");
           writer.WriteLine(this.Nomen+" "+this.Cognomen);
           writer.WriteLine(this.Genus.typus);
@@ -1137,16 +770,14 @@ namespace ULF
           writer.WriteLine("MP: "+this.PM[1]+"/"+this.PM[0]);
           writer.WriteLine("Credits: "+this.Credits);
           writer.WriteLine("Classes--> ");
-          foreach (var u in this.Ordo){
-            writer.WriteLine(u.Key);
-          }
+          foreach(var u in this.Ordo)writer.WriteLine(u.Key);
           writer.WriteLine("");
           writer.WriteLine("Attributes--> ");
-          writer.WriteLine("STR: "+this.Vigor);
-          writer.WriteLine("DEX: "+this.Dexteritate);
-          writer.WriteLine("CON: "+this.Conditio);
-          writer.WriteLine("INT: "+this.Intelligentia);
-          writer.WriteLine("WIS: "+this.Sapientia);
+          writer.WriteLine("STR: "+this.Vigor[0]);
+          writer.WriteLine("DEX: "+this.Dexteritate[0]);
+          writer.WriteLine("CON: "+this.Conditio[0]);
+          writer.WriteLine("INT: "+this.Intelligentia[0]);
+          writer.WriteLine("WIS: "+this.Sapientia[0]);
           writer.WriteLine("");
           writer.WriteLine("Parameters--> ");
           writer.WriteLine("Capacity: "+this.Capacitas);
@@ -1174,115 +805,13 @@ namespace ULF
           writer.WriteLine("Legs: "+this.Crus[2]+"cm²");
           writer.WriteLine("");
           writer.WriteLine("Actions--> ");
-          for(int i=0;i<this.Actus.Length;i++){
-            if(this.Actus[i]==null){
-
-            } else{
-              writer.WriteLine(this.Actus[i]);
-            }
-          }
+          for(int u=0;u<this.Actus.Length;u++){if(this.Actus[u]!=null)writer.WriteLine(this.Actus[u]);}
           writer.WriteLine("");
           writer.WriteLine("Buffs--> ");
-          string romanus="";
-          for(int i=0;i<this.VigorB.Length;i++){
-            switch(i){
-              case 1:
-                romanus="I";
-                break;
-              case 2:
-                romanus="II";
-                break;
-              case 3:
-                romanus="III";
-                break;
-            }
-            if(this.VigorB[i]==null){
-
-            } else{
-              writer.WriteLine("Strength "+romanus+"("+this.VigorB[i]+")");
-            }
-          }
-          for(int i=0;i<this.DexteritateB.Length;i++){
-            switch(i){
-              case 1:
-                romanus="I";
-                break;
-              case 2:
-                romanus="II";
-                break;
-              case 3:
-                romanus="III";
-                break;
-            }
-            if(this.DexteritateB[i]==null){
-
-            } else{
-              writer.WriteLine("Agility "+romanus+"("+this.DexteritateB[i]+")");
-            }
-          }
-          for(int i=0;i<this.ConditioB.Length;i++){
-            switch(i){
-              case 1:
-                romanus="I";
-                break;
-              case 2:
-                romanus="II";
-                break;
-              case 3:
-                romanus="III";
-                break;
-            }
-            if(this.ConditioB[i]==null){
-
-            } else{
-              writer.WriteLine("Endurance "+romanus+"("+this.ConditioB[i]+")");
-            }
-          }
-          for(int i=0;i<this.IntelligentiaB.Length;i++){
-            switch(i){
-              case 1:
-                romanus="I";
-                break;
-              case 2:
-                romanus="II";
-                break;
-              case 3:
-                romanus="III";
-                break;
-            }
-            if(this.IntelligentiaB[i]==null){
-
-            } else{
-              writer.WriteLine("Potency "+romanus+"("+this.IntelligentiaB[i]+")");
-            }
-          }
-          for(int i=0;i<this.SapientiaB.Length;i++){
-            switch(i){
-              case 1:
-                romanus="I";
-                break;
-              case 2:
-                romanus="II";
-                break;
-              case 3:
-                romanus="III";
-                break;
-            }
-            if(this.SapientiaB[i]==null){
-
-            } else{
-              writer.WriteLine("Focus "+romanus+"("+this.SapientiaB[i]+")");
-            }
-          }
+          foreach(var u in this.RepertoireB)writer.WriteLine(u.Key);
           writer.WriteLine("");
           writer.WriteLine("Spells--> ");
-          for(int i=0;i<this.Repertoire.Length;i++){
-            if(this.Repertoire[i]==null){
-
-            } else{
-              writer.WriteLine(this.Repertoire[i]);
-            }
-          }
+          for(int u=0;u<this.Repertoire.Length;u++){if(this.Repertoire[u]!=null)writer.WriteLine(this.Repertoire[u]);}
           writer.WriteLine("");
           writer.WriteLine("Passives--> ");
           writer.WriteLine("Mechanical Conversion: "+this.ConvertioMechanica);
@@ -1291,36 +820,15 @@ namespace ULF
           writer.WriteLine("Fitness: "+this.CorpusAptus);
           writer.WriteLine("");
           writer.WriteLine("Mastery--> ");
-          if(this.PeritiaLamina>0){
-            writer.WriteLine("Blade Proficiency: "+this.PeritiaLamina);
-          }
-          if(this.PeritiaDistantia>0){
-            writer.WriteLine("Ranged Proficiency: "+this.PeritiaDistantia);
-          }
-          if(this.MagisteriumSicarum>0){
-            writer.WriteLine("Dagger Mastery: "+this.MagisteriumSicarum);
-          }
-          if(this.MagisteriumGladium>0){
-            writer.WriteLine("Sword Mastery: "+this.MagisteriumGladium);
-          }
-          if(this.MagisteriumLongumGladium>0){
-            writer.WriteLine("Long Sword Mastery: "+this.MagisteriumLongumGladium);
-          }
-          if(this.MagisteriumBaculum>0){
-            writer.WriteLine("Staff Mastery: "+this.MagisteriumBaculum);
-          }
-          if(this.MagisteriumArcum>0){
-            writer.WriteLine("Bow Mastery: "+this.MagisteriumArcum);
-          }
+          foreach (var u in this.Peritia)writer.WriteLine(u.Key+" "+u.Value);
           writer.WriteLine("");
           writer.WriteLine("Knowledge--> ");
+          foreach (var u in this.Metier)writer.WriteLine(u.Key+" "+u.Value);
           writer.WriteLine("");
           writer.WriteLine("Moves--> ");
           writer.WriteLine("");
           writer.WriteLine("Inventory--> ");
-          foreach(var u in panaN){
-            writer.WriteLine(u.Key+" x"+u.Value);
-          }
+          foreach(var u in this.panaN)writer.WriteLine(u.Key+" x"+u.Value);
           writer.WriteLine("\n******************************************************************************************");
         }
       }
@@ -1336,14 +844,17 @@ namespace ULF
     public double Credits{get; set;}
     public Dictionary<string, bool> Ordo = new Dictionary<string, bool>();
     public Mana Mana = new Mana();
-    public string[] Repertoire{get; set;}
-    public string[] Actus{get; set;}
+    public string[] Repertoire=new string[20];
+    public Dictionary<string, string> RepertoireB = new Dictionary<string, string>();
+    public string[] Actus = new string[20];
+    public Dictionary<string, int> Metier = new Dictionary<string, int>();
+    public Dictionary<string, int> Peritia = new Dictionary<string, int>();
     
-		public int Vigor{get; set;}
-		public int Dexteritate{get; set;}
-		public int Conditio{get; set;}
-		public int Intelligentia{get; set;}
-		public int Sapientia{get; set;}
+		public int[] Vigor = new int[2];
+		public int[] Dexteritate = new int[2];
+		public int[] Conditio = new int[2];
+		public int[] Intelligentia = new int[2];
+		public int[] Sapientia = new int[2];
 
 		public double Altitudo{get; set;}
 		public double Latitudo{get; set;}
@@ -1379,27 +890,14 @@ namespace ULF
 		public int FluentaAnima{get; private set;}
 		public int CorpusAptus{get; private set;}
 
-    public int PeritiaLamina{get; set;}
-    public int PeritiaDistantia{get; set;}
-    public int MagisteriumGladium{get; set;}
-    public int MagisteriumLongumGladium{get; set;}
-    public int MagisteriumBaculum{get; set;}
-    public int MagisteriumArcum{get; set;}
-    public int MagisteriumSicarum{get; set;}
-
-    public string[] VigorB{get; set;}
-    public string[] ConditioB{get; set;}
-    public string[] DexteritateB{get; set;}
-    public string[] IntelligentiaB{get; set;}
-    public string[] SapientiaB{get; set;}
-
     public Arma Arma = new Arma();
     public Dictionary<string, int> panaN = new Dictionary<string, int>();
     public Caussae[] Archivum = new Caussae[20];
 
     public double Motus{get; set;}
     public double Tempus{get; set;}
-    public double[] Lotus{get; set;}
+    // public double[] Lotus{get; set;}
+    public Lotus Lotus;
 
     public string verb;
     public int sum=0;
@@ -1408,6 +906,7 @@ namespace ULF
     public bool ergo=false;
     public bool mag=false;
     public bool inferi=false;
+    public bool leavo=false;
 
     public Yuno Yuno = new Yuno();
     public string Sensus="Mulus";

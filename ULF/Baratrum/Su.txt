@@ -4,7 +4,7 @@ Gana Su
 Elf
 PV: 77/77
 MP: 841/841
-Credits: 0
+Credits: 100
 Classes--> 
 Elementalist
 
@@ -46,12 +46,17 @@ Strike
 Slash
 Thrust
 Cast
+Buff
+Wait
 
 Buffs--> 
-Potency I(E)
+Strength I
+Potency I
+Agility I
 
 Spells--> 
 Icicle
+Fireball
 
 Passives--> 
 Mechanical Conversion: 1
@@ -60,13 +65,19 @@ Energy Flow: 1
 Fitness: 3
 
 Mastery--> 
-Staff Mastery: 1
+Staff Mastery 1
+Ranged Proficiency 1
+Bow Mastery 1
 
 Knowledge--> 
+Hunter 2
 
 Moves--> 
 
 Inventory--> 
-Chestnut Staff
+Light Arrow x31
+Steel Sword x1
+Chestnut Staff x1
+Maple Bow x1
 
 ******************************************************************************************

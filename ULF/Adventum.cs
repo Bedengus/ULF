@@ -24,10 +24,12 @@ namespace ULF
             Actum(Ego);
             break;
           case "inventory":   
-              do{
-              Panoplia(Ego);
-              } while (Σ.rector == "");       
-            break;
+            do{
+              Ego.ArchRec();
+              Console.WriteLine("Type to exit:");
+              Σ.rector = Console.ReadLine();
+            } while (Σ.rector == "");       
+          break;
           case "shop":   
               do{
               Forum(Ego);
@@ -35,6 +37,10 @@ namespace ULF
             break;
           case "battle":
             Mechanicae.Chronus(Ego);
+            break;
+            case "help":
+              Console.WriteLine(aux);
+              Console.ReadLine();
             break;
           case "roll4":
             Σ.rector = Console.ReadLine();
@@ -94,30 +100,140 @@ namespace ULF
             break;
         }
       } while(Σ.rector!="exit");
-      Environment.Exit(0);
+      // Environment.Exit(0);
     }
 
-    public static void Panoplia(Persona Ego){
-      Console.WriteLine("\nWhat do you want to do with your inventory?\n'look'\n'equip'");
-      Σ.rector = Console.ReadLine().ToLower();
-      if(Σ.rector=="look"){
-        Ego.Spectare();
-        Console.ReadLine();
-      } else if(Σ.rector=="equip"){
-        Console.WriteLine("\nWhat do you want to equip?");
-        Σ.rector = Console.ReadLine();
-        if(Ego.panaN[Σ.rector]>0){
-          Ego.Arma = Arma.Ornare(Σ.rector);
-          Ego.Arma.Index();
-          Ego.Virtus();
-        } else{
-          Console.WriteLine("\nYou do not have that item.");
-        }
-        Console.ReadLine();
+    public static void Generalis(Persona Ego){
+      switch(Σ.rector){
+        case "look":
+          Agrum.Aeon();
+          foreach (var u in Ego.Regio.Amplexus)
+          { 
+            if(Regio.Labor(u.Key).lumen<=Agrum.Centuria[9] && Regio.Labor(u.Key).nox>=Agrum.Centuria[9]){
+              Console.WriteLine(u.Key);
+            }
+          }
+          break;
+        case "go":
+          Console.WriteLine("Whither?");
+          Σ.rector = Console.ReadLine();
+          if(Ego.Regio.Amplexus.ContainsKey(Σ.rector)){
+            if(Regio.Labor(Σ.rector).lumen<=Agrum.Centuria[9] && Regio.Labor(Σ.rector).nox>=Agrum.Centuria[9]){
+              Ego.Regio.Iter(Σ.rector, Ego);
+            } else{
+              Console.WriteLine("That place is currently closed.");
+            }
+          } else{
+            Console.WriteLine("That place does not exist or is not avaliable from here.");
+          }
+          break;
+        case "save":
+          Ego.Salvare();
+          break;
+        case "doc":
+          Console.WriteLine(scriptum);
+          Console.ReadLine();
+          break;
+        case "mechanics":
+          Mechanicae.Utor();
+          break;
+        case "act":
+          Actum(Ego);
+          break;
+        case "inventory":   
+          do{
+            Ego.ArchRec();
+            Console.WriteLine("Type to exit:");
+            Σ.rector = Console.ReadLine();
+          } while (Σ.rector == "");       
+        break;
+        case "sheet":
+          Ego.Epistola();
+          break;
+        case "shop":   
+            do{
+            Forum(Ego);
+            } while (Σ.rector == "");         
+          break;
+        case "battle":
+          Mechanicae.Chronus(Ego);
+          break;
+        case "help":
+            Console.WriteLine(aux);
+            Console.ReadLine();
+          break;
+        case "data":
+          Console.WriteLine("Day "+Agrum.Centuria[3]+" at "+Agrum.Centuria[2]+":"+Agrum.Centuria[1]+":"+Agrum.Centuria[0]+".\n");
+          break;
+        case "roll4":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.Volvere(4, Σ.unus);
+          Console.ReadLine();
+          break;
+        case "roll6":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.Volvere(6, Σ.unus);
+          Console.ReadLine();
+          break;
+        case "roll8":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.Volvere(8, Σ.unus);
+          Console.ReadLine();
+          break;
+        case "roll10":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.Volvere(10, Σ.unus);
+          Console.ReadLine();
+          break;
+        case "roll12":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.Volvere(12, Σ.unus);
+          Console.ReadLine();
+          break;
+        case "roll20":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.Volvere(20, Σ.unus);
+          Console.ReadLine();
+          break;
+        case "roll100":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.Volvere(1000, Σ.unus);
+          Console.ReadLine();
+          break;
+        case "roll%":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.Volvere(100, Σ.unus);
+          Console.ReadLine();
+          break;
+        case "froll":
+          Σ.rector = Console.ReadLine();
+          Σ.unus = String.IsNullOrEmpty(Σ.rector) ? 1 : Convert.ToInt32(Σ.rector);
+          Mechanicae.LVolvere(Σ.unus);
+          Console.ReadLine();
+          break;
+        default:
+          break;
       }
-      Console.WriteLine("Type to exit:");
-      Σ.rector = Console.ReadLine().ToLower();
     }
+
+    public static void Bellum(Persona Ego, bool yuno=false, params Persona[] hostis){
+      Mechanicae.Chronus(Ego, yuno, hostis);
+      Mechanicae.Rapina(Ego, hostis); 
+      Ego.Tempus=0;
+      Agrum.Centuria[0]+=Agrum.Tempus;
+      Agrum.Aeon();
+      Agrum.Tempus=0;
+      Σ.rector = "e";
+    }
+
     public static void Forum(Persona Ego){
       Console.WriteLine("Welcome to the NAME GENERATOR Shop.");
       /*Console.WriteLine("\nWe have here for sale: *rolls random dices*"+
@@ -225,7 +341,8 @@ namespace ULF
     public static string aux = "\nWelcome to your adventure.\n\n"+
         "See this almost at any time by typing 'help'.\n"+
         "Also remember the ubiquitous commands 'look', 'go', 'save' and 'doc'.\n"+
-        "Less used, but often present, is 'inventory'.\n"+
+        "Less used, but also present, is 'inventory' and 'data'.\n"+
+        "In battle use 'info' to analyse your enemies and 'look' to see surrounding map.\n"+
         "Be most careful to letter casing in names: I am unforgiving.\n"+
         "Use of 'exit' to end the game.\n\n";
   }

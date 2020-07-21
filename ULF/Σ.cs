@@ -2,7 +2,7 @@ using System;
 
 namespace ULF
 {
-  public static class Σ
+  public struct Σ
   {
     public static string rector;
     public static string notou;

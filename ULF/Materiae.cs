@@ -29,6 +29,7 @@ namespace ULF
  
       Materiae Unknown = new Materiae("Unknown", 1, 1, "");
 
+      mat=mat.ToLower();
       switch(mat){
         case "water":
           return Water;
@@ -52,6 +53,10 @@ namespace ULF
           return Lead;
         case "ice":
           return Ice;
+        case "maple":
+          return Maple;
+        case "chestnut":
+          return Chestnut;
         default:
           return Unknown;
       }

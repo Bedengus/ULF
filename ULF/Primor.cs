@@ -15,9 +15,29 @@ namespace ULF
     [STAThread]
     public static void Main()
 		{
+      Console.Title="Ultimate Legendary Fantasy";
+      Origo();
 			Console.WriteLine("Salve Mundus!\n");
+      
 
+      homo.Intro();
 
+      Console.WriteLine(Adventum.aux);
+      Console.ReadLine();
+      homo.Regio.Iter("129800", "Emerald Village", homo);
+
+      // /*
+
+      homo.Porto("Su");
+      
+      // Mechanicae.Momentum(homo, 25, 0);
+      // homo.Regio.Iter("128800", "Emerald Village", homo);
+
+      // */
+
+      Console.ReadLine(); 
+		}
+    public static void Origo(){
       Hostis["Bandit"] = new Persona();
       Hostis["Bandit"].Nomen = "Bandit";
       Hostis["Bandit"].Cognomen = "Bandit";
@@ -28,88 +48,27 @@ namespace ULF
       Hostis["Bandit"].Actus[3]="Thrust";
       Hostis["Bandit"].Actus[0]="Step";
       Hostis["Bandit"].Actus[4]="Wait";
-      Hostis["Bandit"].Lotus[0]=100;
-      Hostis["Bandit"].Lotus[1]=100;
+      Hostis["Bandit"].Lotus.X=100;
+      Hostis["Bandit"].Lotus.Y=100;
+      Hostis["Bandit"].PV[1]=10;
+      Hostis["Bandit"].panaN["Human Skin"]=5;
+      foreach(var u in Hostis["Bandit"].panaN){
+        Hostis["Bandit"].Archivum[0]=Caussae.Acquirere(u.Key, u.Value);
+      }
 
-      homo.Intro();
-
-      Console.WriteLine(Adventum.aux);
-      Console.ReadLine();
-      homo.Regio.Iter(1, "Emerald Village", homo);
-
-      /*homo.Intro();
-      Adventum.Utor(homo);*/
-
-
-      /*Hostis["Human"] = new Persona();
-      Hostis["Human"].Nomen = "Human";
-      Hostis["Human"].Cognomen = "Human";
-      Hostis["Human"].Genus.Auto("human", Hostis["Human"].Nomen);*/
-
-      
-
-
-
-      // homo.Utor();
-      // homo.Porto("Su");
-
-      // homo.Spectare();
-
-
-      /*homo.ArchAdd(Caussae.Acquirere("Maple Bow"));
-      homo.Arma=Arma.Ornare("Maple Bow");
-      homo.Addicio("actus", "Shoot");
-
-      homo.Spectare();
-
-      Mechanicae.Chronus(homo, Hostis["h"]);*/
-
-
-      /*homo.ArchAdd(Caussae.Acquirere("Light Arrow"), Caussae.Acquirere("Chestnut Staff"));
-      homo.Salvare();*/
-    
-
-      Hostis[homo.Cognomen] = new Persona();
-      Hostis[homo.Cognomen] = homo;
-
-
-      /*Console.WriteLine(Adventum.aux);
-      Console.ReadLine();
-      homo.Regio.Iter(1, "Emerald Village", homo);*/
-
-      // Mechanicae.Chronus(homo, Hostis["h"]);
-
-      /*Actus.Gestus("Cast", homo);
-      Actus.Ergo("Cast", homo);*/
-
-
-
-      
-
-      /*Hostis["j"] = new Persona();
-      Hostis["j"].Nomen = "j";
-      Hostis["j"].Cognomen = "j";
-      Hostis["j"].Genus.Auto("human", Hostis["j"].Nomen);
-      Hostis["j"].Arma = Arma.Ornare("steel sword");
-      Hostis["j"].Actus[2]="Slash";
-      Hostis["j"].Actus[1]="Strike";
-      Hostis["j"].Actus[3]="Thrust";
-      Hostis["j"].Actus[0]="Step";
-      Hostis["j"].Actus[4]="Wait";*/
-      // Mechanicae.Chronus(homo, Hostis["h"]);
-      
-
-      // Mechanicae.Utor();
-      /*homo.Actus[2]="Slash";
-      homo.Actus[1]="Strike";
-      homo.Actus[3]="Thrust";*/
-      
-      // Console.WriteLine("You are at x:"+homo.Lotus[0]+" y:"+homo.Lotus[1]+" no dosu he.");
-			// Adventum.Utor(homo);
-
-      // homo.Purgo("orgo");
-  
-			// Primor.homo.Epistola();
+      Hostis["Boar"] = new Persona();
+      Hostis["Boar"].Nomen = "Boar";
+      Hostis["Boar"].Cognomen = "Boar";
+      Hostis["Boar"].Genus.Auto("quadrupod", Hostis["Boar"].Nomen);
+      Hostis["Boar"].Arma = Arma.Ornare("steel sword");
+      Hostis["Boar"].Actus[1]="Strike";
+      Hostis["Boar"].Actus[0]="Step";
+      Hostis["Boar"].Lotus.X=50;
+      Hostis["Boar"].Lotus.Y=50;
+      Hostis["Boar"].panaN["Human Skin"]=5;
+      foreach(var u in Hostis["Boar"].panaN){
+        Hostis["Boar"].Archivum[0]=Caussae.Acquirere(u.Key, u.Value);
+      }
 
       Hostis["h"] = new Persona();
       Hostis["h"].Nomen = "h";
@@ -121,8 +80,8 @@ namespace ULF
       Hostis["h"].Actus[3]="Thrust";
       Hostis["h"].Actus[0]="Step";
       Hostis["h"].Actus[4]="Wait";
-      Hostis["h"].Lotus[0]=100;
-      Hostis["h"].Lotus[1]=100;
+      Hostis["h"].Lotus.X=100;
+      Hostis["h"].Lotus.Y=100;
       Hostis["h"].PV[1]=10;
 
       Hostis["j"] = new Persona();
@@ -135,12 +94,21 @@ namespace ULF
       Hostis["j"].Actus[3]="Thrust";
       Hostis["j"].Actus[0]="Step";
       Hostis["j"].Actus[4]="Wait";
-      Hostis["j"].Lotus[0]=10;
-      Hostis["j"].Lotus[1]=10;
+      Hostis["j"].Lotus.X=10;
+      Hostis["j"].Lotus.Y=10;
       Hostis["j"].PV[1]=10;
+    }
+    public static void Telechargere(){
+      Arma.Ornare("Steel Sword").Salvare();
+      Arma.Ornare("Steel Long Sword").Salvare();
+      Arma.Ornare("Steel Dagger").Salvare();
+      Arma.Ornare("Chestnut Staff").Salvare();
+      Arma.Ornare("Maple Bow").Salvare();
+    }
+  }
+}
 
-      Console.ReadLine();
-      /*Console.WriteLine("Run in 'c'onsole or window?");
+/*Console.WriteLine("Run in 'c'onsole or window?");
       Σ.rector=Console.ReadLine().ToLower();
 
       if(Σ.rector=="c"){
@@ -151,6 +119,3 @@ namespace ULF
         oc.Run(occ);
         Environment.Exit(0);
       }*/
-		}
-  }
-}

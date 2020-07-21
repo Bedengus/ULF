@@ -8,6 +8,7 @@ namespace ULF
   public static class Mechanicae
   {
     static Dictionary<string, Objectum> Objectum = new Dictionary<string, Objectum>();
+    public static List<Persona> Sunt=new List<Persona>();
     static double[] res = new double[2058];
     static string[] acc = new string[2058];
     static string[] obj = new string[666];
@@ -110,14 +111,10 @@ namespace ULF
         default:
           Console.WriteLine("Pass on to Adventum with whom?\nLeave empty to exit.\nUse 'ego' if you have come here as a character.");
           Σ.rector=Console.ReadLine();
-          if(Σ.rector==""){
-            Environment.Exit(0);
-          } else{
-            if(Σ.rector=="ego"){
-              Adventum.Utor(Primor.homo);
-            } else{
-              Adventum.Utor(Primor.Hostis[Σ.rector]);
-            }   
+          if(Σ.rector=="")Environment.Exit(0);
+          else{
+            if(Σ.rector=="ego")Adventum.Utor(Primor.homo);
+            else Adventum.Utor(Primor.Hostis[Σ.rector]);
           }
           break;
       }
@@ -135,22 +132,20 @@ namespace ULF
           tessera=cybus.Next(1, pretium+1);
           Console.WriteLine(nomen+" rolls "+tessera+" on a d"+pretium+"!");
           tesserae+=tessera+mut;
-      } else if(pretium == 100){
+        } else if(pretium == 100){
           tessera=cybus.Next(0, pretium+1);
           Console.WriteLine(nomen+" rolls "+tessera+" on a 0-100 ULF percentile!");
           tesserae+=tessera+mut;
-      } else if(pretium == 1000){
+        } else if(pretium == 1000){
           tessera=cybus.Next(1, pretium-899);
           Console.WriteLine(nomen+" rolls "+tessera+" on a d"+pretium+"!");
           tesserae+=tessera+mut;
-      } else if(pretium==1){
-        tessera=1;
-        Console.WriteLine("That is one.");
-        tesserae+=tessera+mut;
-      }else{
-          LVolvere(pretium, 1, volutare, mut);
-        }
-      } 
+        } else if(pretium==1){
+          tessera=1;
+          Console.WriteLine("That is one.");
+          tesserae+=tessera+mut;
+        } else LVolvere(pretium, 1, volutare, mut);
+      }
       return tesserae;          
     }
     public static int LVolvere(int pretium=1, int radix=1, int volutare=1, int mut=0, string nomen="The dice"){
@@ -170,23 +165,18 @@ namespace ULF
 
     public static void PulsareJux(Persona Ego, Arma arma, Persona hostis, string dir="front", bool demi=false, int vis=-1, int dam=3, bool yuno=false){
 
-      if(vis<0){
-        vis=Ego.Capacitas;
-      } else if(vis>Ego.Capacitas){
-        vis=Ego.Capacitas;
-      }
+      if(vis<0)vis=Ego.Capacitas;
+      else if(vis>Ego.Capacitas)vis=Ego.Capacitas;
 
-      demi=Peritia(arma.Peritia);
-      if(Ego.Spatium[1]>=Calculus("hypod",Math.Abs(Ego.Lotus[0]-hostis.Lotus[0]),Math.Abs(Ego.Lotus[1]-hostis.Lotus[1]))){
+      demi=Peritia(Ego, arma.Peritia);
+      if(Ego.Spatium[1]>=Calculus("hypod",Math.Abs(Ego.Lotus.X-hostis.Lotus.X),Math.Abs(Ego.Lotus.Y-hostis.Lotus.Y))){
         if(!yuno){
           Console.WriteLine("\nDo you wish to use your precision to 'hit' or to 'aim'?");
           Σ.rector = Console.ReadLine().ToLower();
-        } else{
-          Σ.rector = "hit";
-        }
+        } else Σ.rector = "hit";
         
         if(Σ.rector=="aim"){
-          Σ.num[0]=(11-((Ego.Dexteritate-Ego.Motus)-(hostis.Motus+hostis.Dexteritate)));
+          Σ.num[0]=(11-((Ego.Dexteritate[1]-Ego.Motus)-(hostis.Motus+hostis.Dexteritate[1])));
 
           Σ.unus = Volvere(20, nomen:Ego.Cognomen);
           Console.WriteLine(Ego.Cognomen+" rolls "+Σ.unus+" against "+Σ.num[0]+".");
@@ -232,78 +222,51 @@ namespace ULF
             if(demi){
               Σ.unus=Volvere(4, nomen:Ego.Cognomen);
 
-              if(Σ.unus==1&&Primor.homo.Arma.Obtusus>0){
-                Σ.unus=Primor.homo.Arma.Obtusus;
-              } else if(Σ.unus==2&&Primor.homo.Arma.Acutus>0){
-                Σ.unus=Primor.homo.Arma.Acutus;
-              } else if(Σ.unus==3&&Primor.homo.Arma.Acutulus>0){
-                Σ.unus=Primor.homo.Arma.Acutulus;
-              } else{
-                Σ.unus=Primor.homo.Arma.DamnumT;
-              }
+              if(Σ.unus==1&&Primor.homo.Arma.Obtusus>0)Σ.unus=Primor.homo.Arma.Obtusus;
+              else if(Σ.unus==2&&Primor.homo.Arma.Acutus>0)Σ.unus=Primor.homo.Arma.Acutus;
+              else if(Σ.unus==3&&Primor.homo.Arma.Acutulus>0)Σ.unus=Primor.homo.Arma.Acutulus;
+              else Σ.unus=Primor.homo.Arma.DamnumT;
             } else{
-              if(dam==0&&Primor.homo.Arma.Obtusus>0){
-                Σ.unus=Primor.homo.Arma.Obtusus;
-              } else if(dam==1&&Primor.homo.Arma.Acutus>0){
-                Σ.unus=Primor.homo.Arma.Acutus;
-              } else if(dam==2&&Primor.homo.Arma.Acutulus>0){
-                Σ.unus=Primor.homo.Arma.Acutulus;
-              } else{
-                Σ.unus=Primor.homo.Arma.DamnumT;
-              }
+              if(dam==0&&Primor.homo.Arma.Obtusus>0)Σ.unus=Primor.homo.Arma.Obtusus;
+              else if(dam==1&&Primor.homo.Arma.Acutus>0)Σ.unus=Primor.homo.Arma.Acutus;
+              else if(dam==2&&Primor.homo.Arma.Acutulus>0)Σ.unus=Primor.homo.Arma.Acutulus;
+              else Σ.unus=Primor.homo.Arma.DamnumT;
             }
 
             DanusPhysicus(Ego, vis, Σ.unus, arma.Pondus, pe:arma.Peritia, mut:arma.Deficio,gra:Ego.Liguritio);
 
             Crisimus(Ego, hostis, "aimed");
-          } else{
-            Console.WriteLine(Ego.Cognomen+" missed.");
-          }
+          } else Console.WriteLine(Ego.Cognomen+" missed.");
         } else{
 
-          Σ.num[0]=(11-(((Ego.Dexteritate+Math.Round(Ego.Accuratio*1))-Ego.Motus)-(hostis.Motus+hostis.Dexteritate)));
+          Σ.num[0]=(11-(((Ego.Dexteritate[1]+Math.Round(Ego.Accuratio*1))-Ego.Motus)-(hostis.Motus+hostis.Dexteritate[1])));
 
           Σ.unus = Volvere(20, nomen:Ego.Cognomen);
           Console.WriteLine(Ego.Cognomen+" rolls "+Σ.unus+" against "+Σ.num[0]+".");
 
-          if (Σ.unus >= Σ.num[0]){
-            
+          if (Σ.unus >= Σ.num[0]){   
             Battum(Ego);
 
             if(demi){
               Σ.unus=Volvere(4, nomen:Ego.Cognomen);
 
-              if(Σ.unus==1&&Primor.homo.Arma.Obtusus>0){
-                Σ.unus=Primor.homo.Arma.Obtusus;
-              } else if(Σ.unus==2&&Primor.homo.Arma.Acutus>0){
-                Σ.unus=Primor.homo.Arma.Acutus;
-              } else if(Σ.unus==3&&Primor.homo.Arma.Acutulus>0){
-                Σ.unus=Primor.homo.Arma.Acutulus;
-              } else{
-                Σ.unus=Primor.homo.Arma.DamnumT;
-              }
+              if(Σ.unus==1&&Primor.homo.Arma.Obtusus>0)Σ.unus=Primor.homo.Arma.Obtusus;
+              else if(Σ.unus==2&&Primor.homo.Arma.Acutus>0)Σ.unus=Primor.homo.Arma.Acutus;
+              else if(Σ.unus==3&&Primor.homo.Arma.Acutulus>0)Σ.unus=Primor.homo.Arma.Acutulus;
+              else Σ.unus=Primor.homo.Arma.DamnumT;
             } else{
-              if(dam==1&&Primor.homo.Arma.Obtusus>0){
-                Σ.unus=Primor.homo.Arma.Obtusus;
-              } else if(dam==2&&Primor.homo.Arma.Acutus>0){
-                Σ.unus=Primor.homo.Arma.Acutus;
-              } else if(dam==3&&Primor.homo.Arma.Acutulus>0){
-                Σ.unus=Primor.homo.Arma.Acutulus;
-              } else{
-                Σ.unus=Primor.homo.Arma.DamnumT;
-              }
+              if(dam==0&&Primor.homo.Arma.Obtusus>0)Σ.unus=Primor.homo.Arma.Obtusus;
+              else if(dam==1&&Primor.homo.Arma.Acutus>0)Σ.unus=Primor.homo.Arma.Acutus;
+              else if(dam==2&&Primor.homo.Arma.Acutulus>0)Σ.unus=Primor.homo.Arma.Acutulus;
+              else Σ.unus=Primor.homo.Arma.DamnumT;
             }
             
             DanusPhysicus(Ego, vis, Σ.unus, arma.Pondus, pe:arma.Peritia, mut:arma.Deficio,gra:Ego.Liguritio);
 
             Crisimus(Ego, hostis);
-          } else{
-            Console.WriteLine(Ego.Cognomen+" missed.");
-          }
+          } else Console.WriteLine(Ego.Cognomen+" missed.");
         }
-      } else{
-        Console.WriteLine(Ego.Cognomen+" cannot reach the target.");
-      }
+      } else Console.WriteLine(Ego.Cognomen+" cannot reach the target.");
     }
     public static void PulsareLonge(Persona Ego, Persona hostis, int vis, int dan, double pon, int gra=1){
       Σ.num[0]=Praecisionem(Ego, hostis);
@@ -311,24 +274,18 @@ namespace ULF
       Console.WriteLine(Ego.Cognomen+" rolls "+Σ.unus+" against "+Σ.num[0]+".");
 
       if(Σ.unus>=Σ.num[0]){
-        
         Battum(Ego);
         DanusPhysicus(Ego, vis, dan, pon, gra:gra);
-        velo-=Convert.ToInt32(Calculus("hypod",Math.Abs(Ego.Lotus[0]-hostis.Lotus[0]),Math.Abs(Ego.Lotus[1]-hostis.Lotus[1]))/100);
+        velo-=Convert.ToInt32(Calculus("hypod",Math.Abs(Ego.Lotus.X-hostis.Lotus.X),Math.Abs(Ego.Lotus.Y-hostis.Lotus.Y))/100);
         Crisimus(Ego, hostis);
-      } else{
-        Console.WriteLine(Ego.Cognomen+" missed.");
-      }
+      } else Console.WriteLine(Ego.Cognomen+" missed.");
     }
     public static void DanusPhysicus(Persona Ego, int vis, int arm, double pon, bool demi=false, string pe="", int mut=0, int gra=1){
-      demi=Peritia(pe);
+      demi=Peritia(Ego, pe);
       Σ.unus = Volvere(arm, mut: mut, nomen:Ego.Cognomen);
       Velocitas(vis, pon, gra);
-      if(demi){
-        Σ.num[0] = Math.Round((Σ.unus*(velo*0.1))/2);
-      } else{
-        Σ.num[0] = Math.Round(Σ.unus*(velo*0.1));
-      }
+      if(demi)Σ.num[0] = Math.Round((Σ.unus*(velo*0.1))/2);
+      else Σ.num[0] = Math.Round(Σ.unus*(velo*0.1));
     }
     public static void DanusMagicus(Persona Ego, Persona hostis, Ψ inc, int vis){
       Σ.unus=Volvere(Convert.ToInt32(inc.Danum[1]), nomen:Ego.Cognomen);
@@ -339,42 +296,30 @@ namespace ULF
       Σ.num[12]= Praecisionem(Ego, hostis, spa:Σ.num[11], typ:"explo");
       Σ.num[10]=Math.Floor(Σ.num[10]*Σ.num[12]);
 
-      if(Σ.num[12]==1){
-        Console.WriteLine("The target took a full hit with "+Σ.num[10]+" of damage.");
-      } else if(Σ.num[12]==0){
-        Console.WriteLine("The explosion does not reach the target.");
-      } else{
+      if(Σ.num[12]==1)Console.WriteLine("The target took a full hit with "+Σ.num[10]+" of damage.");
+      else if(Σ.num[12]==0)Console.WriteLine("The explosion does not reach the target.");
+      else{
         Σ.num[13]=Math.Round(Σ.num[12]*100);
         Console.WriteLine(Ego.Cognomen+" hits the ground and the target takes "+Σ.num[10]+" as "+Σ.num[13]+"% of damage.");
       }
-      
+
       hostis.PV[1]-=Convert.ToInt32(Σ.num[10]);
     }
     public static void Battum(Persona Ego, string dir="front", int cem=0){
       cem = Volvere(100, nomen:Ego.Cognomen);
       
       if(dir=="front"){
-        if(cem<26){
-          Σ.notod="a leg";
-        } else if(cem<36){
-          Σ.notod="an arm";
-        } else if(cem<96){
+        if(cem<26)Σ.notod="a leg";
+        else if(cem<36)Σ.notod="an arm";
+        else if(cem<96){
           cem=Volvere(100, nomen:Ego.Cognomen);
-          if(cem>95){
-            Σ.notod="the heart";
-          } else if(cem>65){
-            Σ.notod="the stomach";
-          } else{
-            Σ.notod="the torso";
-          }
-        } else if(cem<97){
-          Σ.notod="the neck";
-        } else if(cem<101){
-          if(Volvere(10, nomen:Ego.Cognomen)==10){
-            Σ.notod="an eye";
-          } else{
-            Σ.notod="the head";
-          }
+          if(cem>95)Σ.notod="the heart";
+          else if(cem>65)Σ.notod="the stomach";
+          else Σ.notod="the torso";
+        } else if(cem<97)Σ.notod="the neck";
+        else if(cem<101){
+          if(Volvere(10, nomen:Ego.Cognomen)==10)Σ.notod="an eye";
+          else Σ.notod="the head";
         }
       } else if(dir=="back"){
         if(cem<26){
@@ -420,7 +365,7 @@ namespace ULF
       }
     }
     public static double Praecisionem(Persona Ego, Persona hostis, double ah=-1, double lh=-1, double spa=0, string typ="free"){
-      double d = Calculus("hypod",Math.Abs(Ego.Lotus[0]-hostis.Lotus[0]),Math.Abs(Ego.Lotus[1]-hostis.Lotus[1]));
+      double d = Calculus("hypod",Math.Abs(Ego.Lotus.X-hostis.Lotus.X),Math.Abs(Ego.Lotus.Y-hostis.Lotus.Y));
       if(ah==-1&&lh==-1){
         ah = hostis.Altitudo;
         lh = hostis.Latitudo;
@@ -430,12 +375,9 @@ namespace ULF
         Σ.num[1] = d / Ego.Accuratio;
         Σ.num[2] = Math.Round(((Σ.num[1] / 2)*(Σ.num[1] / 2))*Math.PI);
 
-        if(ah > Σ.num[1]){
-          ah = Σ.num[1];
-        }
-        if(lh > Σ.num[1]){
-          lh = Σ.num[1];
-        }
+        if(ah > Σ.num[1])ah = Σ.num[1];
+        if(lh > Σ.num[1])lh = Σ.num[1];
+        
 
         Σ.num[3] = ah * lh;
         Σ.num[4] = Math.Round((Σ.num[3] / Σ.num[2]) * 100);
@@ -465,12 +407,8 @@ namespace ULF
         Σ.num[1] = d / Ego.Accuratio;
         Σ.num[2] = Math.Round(((Σ.num[1] / 2)*(Σ.num[1] / 2))*Math.PI);
 
-        if(ah > Σ.num[1]){
-          ah = Σ.num[1];
-        }
-        if(lh > Σ.num[1]){
-          lh = Σ.num[1];
-        }
+        if(ah > Σ.num[1])ah = Σ.num[1];
+        if(lh > Σ.num[1])lh = Σ.num[1];
 
         Σ.num[3] = ah * lh;
 
@@ -483,25 +421,17 @@ namespace ULF
         Σ.num[7] = Math.Round((Σ.num[3] / Σ.num[2]) * 100);
         Console.WriteLine("You have rolled "+Σ.num[6]+" on a 0-100 ULF percentile against "+Σ.num[7]+"!");
 
-        if(impa<=Σ.num[3]){
-          return 1;
-        }
-        if(Σ.num[5]>=1){
-          return 0;
-        }
-
+        if(impa<=Σ.num[3])return 1;
+        if(Σ.num[5]>=1)return 0;
         return Math.Abs(Σ.num[5]-1);
       }
       return 0;
     }
-    public static bool Peritia(string pe){
+    public static bool Peritia(Persona Ego, string pe){
       switch(pe){
-        case "Blade Proficiency":
-          return Primor.homo.PeritiaLamina > 0;
-        case "Bow Mastery":
-          return Primor.homo.PeritiaDistantia > 0;
-        default:
-          return false;
+        case "Blade Proficiency":return Ego.Peritia["Blade Proficiency"] > 0;
+        case "Bow Mastery":return Ego.Peritia["Bow Mastery"] > 0;
+        default:return false;
       }
     }
     public static void Crisimus(Persona Ego, Persona hostis, string typ=""){
@@ -510,42 +440,29 @@ namespace ULF
           if(Volvere(100, nomen:Ego.Cognomen)>=100-Σ.num[5]){
             Σ.num[0] = Σ.num[0] * 2;
             Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a critical hit of "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
-          } else{
-            Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
-          }
-        } else{
-          Console.WriteLine(Ego.Cognomen+" missed "+Σ.notod+", but still hit with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
-        }
+          } else Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
+        } else Console.WriteLine(Ego.Cognomen+" missed "+Σ.notod+", but still hit with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
         hostis.PV[1]-=Convert.ToInt32(Σ.num[0]);
       } else{
         if(Volvere(100, nomen:Ego.Cognomen)>=100-Σ.num[5]){
           Σ.num[0] = Σ.num[0] * 2;
           Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a critical hit of "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
-        } else{
-          Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
-        }
+        } else Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
         hostis.PV[1]-=Convert.ToInt32(Σ.num[0]);
       }
     }
 
     public static void Spargo(Ψ Incantatio, Persona Ego, Persona hostis, int pot=-1){
 
-      if(pot<0){
-        pot=Ego.Potentia;
-      } else if(pot>Ego.Potentia){
-        pot=Ego.Potentia;
-      }
-
+      if(pot<0)pot=Ego.Potentia;
+      else if(pot>Ego.Potentia)pot=Ego.Potentia;
+      
       switch(Incantatio.Typus){
         case "Physical":
-          if(Array.Exists(Incantatio.Qualitas,i=>i=="Aerodynamic")){
-              PulsareLonge(Ego, hostis, pot, Convert.ToInt32(Incantatio.Danum[1]), Incantatio.Pondus[0], gra:2);
-            } else{
-              PulsareLonge(Ego, hostis, pot, Convert.ToInt32(Incantatio.Danum[1]), Incantatio.Pondus[0]);
-            }
+          if(Array.Exists(Incantatio.Qualitas,i=>i=="Aerodynamic"))PulsareLonge(Ego, hostis, pot, Convert.ToInt32(Incantatio.Danum[1]), Incantatio.Pondus[0], gra:2);
+          else PulsareLonge(Ego, hostis, pot, Convert.ToInt32(Incantatio.Danum[1]), Incantatio.Pondus[0]);
           break;
-        case "Explosion":
-          DanusMagicus(Ego, hostis, Incantatio, pot);
+        case "Explosion":DanusMagicus(Ego, hostis, Incantatio, pot);
           break;
         case "con":
           //call
@@ -589,6 +506,27 @@ namespace ULF
       this.Qualitas[0]=qual;*/
     }
 
+    public static void Laevo(Persona Ego, β buff){
+      if(β.Buff(Σ.notoo).Virtus=="STR"){
+        Ego.Vigor[1]+=(Ego.Vigor[0]*Mechanicae.Volvere(β.Buff(Σ.notoo).Potentia, nomen:Ego.Cognomen))/10;
+        Ego.PM[1]-=Math.Round(β.Buff(Σ.notoo).Potentia*Ego.Capacitas*0.01);
+      } else if(β.Buff(Σ.notoo).Virtus=="DEX"){
+        Ego.Dexteritate[1]+=(Ego.Dexteritate[0]*Mechanicae.Volvere(β.Buff(Σ.notoo).Potentia, nomen:Ego.Cognomen))/10;
+        Ego.PM[1]-=Math.Round(β.Buff(Σ.notoo).Potentia*Ego.Dexteritate[0]*0.1);
+      } else if(β.Buff(Σ.notoo).Virtus=="CON"){
+        Ego.Conditio[1]+=(Ego.Conditio[0]*Mechanicae.Volvere(β.Buff(Σ.notoo).Potentia, nomen:Ego.Cognomen))/10;
+        Ego.PM[1]-=Math.Round(β.Buff(Σ.notoo).Potentia*Ego.Conditio[0]*0.1);
+      } else if(β.Buff(Σ.notoo).Virtus=="INT"){
+        Ego.Intelligentia[1]+=(Ego.Intelligentia[0]*Mechanicae.Volvere(β.Buff(Σ.notoo).Potentia, nomen:Ego.Cognomen))/10;
+        Ego.PM[1]-=Math.Round(β.Buff(Σ.notoo).Potentia*Ego.Potentia*0.01);
+      } else if(β.Buff(Σ.notoo).Virtus=="WIS"){
+        Ego.Sapientia[1]+=(Ego.Sapientia[0]*Mechanicae.Volvere(β.Buff(Σ.notoo).Potentia, nomen:Ego.Cognomen))/10;
+        Ego.PM[1]-=Math.Round(β.Buff(Σ.notoo).Potentia*Ego.Sapientia[0]*0.1);
+      }
+      Console.WriteLine("You have "+Ego.PM[1]+" out of "+Ego.PM[0]+" Points de Mana.");
+      Ego.leavo=true;
+      Ego.Virtus("att");
+    }
     static void Promptus(){
       Console.WriteLine(">STR\n>Weight\nMechanical Conversion\nGracefulness");
 
@@ -638,244 +576,80 @@ namespace ULF
     // Passivis
 
     public static int Capacitas(int vigor=1, int mec=1){
-      if(mec == 1){
-        return vigor * 6;
-      } else if(mec == 2){
-        return vigor * 7;
-      } else if(mec == 3){
-        return vigor * 8;
-      } else if(mec == 4){
-        return vigor * 10;
-      } else if(mec == 5){
-        return vigor * 15;
-      } else if(mec == 6){
-        return vigor * 16;
-      } else if(mec == 7){
-        return vigor * 22;
-      } else if(mec == 8){
-        return vigor * 24;
-      } else if(mec == 9){
-        return vigor * 17;
-      } else if(mec == 10){
-        return vigor * 30;
+      switch(mec){
+        case 1:return vigor * 6;
+        case 2:return vigor * 7;
+        case 3:return vigor * 8;
+        case 4:return vigor * 10;
+        case 5:return vigor * 15;
+        case 6:return vigor * 16;
+        case 7:return vigor * 22;
+        case 8:return vigor * 24;
+        case 9:return vigor * 27;
+        case 10:return vigor * 30;
+        default:return 0;
       }
-      return 0;
     }
     public static int Potentia(int intelligentia=1, int enf=1){
-      if(enf == 1){
-        return intelligentia * 6;
-      } else if(enf == 2){
-        return intelligentia * 7;
-      } else if(enf == 3){
-        return intelligentia * 8;
-      } else if(enf == 4){
-        return intelligentia * 10;
-      } else if(enf == 5){
-        return intelligentia * 15;
-      } else if(enf == 6){
-        return intelligentia * 16;
-      } else if(enf == 7){
-        return intelligentia * 22;
-      } else if(enf == 8){
-        return intelligentia * 24;
-      } else if(enf == 9){
-        return intelligentia * 17;
-      } else if(enf == 10){
-        return intelligentia * 30;
+      switch(enf){
+        case 1:return intelligentia * 6;
+        case 2:return intelligentia * 7;
+        case 3:return intelligentia * 8;
+        case 4:return intelligentia * 10;
+        case 5:return intelligentia * 15;
+        case 6:return intelligentia * 16;
+        case 7:return intelligentia * 22;
+        case 8:return intelligentia * 24;
+        case 9:return intelligentia * 27;
+        case 10:return intelligentia * 30;
+        default:return 0;
       }
-      return 0;
     }
     public static double Celeritas(int dexeteritate=1, int cel=3){
-      if(cel == 2){
-        return Math.Round(dexeteritate * 0.05, 1);
-      } else if(cel == 3){
-        return Math.Round(dexeteritate * 0.1, 1);
-      } else if(cel == 4){
-        return Math.Round(dexeteritate * 0.15, 1);
+      switch(cel){
+        case 2:return Math.Round(dexeteritate * 0.05, 1);
+        case 3:return Math.Round(dexeteritate * 0.1, 1);
+        case 4:return Math.Round(dexeteritate * 0.15, 1);
+        default:return 0;
       }
-      return 0;
     }
     public static double Accuratio(int dexeteritate=1, int acu=1){
-      if(acu == 0){
-        return Math.Round(dexeteritate * 0.1, 1);
-      } else if(acu == 1){
-        return Math.Round(dexeteritate * 0.5, 1);
-      } else if(acu == 2){
-        return Math.Round(dexeteritate * 0.7, 1);
+      switch(acu){
+        case 0:return Math.Round(dexeteritate * 0.1, 1);
+        case 1:return Math.Round(dexeteritate * 0.5, 1);
+        case 2:return Math.Round(dexeteritate * 0.7, 1);
+        default:return 0;
       }
-      return 0;
     }
     public static double Perceptio(int sapientia=1, int per=1){
-      if(per == 0){
-        return Math.Round(sapientia * 0.05, 1);
-      } else if(per == 1){
-        return Math.Round(sapientia * 0.1, 1);
-      } else if(per == 2){
-        return Math.Round(sapientia * 0.15, 1);
+      switch(per){
+        case 0:return Math.Round(sapientia * 0.05, 1);
+        case 1:return Math.Round(sapientia * 0.1, 1);
+        case 2:return Math.Round(sapientia * 0.15, 1);
+        default:return 0;
       }
-      return 0;
     }
     public static double Lapsus(double att, bool inc=false){
-      if(inc){
-        att=att/10;
-      }
-      if(att>2.9){
-        return 10;
-      } else if(att>2.4){
-        return 11;
-      } else if(att>1.9){
-        return 12.5;
-      } else if(att>1.6){
-        return 14.2;
-      } else if(att>1.4){
-        return 16.6;
-      } else if(att>1.2){
-        return 20;
-      } else if(att>0.9){
-        return 25;
-      } else{
-        return 50;
-      }
-    }
+      if(inc)att=att/10;
 
-    public static void Chronus(Persona Ego, params Persona[] hostis){
-      double dup;
-      int hord=0;
-      dup=-1;
-      if(Primor.homo.PV[1]<=0){
-        Console.WriteLine("\nYou have died.");
-        Console.ReadLine();
-        Environment.Exit(0);
-      }
-
-      do{
-        if(Ego.sum>0 && !Ego.rec){
-          if(dup!=Ego.Tempus){
-            Console.WriteLine("\nIt is 00:"+Ego.Tempus+" at X: "+(Agrum.Latitudo-Ego.Lotus[0])+" and Y: "+(Agrum.Altitudo-Ego.Lotus[1])+", "+Ego.Cognomen+".");
-            dup=Ego.Tempus;
-          }
-          Console.WriteLine("\nYou are busy.");
-          Console.ReadLine();
-        } else if(!Ego.rec){
-          if(dup!=Ego.Tempus){
-            Console.WriteLine("\nIt is 00:"+Ego.Tempus+" at X: "+(Agrum.Latitudo-Ego.Lotus[0])+" and Y: "+(Agrum.Altitudo-Ego.Lotus[1])+", "+Ego.Cognomen+".");
-            dup=Ego.Tempus;
-          }
-          Console.WriteLine("\nWhat do you want to do, "+Ego.Cognomen+"?");
-          Ego.verb = Console.ReadLine();
-          if(Array.Exists(Ego.Actus,i=>i==Ego.verb)){
-            Actus.Gestus(Ego.verb, Ego);
-          }
-        }
-
-        
-
-        if(Ego.sum>0){
-          Ego.Tempus+=Ego.PerT;
-          if(Ego.Tempus>98&&Ego.Tempus<100){
-            Ego.Tempus=100;
-          } else if(Ego.Tempus>198&&Ego.Tempus<200){
-            Ego.Tempus=200;
-          } else if(Ego.Tempus>298&&Ego.Tempus<300){
-            Ego.Tempus=300;
-          }
-          if(Ego.mag){
-            do{
-              Ego.dix+=Ego.CasT;
-              if(Ego.dix>98&&Ego.dix<100){
-                Ego.dix=100;
-              } else if(Ego.dix>198&&Ego.dix<200){
-                Ego.dix=200;
-              } else if(Ego.dix>298&&Ego.dix<300){
-                Ego.dix=300;
-              }
-              Ego.sum--;
-            } while(Ego.dix+Ego.CasT<Ego.Tempus);
-          } else{
-            do{
-              Ego.dix+=Ego.AgiT;
-              if(Ego.dix>98&&Ego.dix<100){
-                Ego.dix=100;
-              } else if(Ego.dix>198&&Ego.dix<200){
-                Ego.dix=200;
-              } else if(Ego.dix>298&&Ego.dix<300){
-                Ego.dix=300;
-              }
-              Ego.sum--;
-            } while(Ego.dix+Ego.AgiT<Ego.Tempus);
-          }
-        }
-
-        if(!Σ.lop){
-          hord=0;
-          for(int u=0;u<hostis.Length;u++){
-            if(hostis[u].Tempus<=Ego.Tempus){
-              hord++;
-              if(hostis[u].PV[1]<=0){
-                hord--;
-                if(!hostis[u].inferi){
-                  hostis[u].inferi=true;
-                  Console.WriteLine("\n"+hostis[u].Cognomen+" has perished.");
-                }
-              } else{
-                Σ.lop=true;
-                Chronus(hostis[u]);
-              }
-            }
-          }
-          if(hord<=0){
-            Console.WriteLine("\n"+Ego.Cognomen+" has won.");
-            Σ.rector="exit";
-          }     
-        }
-        
-        if(Ego.sum<1){
-          if(Ego.ergo){
-            if(dup!=Ego.Tempus){
-              Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
-              dup=Ego.Tempus;
-            }
-            Actus.Ergo(Ego.verb, Ego);
-          } else if(Ego.rec){
-            if(dup!=Ego.Tempus){
-              Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
-              dup=Ego.Tempus;
-            }
-            Actus.Recovery(Ego);
-          } else{
-            while(Ego.Tempus<Ego.dix){
-              Ego.Tempus+=Ego.PerT;
-              if(!Ego.rec){
-                if(dup!=Ego.Tempus){
-                  Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
-                  dup=Ego.Tempus;
-                }
-                Console.WriteLine("\nYou are busy.");
-              } 
-            }
-          }
-        }
-        if(Σ.lop && Ego.Cognomen!=Primor.homo.Cognomen){
-          if(Ego.Tempus>Agrum.Tempus){
-            Σ.lop=false;
-            Σ.rector="exit";
-          }
-        } else{
-          Σ.lop=false;
-          if(hord>0){
-            Σ.rector="";
-          }
-        }
-        if(Ego.Tempus>Agrum.Tempus){
-          Agrum.Tempus=Ego.Tempus;
-        }
-      } while(Σ.rector!="exit");
+      if(att>2.9)return 10;
+      else if(att>2.4)return 11;
+      else if(att>1.9)return 12.5;
+      else if(att>1.6)return 14.2;
+      else if(att>1.4)return 16.6;
+      else if(att>1.2)return 20;
+      else if(att>0.9)return 25;
+      else return 50;
     }
 
     public static void Chronus(Persona Ego, bool yuno=false, params Persona[] hostis){
       double dup;
       int hord=0;
       dup=-1;
+      Sunt.Clear();
+      Sunt.Add(Ego);
+      foreach(var u in hostis)Sunt.Add(u);
+
       if(Primor.homo.PV[1]<=0){
         Console.WriteLine("\nYou have died.");
         Console.ReadLine();
@@ -885,110 +659,57 @@ namespace ULF
       do{
         if(Ego.sum>0 && !Ego.rec){
           if(dup!=Ego.Tempus){
-            if(Ego.Cognomen==Primor.homo.Cognomen){
-              Console.WriteLine("\nIt is 00:"+Ego.Tempus+" at X: "+(Agrum.Latitudo-Ego.Lotus[0])+" and Y: "+(Agrum.Altitudo-Ego.Lotus[1])+", "+Ego.Cognomen+".");
+            if(Ego.Cognomen==Primor.homo.Cognomen||!yuno){
+              Console.WriteLine("\nIt is 00:"+Ego.Tempus+" at X: "+(Agrum.Latitudo-Ego.Lotus.X)+" and Y: "+(Agrum.Altitudo-Ego.Lotus.Y)+", "+Ego.Cognomen+".");
               Console.WriteLine("\nYou are busy.");
-            } else {
-              Console.WriteLine(Ego.Cognomen+" is at X: "+(Agrum.Latitudo-Ego.Lotus[0])+" and Y: "+(Agrum.Altitudo-Ego.Lotus[1])+".");
             }
             dup=Ego.Tempus;
           }
           Console.ReadLine();
-        } else if(!Ego.rec && Ego.Cognomen!=Primor.homo.Cognomen){
+        } else if(!Ego.rec && Ego.Cognomen!=Primor.homo.Cognomen&&yuno){
           Ego.Yuno.Sensus(Ego.Sensus, Ego, Primor.homo);
           Actus.Gestus(Ego.verb, Ego, true);
-          
         } else if(!Ego.rec){
-          if(dup!=Ego.Tempus){
-            Console.WriteLine("\nIt is 00:"+Ego.Tempus+" at X: "+(Agrum.Altitudo-Ego.Lotus[0])+" and Y: "+(Agrum.Latitudo-Ego.Lotus[1])+", "+Ego.Cognomen+".");
-            dup=Ego.Tempus;
-          }
-          Console.WriteLine("\nWhat do you want to do, "+Ego.Cognomen+"?");
-          Ego.verb = Console.ReadLine();
-          if(Array.Exists(Ego.Actus,i=>i==Ego.verb)){
-            Actus.Gestus(Ego.verb, Ego);
-          }
+          do{
+            if(dup!=Ego.Tempus){
+              Console.WriteLine("\nIt is 00:"+Ego.Tempus+" at X: "+(Agrum.Altitudo-Ego.Lotus.X)+" and Y: "+(Agrum.Latitudo-Ego.Lotus.Y)+", "+Ego.Cognomen+".");
+              dup=Ego.Tempus;
+            }
+            Console.WriteLine("\nWhat do you want to do, "+Ego.Cognomen+"?");
+            Ego.verb = Console.ReadLine();
+
+            if(Ego.verb=="info")Info(Ego, hostis);
+            else if (Ego.verb=="look")Carto(100);
+            else if (Ego.verb=="exit")Environment.Exit(0);
+            else if(Array.Exists(Ego.Actus,i=>i==Ego.verb))Actus.Gestus(Ego.verb, Ego);
+          } while(Ego.verb=="info"||Ego.verb=="Buff"||Ego.verb=="look"||Ego.verb=="");
         }
 
-        
-
-        if(Ego.sum>0){
-          Ego.Tempus+=Ego.PerT;
-          if(Ego.Tempus>98&&Ego.Tempus<100){
-            Ego.Tempus=100;
-          } else if(Ego.Tempus>198&&Ego.Tempus<200){
-            Ego.Tempus=200;
-          } else if(Ego.Tempus>298&&Ego.Tempus<300){
-            Ego.Tempus=300;
-          }
-          if(Ego.mag){
-            do{
-              Ego.dix+=Ego.CasT;
-              if(Ego.dix>98&&Ego.dix<100){
-                Ego.dix=100;
-              } else if(Ego.dix>198&&Ego.dix<200){
-                Ego.dix=200;
-              } else if(Ego.dix>298&&Ego.dix<300){
-                Ego.dix=300;
-              }
-              Ego.sum--;
-            } while(Ego.dix+Ego.CasT<Ego.Tempus);
-          } else{
-            do{
-              Ego.dix+=Ego.AgiT;
-              if(Ego.dix>98&&Ego.dix<100){
-                Ego.dix=100;
-              } else if(Ego.dix>198&&Ego.dix<200){
-                Ego.dix=200;
-              } else if(Ego.dix>298&&Ego.dix<300){
-                Ego.dix=300;
-              }
-              Ego.sum--;
-            } while(Ego.dix+Ego.AgiT<Ego.Tempus);
-          }
-        }
+        Tempo(Ego);
 
         if(!Σ.lop){
-          hord=0;
           for(int u=0;u<hostis.Length;u++){
             if(hostis[u].Tempus<=Ego.Tempus){
-              hord++;
-              if(hostis[u].PV[1]<=0){
-                hord--;
-                if(!hostis[u].inferi){
-                  hostis[u].inferi=true;
-                  Console.WriteLine("\n"+hostis[u].Cognomen+" has perished.");
-                }
-              } else{
+              if(hostis[u].PV[1]>0){
                 Σ.lop=true;
-                Chronus(hostis[u], true);
+                Chronus(hostis[u], yuno);
               }
             }
-          }
-          if(hord<=0){
-            Console.WriteLine("\n"+Ego.Cognomen+" has won.");
-            Σ.rector="exit";
-          }     
+          }   
         }
         
         if(Ego.sum<1){
           if(Ego.ergo){
             if(dup!=Ego.Tempus){
-              if(Ego.Cognomen==Primor.homo.Cognomen){
-                Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
-              }
+              if(Ego.Cognomen==Primor.homo.Cognomen||!yuno)Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
               dup=Ego.Tempus;
             }
-            if(Ego.Cognomen!=Primor.homo.Cognomen){
-              Actus.Ergo(Ego.verb, Ego, true);
-            } else{
-              Actus.Ergo(Ego.verb, Ego);
-            } 
+            if(Ego.Cognomen!=Primor.homo.Cognomen&&yuno)Actus.Ergo(Ego.verb, Ego, true);
+            else Actus.Ergo(Ego.verb, Ego);
+            Ego.Virtus();
           } else if(Ego.rec){
             if(dup!=Ego.Tempus){
-              if(Ego.Cognomen==Primor.homo.Cognomen){
-                Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
-              }
+              if(Ego.Cognomen==Primor.homo.Cognomen||!yuno)Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
               dup=Ego.Tempus;
             }
             Actus.Recovery(Ego);
@@ -997,60 +718,183 @@ namespace ULF
               Ego.Tempus+=Ego.PerT;
               if(!Ego.rec){
                 if(dup!=Ego.Tempus){
-                  if(Ego.Cognomen==Primor.homo.Cognomen){
-                    Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
-                  }
+                  if(Ego.Cognomen==Primor.homo.Cognomen||!yuno)Console.WriteLine("\nIt is 00:"+Ego.Tempus+", "+Ego.Cognomen+".");
                   dup=Ego.Tempus;
                 }
-                if(Ego.Cognomen==Primor.homo.Cognomen){
-                  Console.WriteLine("\nYou are busy.");
-                }                
+                if(Ego.Cognomen==Primor.homo.Cognomen||!yuno)Console.WriteLine("\nYou are busy.");              
               } 
             }
           }
         }
-        if(Σ.lop && Ego.Cognomen!=Primor.homo.Cognomen){
+        if(!Σ.lop)hord=0;
+        foreach(var u in hostis){
+          hord++;
+          if(u.PV[1]<=0){
+            hord--;
+            if(!u.inferi){
+              u.inferi=true;
+              Console.WriteLine("\n"+u.Cognomen+" has perished.");
+            }
+          }
+        }
+        if(!Σ.lop&&hord<=0){
+          Console.WriteLine("\n"+Ego.Cognomen+" has won.");
+          Σ.rector="exit";
+        }
+        if(Σ.lop&&Ego.Cognomen!=Primor.homo.Cognomen){
           if(Ego.Tempus>Agrum.Tempus){
             Σ.lop=false;
             Σ.rector="exit";
           }
         } else{
           Σ.lop=false;
-          if(hord>0){
-            Σ.rector="";
-          }
+          if(hord>0)Σ.rector="";
         }
-        if(Ego.Tempus>Agrum.Tempus){
-          Agrum.Tempus=Ego.Tempus;
-        }
+        if(Ego.Tempus>Agrum.Tempus)Agrum.Tempus=Ego.Tempus;
       } while(Σ.rector!="exit");
     }
 
+    public static void Tempo(Persona Ego){
+      if(Ego.sum>0){
+        Ego.Tempus+=Ego.PerT;
+        if(Ego.Tempus>98&&Ego.Tempus<100)Ego.Tempus=100;
+        else if(Ego.Tempus>198&&Ego.Tempus<200)Ego.Tempus=200;
+        else if(Ego.Tempus>298&&Ego.Tempus<300)Ego.Tempus=300;
+        if(Ego.mag){
+          do{
+            Ego.dix+=Ego.CasT;
+            if(Ego.dix>98&&Ego.dix<100)Ego.dix=100;
+            else if(Ego.dix>198&&Ego.dix<200)Ego.dix=200;
+            else if(Ego.dix>298&&Ego.dix<300)Ego.dix=300;
+            Ego.sum--;
+          } while(Ego.dix+Ego.CasT<Ego.Tempus);
+        } else{
+          do{
+            Ego.dix+=Ego.AgiT;
+            if(Ego.dix>98&&Ego.dix<100)Ego.dix=100;
+            else if(Ego.dix>198&&Ego.dix<200)Ego.dix=200;
+            else if(Ego.dix>298&&Ego.dix<300)Ego.dix=300;
+            Ego.sum--;
+          } while(Ego.dix+Ego.AgiT<Ego.Tempus);
+        }
+      }
+    }
+    public static void Rapina(Persona Ego, params Persona[] hostis){
+      for(int u=0;u<hostis.Length;u++){
+        foreach(var d in hostis[u].Archivum){
+          if(d!=null){
+            if(Conditio(Ego, d.Conditio)){
+              Ego.ArchAdd(d);
+            }
+          }
+        }
+      }
+    }
+    public static void Momentum(Persona Est, double x=0, double y=0, double z=0){
+      bool collision=false;
+
+      foreach(var u in Sunt){
+        if(u==Est)continue;
+        if(collision)break;
+        double tenX=0;
+        do{
+          if(collision)break;
+          if(x>tenX)tenX++;
+          else if(x==tenX){}
+          else tenX--;
+          // Console.WriteLine("X:"+tenX);
+          if(u.Lotus.X+Math.Round(u.Latitudo/2)>=(Est.Lotus.X-Math.Round(Est.Latitudo/2))+tenX&&u.Lotus.X-Math.Round(u.Latitudo/2)<=(Est.Lotus.X+Math.Round(Est.Latitudo/2))+tenX){
+            double tenY=0;
+            do{
+              if(collision)break;
+              if(y>tenY)tenY++;
+              else if(y==tenY){}
+              else tenY--;
+              // Console.WriteLine("Y:"+tenY);
+              if(u.Lotus.Y+Math.Round(u.Crassitudo[0]/2)>=(Est.Lotus.Y-Math.Round(Est.Crassitudo[0]/2))+tenY&&u.Lotus.Y-Math.Round(u.Crassitudo[0]/2)<=(Est.Lotus.Y+Math.Round(Est.Crassitudo[0]/2))+tenY){
+                double tenZ=0;
+                do{
+                  if(collision)break;
+                  if(z>tenZ)tenZ++;
+                  else if(z==tenZ){}
+                  else tenZ--;
+                  // Console.WriteLine("Z:"+tenZ);
+                  if(u.Lotus.Z+u.Altitudo>=Est.Lotus.Z+tenZ&&u.Lotus.Z<=Est.Lotus.Z+Est.Altitudo+tenZ){
+                    tenX+=Est.Lotus.X;
+                    tenY+=Est.Lotus.Y;
+                    tenZ+=Est.Lotus.Z;
+                    Console.WriteLine("You have collided on X:"+tenX+" Y:"+tenY+" Z:"+tenZ);
+                    collision=true;
+                  }
+                }while(tenZ!=z);
+              } 
+            }while(tenY!=y);
+          }
+        }while(tenX!=x);
+      }
+      if(!collision){
+        Est.Lotus.X+=x;
+        Est.Lotus.Y+=y;
+        Est.Lotus.Z+=z;
+        Console.WriteLine(Est.Cognomen+" is at X:"+Est.Lotus.X+" Y:"+Est.Lotus.Y+" Z:"+Est.Lotus.Z+" no dosu he.");
+      }
+    }
+    public static void Carto(double dim=1, int y=11, int x=101){
+      Dictionary<double, List<Double>> pos = new Dictionary<double, List<Double>>();
+      string[] carto=new string[y];
+      char[] colore=new char[x];
+
+      foreach(var u in Sunt)pos[Math.Round(u.Lotus.X/dim)]=new List<double>();
+      foreach(var u in Sunt)pos[Math.Round(u.Lotus.X/dim)].Add(Math.Round(u.Lotus.Y/dim));
+      for(int u=0;u<y;u++){
+        carto[u]=">> ";
+        for(int d=0;d<x;d++){
+          if(pos.ContainsKey(d-x/2)&&pos[d-x/2].Contains(u-y/2))carto[u]+="O";
+          else carto[u]+="X";
+       } 
+      }
+      for(int u=0;u<carto.Length;u++){
+        colore=carto[u].ToCharArray();
+        Console.WriteLine("");
+        foreach(char d in colore){
+          if(d=='O'){
+            Console.ForegroundColor=ConsoleColor.Red;
+            Console.Write(d);
+          } else if(d=='X'){
+            Console.ForegroundColor=ConsoleColor.Green;
+            Console.Write(d);
+          } else Console.Write(d);
+          Console.ResetColor();
+        }
+        // Console.WriteLine(carto[u]);
+      }
+      Console.WriteLine("");
+    }
+
+
+    public static bool Conditio(Persona Ego, string con){
+      switch(con){
+        case "hunter1":foreach(var u in Ego.Metier)if(u.Key=="Hunter"&&u.Value>=1)return true;
+          return false;
+        default:return true;
+      }
+    }
+
     public static double Calculus(string cybus="cube", double unus=1, double duo=1, double tribus=1){
-      if(cybus=="cube"){
-        unus = unus * duo * tribus;
-      } else if(cybus=="sphere"){
-        unus = (Math.PI * 1.5) * (Math.Pow(unus, 3));
-      } else if(cybus=="cylinder"){
-        unus = Math.PI * (unus*unus) * duo;
-      } else if(cybus=="pyramid"){
-        unus = ((unus*unus)/3)*duo;
-      } else if(cybus=="cone"){
-        unus = ((unus*unus)/3)*duo*Math.PI;
-      } else if(cybus=="area"){
-        unus = unus*duo;
-      } else if(cybus=="areac"){
-        unus = (unus*unus) * Math.PI;
-      } else if(cybus=="surface"){
-        unus = ((unus*duo)+(unus*tribus)+(duo*tribus))*2;
-      } else if(cybus=="surfacec"){
-        unus = (unus*unus) * (Math.PI*4);
-      } else if(cybus=="surfacecy"){
-        unus = (((unus*unus)*Math.PI)*2)*((unus*duo)*(Math.PI*2));
-      } else if(cybus=="hypo"){
-        unus = Math.Sqrt((unus*unus)/2);
-      } else if(cybus=="hypod"){
-        unus = Math.Sqrt(unus*unus+duo*duo);
+      switch(cybus){
+        case "cube":unus = unus * duo * tribus;break;
+        case "sphere":unus = (Math.PI * 1.5) * (Math.Pow(unus, 3));break;
+        case "cylinder":unus = Math.PI * (unus*unus) * duo;break;
+        case "pyramid":unus = ((unus*unus)/3)*duo;break;
+        case "cone":unus = ((unus*unus)/3)*duo*Math.PI;break;
+        case "area":unus = unus*duo;break;
+        case "areac":unus = (unus*unus) * Math.PI;break;
+        case "surface":unus = ((unus*duo)+(unus*tribus)+(duo*tribus))*2;break;
+        case "surfacec":unus = (unus*unus) * (Math.PI*4);break;
+        case "surfacecy":unus = (((unus*unus)*Math.PI)*2)*((unus*duo)*(Math.PI*2));break;
+        case "hypo":unus = Math.Sqrt((unus*unus)/2);break;
+        case "hypod":unus = Math.Sqrt(unus*unus+duo*duo);break;
+        default:break;
       }
       return Math.Round(unus, 2);
     }
@@ -1206,11 +1050,7 @@ namespace ULF
           break;
         case "list":
           for(int i=0;i<obj.Length;i++){
-            if(obj[i]==null){
-
-            } else{
-              Console.WriteLine(obj[i]);
-            }
+            if(obj[i]!=null)Console.WriteLine(obj[i]);
           }
           Console.ReadLine();
           Artificium();
@@ -1286,18 +1126,12 @@ namespace ULF
 
           Console.WriteLine("Show sheet?");
           Σ.rector = Console.ReadLine().ToLower();
-          if(Σ.rector=="yes"||Σ.rector=="y"){
-            Primor.Hostis[Σ.notou].Epistola();
-          }
+          if(Σ.rector=="yes"||Σ.rector=="y")Primor.Hostis[Σ.notou].Epistola();
 
           Console.WriteLine("Print sheet to .txt?");
           Σ.rector = Console.ReadLine().ToLower();
-          if(Σ.rector=="yes"||Σ.rector=="y"){
-            Primor.Hostis[Σ.notou].Scribere(Σ.notou);
-          }
-        } else{
-          Console.WriteLine("\nThat does not exist.");         
-        }
+          if(Σ.rector=="yes"||Σ.rector=="y")Primor.Hostis[Σ.notou].Scribere(Σ.notou);
+        } else Console.WriteLine("\nThat does not exist.");          
       } else{
         Console.WriteLine("Cabal or auto?");
         Σ.rector=Console.ReadLine().ToLower();
@@ -1319,9 +1153,7 @@ namespace ULF
           Primor.Hostis[Σ.notou].Genus.Auto(Σ.notod, Primor.Hostis[Σ.notou].Nomen);
           Console.WriteLine("\nDo you wish to save the "+Σ.notod+" "+Σ.notou+"?");
           Σ.rector=Console.ReadLine().ToLower();
-          if(Σ.rector=="save"){
-            Primor.Hostis[Σ.notou].Salvare();
-          }
+          if(Σ.rector=="save")Primor.Hostis[Σ.notou].Salvare();
         }
       }
     }
@@ -1347,9 +1179,7 @@ namespace ULF
       Console.WriteLine("Your Query:\n");
       Velocitas(vigor, massa, mec, gra);
       Console.WriteLine("\n");
-      for(int i=from; i < to; i++){
-        Console.WriteLine(res[i] + acc[i]);
-      }
+      for(int u=from; u < to; u++)Console.WriteLine(res[u] + acc[u]);
       Console.WriteLine($"\nSTR: {vigor}\nWeight: {massa}\nMechanical Conversion Level: {mec}\nGracefulness: {gra}\nFrom {from} meters per second to {to} meters per second.\n");
     }
 
@@ -1482,5 +1312,17 @@ namespace ULF
         "Use 'create' and follow the instructions to instantiate a new object.\n"+
         "Use 'use' to get the necessary totol energy for some interaction with said object.";
         // "Enter a command after each completed task, like right now, or press enter to leave the application."
+
+    public static void Info(Persona Ego, params Persona[] hostis){
+      Console.WriteLine("\nIt is 00:"+Ego.Tempus+".");
+      Console.WriteLine("\nYou are at X: "+(Agrum.Latitudo-Ego.Lotus.X)+" and Y: "+(Agrum.Altitudo-Ego.Lotus.Y)+".");
+      Console.WriteLine("You have "+Ego.PV[1]+" out of "+Ego.PV[0]+" Points de Mana.");
+      Console.WriteLine("You have "+Ego.PM[1]+" out of "+Ego.PM[0]+" Points de Mana.");
+      for(int u=0;u<hostis.Length;u++){
+        Console.WriteLine("\n"+hostis[u].Cognomen+" is at X: "+(Agrum.Latitudo-hostis[u].Lotus.X)+" and Y: "+(Agrum.Altitudo-hostis[u].Lotus.Y)+".");
+        Console.WriteLine(hostis[u].Cognomen+" has "+hostis[u].PV[1]+" out of "+hostis[u].PV[0]+" Points de Mana.");
+        Console.WriteLine(hostis[u].Cognomen+" has "+hostis[u].PM[1]+" out of "+hostis[u].PM[0]+" Points de Mana.");
+      }
+    }
   }
 }

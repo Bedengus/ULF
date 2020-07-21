@@ -11,8 +11,9 @@ namespace ULF
     public double Pretium{get; protected set;}
     public int Quantitas{get; set;}
     public int Value{get; private set;}
+    public string Conditio{get; protected set;}
 
-    public Caussae(string nom="", string dep="", string typ="", double pon=0, double pre=0, int val=0, int qua=1){
+    public Caussae(string nom="", string dep="", string typ="", double pon=0, double pre=0, int val=0, int qua=1, string con=""){
       this.Nomen=nom;
       this.Depictium=dep;
       this.Typus=typ;
@@ -20,12 +21,13 @@ namespace ULF
       this.Pretium=pre;
       this.Quantitas=qua;
       this.Value=val;
-
+      this.Conditio=con;
     }
 
     public static Caussae Acquirere(string mat="", int qua=1){
       Caussae LightArrow = new Caussae("Light Arrow", "A wooden arrow.", "arrow", 0.025, 0.1, 4, qua);
       Caussae HeavyArrow = new Caussae("Heavy Arrow", "An heavy arrow.", "arrow", 0.040, 0.15, 6, qua);
+      Caussae HumanSkin = new Caussae("Human Skin", "The skin of a higher primate.", "ressource", 0.1, 0.1, 0, qua, "hunter1");
       
       mat=mat.ToLower();
       switch(mat){
@@ -33,8 +35,8 @@ namespace ULF
           return LightArrow;
         case "heavy arrow":
           return HeavyArrow;
-        case "steel daggerkk":
-          return null;
+        case "human skin":
+          return HumanSkin;
         case "chestnut staffkk":
           return null;
         case "maple bowkk":
@@ -58,21 +60,9 @@ namespace ULF
           return null;
       }
     }
-    /*
-    Light Arrow.
-Penetration: 1d4
-Weight: 0.025Kg
-Material: Maple/Iron
-Price: 0.1C
-Durability: 5
 
-Heavy Arrow.
-Penetration: 1d6
-Weight: 0.040Kg
-Material: Maple/Iron
-Price: 0.15C
-Durability: 5
-
-    */
+    public virtual void Index(){
+      Console.WriteLine($"\n{this.Nomen}\n{this.Depictium}\nWeith: {this.Pondus}Kg\nPrice: {this.Pretium}C");  
+    }
   }
 }
