@@ -5,13 +5,15 @@ namespace ULF
 {
   public class Forum : Regio
   {
-    public string[] praesto = new string[20];
-    public Forum(string nomen="", Dictionary<string, string> ample=null, int lum=0, int noc=86400, params string[] prae) : base(nomen, ample, lum, noc){
-      this.praesto=prae;
+    public Forum(string nomen, string[] prae, int lum=0, int noc=86400,Dictionary<string, string> ample=null) : base(nomen, prae, lum, noc, ample){
+    
     }
 
     public void Utor(Persona Ego){
+      if(!Ego.Charta.ContainsKey(this.Nomen))Ego.Charta.Add(this.Nomen, this.praesto);
       do{
+        this.Paridor();
+				Ego.Charta[this.Nomen]=this.praesto;
         Console.WriteLine("\nYou are in "+Primor.homo.Regio.Nomen+".\n");
         Σ.rector = Console.ReadLine().ToLower();
         
@@ -71,25 +73,18 @@ namespace ULF
     }
 
       public static Forum Advenire(string forum){
-        Forum Baazar = new Forum("Baazar", new Dictionary<string, string>{{"Emerald Village","100500"}}, 28800, 64800, new string[]{
-          "Steel Sword", "Steel Long Sword", "Steel Dagger", "Chestnut Staff", "Maple Bow",
-          "Light Arrow", "Heavy Arrow"});
         
         switch(forum){
-          case "Baazar":
-            return Baazar;
-          case "dex":
-            //call
-          case "con":
-            //call
-          case "int":
-            //call
-          case "wis":
-            //call
-          default:
-            return null;
+          case "Baazar":return Baazar;
+          default:return null;
         }
       }
+
+      static Forum Baazar = new Forum("Baazar",new string[]{
+          "Steel Sword", "Steel Long Sword", "Steel Dagger", "Chestnut Staff", "Maple Bow",
+          "Light Arrow", "Heavy Arrow"},
+          28800, 64800,
+          new Dictionary<string, string>{{"Emerald Village","100500"}});
 
       public static string scriptum = "\nThis is a shop."+
       "\nA shop is where you can buy, and sell, from equipment to commodities."+

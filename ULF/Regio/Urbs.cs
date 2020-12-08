@@ -6,12 +6,15 @@ namespace ULF
   public class Urbs : Regio
   {
     
-    public Urbs(string nomen="", Dictionary<string, string> ample=null, int lum=0, int noc=86400) : base(nomen, ample, lum, noc){
+    public Urbs(string nomen,  int lum=0, int noc=86400,Dictionary<string, string> ample=null) : base(nomen, new string[]{}, lum, noc, ample){
       
     }
 
     public void Utor(Persona Ego){
+      if(!Ego.Charta.ContainsKey(this.Nomen))Ego.Charta.Add(this.Nomen, this.praesto);
       do{
+        this.Paridor();
+				Ego.Charta[this.Nomen]=this.praesto;
         Console.WriteLine("\nYou are in "+Primor.homo.Regio.Nomen+" at "+Agrum.Centuria[2]+":"+Agrum.Centuria[1]+":"+Agrum.Centuria[0]+".\n");
         Σ.rector = Console.ReadLine().ToLower();
 
@@ -25,7 +28,7 @@ namespace ULF
               } while (Σ.rector == "");
             }
             Agrum.Centuria[0]+=600;
-            Agrum.Aeon();
+            Adventum.Verso(Ego);
             break;
           case "doc":
             Console.WriteLine(scriptum);
@@ -40,24 +43,17 @@ namespace ULF
     }
 
     public static Urbs Advenire(string urb){
-      Urbs EmeraldVillage = new Urbs("Emerald Village", new Dictionary<string, string>{{"Baazar","200500"},{"Mage Guild","300300"},{"Tiny Equine Inn","400300"}});
-
+      
       switch (urb)
       {
-        case "Emerald Village":
-          return EmeraldVillage;
-        case "dex":
-            //call
-        case "con":
-          //call
-        case "int":
-          //call
-        case "wis":
-          //call
-        default:
-          return null;
+        case "Emerald Village":return EmeraldVillage;
+        default:return null;
       }
     }
+
+    static Urbs EmeraldVillage = new Urbs("Emerald Village", ample:new Dictionary<string, string>{
+      {"Baazar","200500"},{"Mage Guild","300300"},{"Beardy Nerd","300100"},{"Tiny Equine Inn","400300"},{"Plain Plain", "500600"}});
+
 
 
     public static string scriptum = "\nThis is a city." +

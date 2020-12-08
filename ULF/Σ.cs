@@ -29,5 +29,12 @@ namespace ULF
     public static double[] num = new double[666];
 
     public static bool lop=false;
+
+
+
+    public static string hit;
+    public static bool pagan;
+    public static bool fractus;
+    public static int dt;
   }
 }

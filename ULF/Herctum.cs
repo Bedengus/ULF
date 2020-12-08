@@ -63,6 +63,12 @@ namespace ULF
 
     public string armaN;
     public Dictionary<string, int> panaN = new Dictionary<string, int>();
+
+
+    public double[] Centuria = new double[10];
+    public Dictionary<string, string[]> Charta = new Dictionary<string, string[]>();
+
+    public string[] Reg = new string[2];
   }
   [Serializable] class HerctumA
   {

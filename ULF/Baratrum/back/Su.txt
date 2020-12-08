@@ -1,0 +1,83 @@
+******************************************************************************************
+
+Gana Su
+Elf
+PV: 77/77
+MP: 841/841
+Credits: 100
+Classes--> 
+Elementalist
+
+Attributes--> 
+STR: 12
+DEX: 14
+CON: 12
+INT: 19
+WIS: 12
+
+Parameters--> 
+Capacity: 72
+Potency: 114
+Speed: 1,4
+Precision: 7
+Perception: 1,2
+
+Proportions--> 
+Height: 180
+Width: 45
+Thickness: 10
+Reach: 160
+Weight: 56
+Volume: 81000
+Front: 8150
+Side: 1800
+Head: 253,12cm²
+Eyes: 3,98cm²
+Neck: 126,56cm²
+Heart: 126,56cm²
+Spine: 620,55cm²
+Arms: 620,55cm²
+Stomach: 1012,5cm²
+Legs: 810cm²
+
+Actions--> 
+Step
+Strike
+Slash
+Thrust
+Cast
+Buff
+Wait
+
+Buffs--> 
+Strength I
+Potency I
+Agility I
+
+Spells--> 
+Icicle
+Fireball
+
+Passives--> 
+Mechanical Conversion: 1
+Gracefulness: 1
+Energy Flow: 1
+Fitness: 3
+
+Mastery--> 
+Staff Mastery 1
+Ranged Proficiency 1
+Bow Mastery 1
+
+Knowledge--> 
+Hunter 2
+
+Moves--> 
+
+Inventory--> 
+Light Arrow x31
+Steel Sword x1
+Chestnut Staff x1
+Maple Bow x1
+
+******************************************************************************************

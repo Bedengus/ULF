@@ -16,7 +16,6 @@ namespace ULF
 
     public static void Aeon(){
       do{
-        Centuria[9]=(Centuria[2]*3600)+(Centuria[1]*150)+Centuria[0];
         if(Centuria[0]>=150){
           Centuria[0]-=150;
           Centuria[1]+=1;
@@ -32,6 +31,8 @@ namespace ULF
         if(Centuria[3]>=7){
           Centuria[4]=Math.Round(Centuria[3]/7);
         }
+        Centuria[8]=(Centuria[2]*3600)+(Centuria[1]*150)+Centuria[0];
+        Centuria[9]=(Centuria[3]*86400)+(Centuria[2]*3600)+(Centuria[1]*150)+Centuria[0];
       } while(Centuria[0]>=150 || Centuria[1]>=24 || Centuria[2]>=24);
     }
   }

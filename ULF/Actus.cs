@@ -138,32 +138,35 @@ namespace ULF
     }
 
     public static void Strike(Persona Ego, bool yuno=false){
+      Σ.dt=0;
       if(!yuno){
         Console.WriteLine("\nInform the target.");
         Σ.notou = Console.ReadLine();
         Console.WriteLine("Inform how much Capacity to use.\nYou have "+Ego.Capacitas+" Capacity.\nLeave empty for full; insert '0' to use naught.");
         Σ.notod = Console.ReadLine();
-        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:0);
+        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod));
         Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
       } else{
-        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.homo, dam:0, yuno:true);
+        Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.homo, yuno:true);
         Console.WriteLine(Primor.homo.Cognomen+" has "+Primor.homo.PV[1]+" out of "+Primor.homo.PV[0]+".");
       }   
     }
     public static void Slash(Persona Ego){
+      Σ.dt=1;
       Console.WriteLine("Inform the target.");
       Σ.notou = Console.ReadLine();
       Console.WriteLine("Inform how much Capacity to use.\nYou have "+Ego.Capacitas+" Capacity.\nLeave empty for full; insert '0' to use naught.");
       Σ.notod = Console.ReadLine();
-      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:1);
+      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod));
       Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
     }
     public static void Thrust(Persona Ego){
+      Σ.dt=2;
       Console.WriteLine("Inform the target.");
       Σ.notou = Console.ReadLine();
       Console.WriteLine("Inform how much Capacity to use.\nYou have "+Ego.Capacitas+" Capacity.\nLeave empty for full; insert '0' to use naught.");
       Σ.notod = Console.ReadLine();
-      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod), dam:2);
+      Mechanicae.PulsareJux(Ego, Ego.Arma, Primor.Hostis[Σ.notou], vis:String.IsNullOrEmpty(Σ.notod) ? -1 : Convert.ToInt32(Σ.notod));
       Console.WriteLine(Σ.notou+" has "+Primor.Hostis[Σ.notou].PV[1]+" out of "+Primor.Hostis[Σ.notou].PV[0]+".");
     }
 

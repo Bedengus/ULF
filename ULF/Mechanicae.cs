@@ -123,12 +123,12 @@ namespace ULF
     // Volvere Tesserae
 
     public static int Volvere(int pretium=20, int volutare=1, int mut=0, string nomen="The dice"){
-      Random cybus = new Random();
+      Random cybus=new Random();
       int tessera;
-      int tesserae =0;
+      int tesserae=0;
 
       for(int i=0; i < volutare;i++){
-        if(pretium == 4 ||pretium == 6 ||pretium == 8 ||pretium == 10 ||pretium == 12 ||pretium == 20){
+        if(pretium==4||pretium==6||pretium==8||pretium==10||pretium==12||pretium==20){
           tessera=cybus.Next(1, pretium+1);
           Console.WriteLine(nomen+" rolls "+tessera+" on a d"+pretium+"!");
           tesserae+=tessera+mut;
@@ -144,7 +144,7 @@ namespace ULF
           tessera=1;
           Console.WriteLine("That is one.");
           tesserae+=tessera+mut;
-        } else LVolvere(pretium, 1, volutare, mut);
+        } else tesserae+=LVolvere(pretium, 1, volutare, mut, nomen);
       }
       return tesserae;          
     }
@@ -163,12 +163,12 @@ namespace ULF
 
     // Conputat Impetum 
 
-    public static void PulsareJux(Persona Ego, Arma arma, Persona hostis, string dir="front", bool demi=false, int vis=-1, int dam=3, bool yuno=false){
+    public static void PulsareJux(Persona Ego, Arma arma, Persona hostis, string dir="front", int vis=-1, bool yuno=false){
 
       if(vis<0)vis=Ego.Capacitas;
       else if(vis>Ego.Capacitas)vis=Ego.Capacitas;
 
-      demi=Peritia(Ego, arma.Peritia);
+      Σ.pagan=Peritia(Ego, arma.Peritia);
       if(Ego.Spatium[1]>=Calculus("hypod",Math.Abs(Ego.Lotus.X-hostis.Lotus.X),Math.Abs(Ego.Lotus.Y-hostis.Lotus.Y))){
         if(!yuno){
           Console.WriteLine("\nDo you wish to use your precision to 'hit' or to 'aim'?");
@@ -182,60 +182,10 @@ namespace ULF
           Console.WriteLine(Ego.Cognomen+" rolls "+Σ.unus+" against "+Σ.num[0]+".");
 
           if (Σ.unus >= Σ.num[0]){
-
-            if(dir=="front"){
-              Console.WriteLine("\nWhat will you aim at?\nHead\nEye\nNeck\nHeart\nArm\nStomach\nLeg");
-              Σ.rector = Console.ReadLine().ToLower();
-
-              switch(Σ.rector){
-                case "head":
-                  Σ.num[1] = Praecisionem(Ego, hostis, hostis.Caput[2], typ: "fix");
-                  Σ.notod = "the head";
-                  break;
-                case "eye":
-                  Σ.num[1] = Praecisionem(Ego, hostis, hostis.Ocullus[2], typ: "fix");
-                  Σ.notod = "an eye";
-                  break;
-                case "neck":
-                  Σ.num[1] = Praecisionem(Ego, hostis, hostis.Collum[2], typ: "fix");
-                  Σ.notod = "the neck";
-                  break;
-                case "heart":
-                  Σ.num[1] = Praecisionem(Ego, hostis, hostis.Cor[2], typ: "fix");
-                  Σ.notod = "the heart";
-                  break;
-                case "arm":
-                  Σ.num[1] = Praecisionem(Ego, hostis, hostis.Bracchium[2], typ: "fix");
-                  Σ.notod = "an arm";
-                  break;
-                case "stomach":
-                  Σ.num[1] = Praecisionem(Ego, hostis, hostis.Stomachus[2], typ: "fix");
-                  Σ.notod = "the stomach";
-                  break;
-                case "leg":
-                  Σ.num[1] = Praecisionem(Ego, hostis, hostis.Crus[2], typ: "fix");
-                  Σ.notod = "a leg";
-                  break;
-              }
-            }
-          
-            if(demi){
-              Σ.unus=Volvere(4, nomen:Ego.Cognomen);
-
-              if(Σ.unus==1&&Primor.homo.Arma.Obtusus>0)Σ.unus=Primor.homo.Arma.Obtusus;
-              else if(Σ.unus==2&&Primor.homo.Arma.Acutus>0)Σ.unus=Primor.homo.Arma.Acutus;
-              else if(Σ.unus==3&&Primor.homo.Arma.Acutulus>0)Σ.unus=Primor.homo.Arma.Acutulus;
-              else Σ.unus=Primor.homo.Arma.DamnumT;
-            } else{
-              if(dam==0&&Primor.homo.Arma.Obtusus>0)Σ.unus=Primor.homo.Arma.Obtusus;
-              else if(dam==1&&Primor.homo.Arma.Acutus>0)Σ.unus=Primor.homo.Arma.Acutus;
-              else if(dam==2&&Primor.homo.Arma.Acutulus>0)Σ.unus=Primor.homo.Arma.Acutulus;
-              else Σ.unus=Primor.homo.Arma.DamnumT;
-            }
-
+            Derigo(Ego, hostis, dir);         
+            Paganus(Ego, "dt");
             DanusPhysicus(Ego, vis, Σ.unus, arma.Pondus, pe:arma.Peritia, mut:arma.Deficio,gra:Ego.Liguritio);
-
-            Crisimus(Ego, hostis, "aimed");
+            Crisimus(Ego, hostis, "aimed", Σ.unus);
           } else Console.WriteLine(Ego.Cognomen+" missed.");
         } else{
 
@@ -246,24 +196,9 @@ namespace ULF
 
           if (Σ.unus >= Σ.num[0]){   
             Battum(Ego);
-
-            if(demi){
-              Σ.unus=Volvere(4, nomen:Ego.Cognomen);
-
-              if(Σ.unus==1&&Primor.homo.Arma.Obtusus>0)Σ.unus=Primor.homo.Arma.Obtusus;
-              else if(Σ.unus==2&&Primor.homo.Arma.Acutus>0)Σ.unus=Primor.homo.Arma.Acutus;
-              else if(Σ.unus==3&&Primor.homo.Arma.Acutulus>0)Σ.unus=Primor.homo.Arma.Acutulus;
-              else Σ.unus=Primor.homo.Arma.DamnumT;
-            } else{
-              if(dam==0&&Primor.homo.Arma.Obtusus>0)Σ.unus=Primor.homo.Arma.Obtusus;
-              else if(dam==1&&Primor.homo.Arma.Acutus>0)Σ.unus=Primor.homo.Arma.Acutus;
-              else if(dam==2&&Primor.homo.Arma.Acutulus>0)Σ.unus=Primor.homo.Arma.Acutulus;
-              else Σ.unus=Primor.homo.Arma.DamnumT;
-            }
-            
+            Paganus(Ego, "dt");           
             DanusPhysicus(Ego, vis, Σ.unus, arma.Pondus, pe:arma.Peritia, mut:arma.Deficio,gra:Ego.Liguritio);
-
-            Crisimus(Ego, hostis);
+            Crisimus(Ego, hostis, tess:Σ.unus);
           } else Console.WriteLine(Ego.Cognomen+" missed.");
         }
       } else Console.WriteLine(Ego.Cognomen+" cannot reach the target.");
@@ -280,11 +215,10 @@ namespace ULF
         Crisimus(Ego, hostis);
       } else Console.WriteLine(Ego.Cognomen+" missed.");
     }
-    public static void DanusPhysicus(Persona Ego, int vis, int arm, double pon, bool demi=false, string pe="", int mut=0, int gra=1){
-      demi=Peritia(Ego, pe);
+    public static void DanusPhysicus(Persona Ego, int vis, int arm, double pon, string pe="", int mut=0, int gra=1){
       Σ.unus = Volvere(arm, mut: mut, nomen:Ego.Cognomen);
       Velocitas(vis, pon, gra);
-      if(demi)Σ.num[0] = Math.Round((Σ.unus*(velo*0.1))/2);
+      if(Σ.pagan)Σ.num[0] = Math.Round((Σ.unus*(velo*0.1))/2);
       else Σ.num[0] = Math.Round(Σ.unus*(velo*0.1));
     }
     public static void DanusMagicus(Persona Ego, Persona hostis, Ψ inc, int vis){
@@ -309,17 +243,17 @@ namespace ULF
       cem = Volvere(100, nomen:Ego.Cognomen);
       
       if(dir=="front"){
-        if(cem<26)Σ.notod="a leg";
-        else if(cem<36)Σ.notod="an arm";
+        if(cem<26)Σ.hit="a leg";
+        else if(cem<36)Σ.hit="an arm";
         else if(cem<96){
           cem=Volvere(100, nomen:Ego.Cognomen);
-          if(cem>95)Σ.notod="the heart";
-          else if(cem>65)Σ.notod="the stomach";
-          else Σ.notod="the torso";
-        } else if(cem<97)Σ.notod="the neck";
+          if(cem>95)Σ.hit="the heart";
+          else if(cem>65)Σ.hit="the stomach";
+          else Σ.hit="the torso";
+        } else if(cem<97)Σ.hit="the neck";
         else if(cem<101){
-          if(Volvere(10, nomen:Ego.Cognomen)==10)Σ.notod="an eye";
-          else Σ.notod="the head";
+          if(Volvere(10, nomen:Ego.Cognomen)==10)Σ.hit="an eye";
+          else Σ.hit="the head";
         }
       } else if(dir=="back"){
         if(cem<26){
@@ -362,6 +296,65 @@ namespace ULF
         } else{
           // miss
         }
+      }
+    }
+    public static void Derigo(Persona Ego, Persona hostis, string dir="front"){
+      if(dir=="front"){
+        Console.WriteLine("\nWhat will you aim at?\nHead\nEye\nNeck\nHeart\nArm\nStomach\nLeg");
+        Σ.rector = Console.ReadLine().ToLower();
+
+        switch(Σ.rector){
+          case "head":
+            Σ.num[1] = Praecisionem(Ego, hostis, hostis.Caput[2], typ: "fix");
+            Σ.hit = "the head";
+            break;
+          case "eye":
+            Σ.num[1] = Praecisionem(Ego, hostis, hostis.Ocullus[2], typ: "fix");
+            Σ.hit = "an eye";
+            break;
+          case "neck":
+            Σ.num[1] = Praecisionem(Ego, hostis, hostis.Collum[2], typ: "fix");
+            Σ.hit = "the neck";
+            break;
+          case "heart":
+            Σ.num[1] = Praecisionem(Ego, hostis, hostis.Cor[2], typ: "fix");
+            Σ.hit = "the heart";
+            break;
+          case "arm":
+            Σ.num[1] = Praecisionem(Ego, hostis, hostis.Bracchium[2], typ: "fix");
+            Σ.hit = "an arm";
+            break;
+          case "stomach":
+            Σ.num[1] = Praecisionem(Ego, hostis, hostis.Stomachus[2], typ: "fix");
+            Σ.hit = "the stomach";
+            break;
+          case "leg":
+            Σ.num[1] = Praecisionem(Ego, hostis, hostis.Crus[2], typ: "fix");
+            Σ.hit = "a leg";
+            break;
+        }
+      }
+    }
+    public static void Armatura(Persona hostis){
+      Σ.fractus=false;
+      switch(Σ.hit){
+        case "the head":
+          if(hostis.Galea!=null){
+            hostis.Galea.Resistere();
+            if(Σ.fractus){
+              hostis.ArchAdd(Caussae.Acquirere(hostis.Galea.Fractum));
+              Array.Clear(hostis.Archivum, Array.IndexOf(hostis.Archivum, hostis.ArchTrac(hostis.Galea.Nomen)), 1);
+              hostis.panaN.Remove(hostis.Galea.Nomen);
+              hostis.Galea=null;
+            }
+          }
+          break;
+        /*case "an eye":return u * 7;
+        case "the heart":return u * 8;
+        case "a leg":return u * 10;
+        case "an arm":return u * 15;
+        case "the neck":return u * 16;
+        case "the stomach":return u * 22;*/
       }
     }
     public static double Praecisionem(Persona Ego, Persona hostis, double ah=-1, double lh=-1, double spa=0, string typ="free"){
@@ -434,20 +427,57 @@ namespace ULF
         default:return false;
       }
     }
-    public static void Crisimus(Persona Ego, Persona hostis, string typ=""){
+    public static void Paganus(Persona Ego, string demi="dt"){
+      switch(demi){
+        case "dt":
+          if(Σ.pagan){
+            Σ.unus=Volvere(4, nomen:Ego.Cognomen);
+
+            if(Σ.unus==1&&Ego.Arma.Obtusus>0){
+            Σ.unus=Ego.Arma.Obtusus;
+            Σ.dt=1;
+            } else if(Σ.unus==2&&Ego.Arma.Acutus>0){
+            Σ.unus=Ego.Arma.Acutus;
+            Σ.dt=1;
+            } else if(Σ.unus==3&&Ego.Arma.Acutulus>0){
+            Σ.unus=Ego.Arma.Acutulus;
+            Σ.dt=2;
+            } else Σ.unus=Ego.Arma.DamnumT;
+          } else{
+            if(Σ.dt==0&&Ego.Arma.Obtusus>0)Σ.unus=Ego.Arma.Obtusus;
+            else if(Σ.dt==1&&Ego.Arma.Acutus>0)Σ.unus=Ego.Arma.Acutus;
+            else if(Σ.dt==2&&Ego.Arma.Acutulus>0)Σ.unus=Ego.Arma.Acutulus;
+            else Σ.unus=Ego.Arma.DamnumT;
+          }
+          break;
+      }
+      
+    }
+    public static void Crisimus(Persona Ego, Persona hostis, string typ="", int tess=0){
       if(typ=="aimed"){
         if(Volvere(100, nomen:Ego.Cognomen)>=Σ.num[1]){
           if(Volvere(100, nomen:Ego.Cognomen)>=100-Σ.num[5]){
             Σ.num[0] = Σ.num[0] * 2;
-            Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a critical hit of "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
-          } else Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
-        } else Console.WriteLine(Ego.Cognomen+" missed "+Σ.notod+", but still hit with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
+            Armatura(hostis);
+            Console.WriteLine(Ego.Cognomen+" hits "+Σ.hit+" with a critical hit of "+tess+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
+          } else {
+            Armatura(hostis);
+            Console.WriteLine(Ego.Cognomen+" hits "+Σ.hit+" with a "+tess+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
+            }
+        } else {
+          Armatura(hostis);
+          Console.WriteLine(Ego.Cognomen+" missed "+Σ.hit+", but still hit with a "+tess+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
+        }
         hostis.PV[1]-=Convert.ToInt32(Σ.num[0]);
       } else{
         if(Volvere(100, nomen:Ego.Cognomen)>=100-Σ.num[5]){
           Σ.num[0] = Σ.num[0] * 2;
-          Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a critical hit of "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
-        } else Console.WriteLine(Ego.Cognomen+" hits "+Σ.notod+" with a "+Σ.unus+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
+          Armatura(hostis);
+          Console.WriteLine(Ego.Cognomen+" hits "+Σ.hit+" with a critical hit of "+tess+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
+        } else {
+          Armatura(hostis);
+          Console.WriteLine(Ego.Cognomen+" hits "+Σ.hit+" with a "+tess+" at "+velo+"m/s causing "+Σ.num[0]+" of damage.");
+        }
         hostis.PV[1]-=Convert.ToInt32(Σ.num[0]);
       }
     }
@@ -681,7 +711,10 @@ namespace ULF
             if(Ego.verb=="info")Info(Ego, hostis);
             else if (Ego.verb=="look")Carto(100);
             else if (Ego.verb=="exit")Environment.Exit(0);
-            else if(Array.Exists(Ego.Actus,i=>i==Ego.verb))Actus.Gestus(Ego.verb, Ego);
+            else if(Array.Exists(Ego.Actus,i=>i==Ego.verb)){
+              Actus.Gestus(Ego.verb, Ego);
+              Ego.Studium.Add(Ego.verb);
+              }
           } while(Ego.verb=="info"||Ego.verb=="Buff"||Ego.verb=="look"||Ego.verb=="");
         }
 
@@ -876,14 +909,20 @@ namespace ULF
       switch(con){
         case "hunter1":foreach(var u in Ego.Metier)if(u.Key=="Hunter"&&u.Value>=1)return true;
           return false;
-        default:return true;
+        case "cobbler1":foreach(var u in Ego.Metier)if(u.Key=="Cobbler"&&u.Value>=1)return true;
+          return false;
+        case "hipster1":foreach(var u in Ego.Metier)if(u.Key=="Hipster"&&u.Value>=1)return true;
+          return false;
+        case "hipster2":foreach(var u in Ego.Metier)if(u.Key=="Hipster"&&u.Value>=2)return true;
+          return false;
+        default:return false;
       }
     }
 
     public static double Calculus(string cybus="cube", double unus=1, double duo=1, double tribus=1){
       switch(cybus){
         case "cube":unus = unus * duo * tribus;break;
-        case "sphere":unus = (Math.PI * 1.5) * (Math.Pow(unus, 3));break;
+        case "sphere":unus = (Math.PI * 1.33) * (Math.Pow(unus, 3));break;
         case "cylinder":unus = Math.PI * (unus*unus) * duo;break;
         case "pyramid":unus = ((unus*unus)/3)*duo;break;
         case "cone":unus = ((unus*unus)/3)*duo*Math.PI;break;
@@ -920,28 +959,28 @@ namespace ULF
       Objectum["tsar"].Depictio="The Tsar Bomb was the greatest explosion the humans produced; with over 200 petajoules or 50 megatons of TNT. Enough to move twenty billion tonnes through one kilometre.";
       Objectum["tsar"].Pondus=1;
       Objectum["tsar"].Materiae();
-      Objectum["tsar"].Materia.Calefacio=50000000000000;
+      Objectum["tsar"].Materia.Calefacio[0]=50000000000000;
       Objectum["tsar"].Materia.Calfacio="Not to be molten, but the energy released by it is:";
       obj[601] = "lightning";
       Objectum["lightning"] = new Objectum();
       Objectum["lightning"].Depictio="A lightning bolt in average has ten billion watts; 10 gigajoules which could lift a million tonnes one metre in the air.";
       Objectum["lightning"].Pondus=1;
       Objectum["lightning"].Materiae();
-      Objectum["lightning"].Materia.Calefacio=2388458.96;
+      Objectum["lightning"].Materia.Calefacio[0]=2388458.96;
       Objectum["lightning"].Materia.Calfacio="Plasma has nothing to be molten, but the energy it contains is:";
       obj[602] = "little boy";
       Objectum["little boy"] = new Objectum();
       Objectum["little boy"].Depictio="From Gay to Hiroshima; the infamous nuclear bomb had 63.7 terajoules or 15 kilotons of TNT. Enough to move six billion tonnes for a metre.";
       Objectum["little boy"].Pondus=1;
       Objectum["little boy"].Materiae();
-      Objectum["little boy"].Materia.Calefacio=15057361376;
+      Objectum["little boy"].Materia.Calefacio[0]=15057361376;
       Objectum["little boy"].Materia.Calfacio="Not to be molten, but the energy released by it is:";
       obj[603] = "human";
       Objectum["human"] = new Objectum();
       Objectum["human"].Depictio="An average human has 2000 kilocalories of chemical energy; that is 8.3M joules - 96.8 watts nonstop. It can exactly boil 20L of water or lift 830 tonnes one meters, although the human muscles have a conversion of 20-25% so that the mechanical energy would be less than 200 tonnes and the rest released as heat.";
       Objectum["human"].Pondus=60;
       Objectum["human"].Materiae();
-      Objectum["human"].Materia.Calefacio=33.33;
+      Objectum["human"].Materia.Calefacio[0]=33.33;
       Objectum["human"].Materia.Calfacio="Poor thing; its burning can generate only so much energy.";
 
       Console.WriteLine("\nWelcome to the object interface.");
@@ -1027,15 +1066,18 @@ namespace ULF
               Console.WriteLine(Σ.num[3]+" megajoules.");
               if(Σ.num[4] > 1){
                 Console.WriteLine(Σ.num[4]+" gigajoules.");
-                if(Σ.num[5] > 63){
-                  Console.WriteLine(Σ.num[5]+" in terajoules; that is more than the 63TJ of Little Boy which wiped Hiroshima out.");
-                  if(Σ.num[6] > 210){
-                    Console.WriteLine(Σ.num[6]+" in petajoules; that is more than the 210PJ greatest nuclear bomb humankind has ever used.");
+                if(Σ.num[5] > 1){
+                  Console.WriteLine(Σ.num[5]+" in terajoules; 63TJ is Little Boy which wiped Hiroshima out.");
+                  if(Σ.num[6] > 1){
+                    Console.WriteLine(Σ.num[6]+" in petajoules; 210PJ is greatest nuclear bomb humankind has ever used.");
                     if(Σ.num[7] > 1){
+                      Σ.num[10]=Σ.num[7]/94;
                       Console.WriteLine(Σ.num[7]+" in exajoules; that is "+Σ.num[10]+" times the yearly USA electrical energy consumption. A magnitude nine earthquake releases little more than one EJ of energy.");
-                      if(Σ.num[8] > 0.5){
+                      if(Σ.num[8] > 1){
+                        Σ.num[11]=Σ.num[8]*2;
                         Console.WriteLine(Σ.num[8]+" in zettajoules; that is "+Σ.num[11]+" times the yearly energy consumption of the entire humankind.");
                         if(Σ.num[9] > 1){
+                          Σ.num[12]=Σ.num[9]/400;
                           Console.WriteLine(Σ.num[9]+" in yottajoules; each YJ is enough to increase in one degree all the water on Earth. The energy required to melt this object compare as "+Σ.num[12]+" times the energy produced each second by the Sun.");
                         }
                       }
@@ -1059,7 +1101,8 @@ namespace ULF
           Console.WriteLine("Name the object to be molten.");
           Σ.notou = Console.ReadLine().ToLower();
           Console.WriteLine(Objectum[Σ.notou].Materia.Calfacio);
-          Σ.num[0] = Math.Round(Objectum[Σ.notou].Pondus * Objectum[Σ.notou].Materia.Calefacio, 2);
+          if(Objectum[Σ.notou].Materia.Genus=="Wood"||Objectum[Σ.notou].Materia.Genus=="Leather"||Objectum[Σ.notou].Materia.Genus=="Fabric")Σ.num[0] = Math.Round(Objectum[Σ.notou].Pondus * Objectum[Σ.notou].Materia.Calefacio[1], 2);
+          else Σ.num[0] = Math.Round(Objectum[Σ.notou].Pondus * Objectum[Σ.notou].Materia.Calefacio[0], 2);
           Σ.num[1] = Math.Round(Σ.num[0]*4184, 2);
           Σ.num[2] = Math.Round(Σ.num[1]/1000, 2);
           Σ.num[3] = Math.Round(Σ.num[2]/1000, 2);

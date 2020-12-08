@@ -24,7 +24,7 @@ namespace ULF
       Primor.Hostis[hostis].Crassitudo[1]=6;
       Primor.Hostis[hostis].Crassitudo[0]=100;
       Primor.Hostis[hostis].Carnatio=40*30*100;
-      Primor.Hostis[hostis].Pondus=350;
+      Primor.Hostis[hostis].Pondus[0]=350;
       Primor.Hostis[hostis].Spatium[0]=20;
       Primor.Hostis[hostis].Spatium[1]=20;
       Primor.Hostis[hostis].Planitia[0]=1200;

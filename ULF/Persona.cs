@@ -8,8 +8,8 @@ namespace ULF
 	public class Persona
 	{
 		public Persona(string nomen="Paulum", string cognomen="Vagabundus", string genus="Human", int vigor=10, int dexteritate=10, int conditio=10, int intelligentia=10, int sapientia=10, double alt=170, double lat=50, double cra=12, double crd=7, int mec=1, int gra=1, int enf=1, int cel=3, int acc=1, int per=1, double pon=61, double spa=80, int nil=0){
-			this.Nomen=nomen;
-			this.Cognomen=cognomen;
+      this.Nomen=(string.IsNullOrEmpty(nomen))?"NA":nomen;
+			this.Cognomen=(string.IsNullOrEmpty(cognomen))?"NA":cognomen;
       this.Genus.typus=genus;
       this.PV=new int[2];
       this.PM=new double[2];
@@ -22,17 +22,8 @@ namespace ULF
 			this.Altitudo=alt;
 			this.Latitudo=lat;
 			this.Crassitudo=new double[2]{cra, crd};
-			this.Pondus=pon;
+			this.Pondus[0]=pon;
 			this.Spatium=new double[2]{spa, spa};
-      this.Planitia=new double[3];
-      this.Caput=new double[3];
-      this.Ocullus=new double[3];
-      this.Collum=new double[3];
-      this.Cor=new double[3];
-      this.Tergum=new double[3];
-      this.Bracchium=new double[3];
-      this.Stomachus=new double[3];
-      this.Crus=new double[3];
 
 			this.CorpusAptus=cel;
 			this.AccuratioP=acc;
@@ -49,6 +40,10 @@ namespace ULF
       this.Lotus = new Lotus();
       this.Motus=0;
       this.Tempus=0;
+      this.jeiunium[0]=0;
+      this.jeiunium[1]=0;
+      this.sonmus[0]=0;
+      this.sonmus[1]=0;
 		}
 
 		public void Utor(){
@@ -56,6 +51,8 @@ namespace ULF
 				Console.WriteLine("\nWelcome to the character creation. Insert your first name, return and then your surname.");
 				Σ.notou = Console.ReadLine();
 				Σ.notod = Console.ReadLine();
+        Σ.notou=string.IsNullOrEmpty(Σ.notou)?"NA":Σ.notou;
+        Σ.notod=string.IsNullOrEmpty(Σ.notod)?"NA":Σ.notod;
 				PersonaN(Σ.notou, Σ.notod);
 			}while(Σ.notou==null);
 			
@@ -203,7 +200,19 @@ namespace ULF
           this.PerT=Mechanicae.Lapsus(Perceptio);
           this.CasT=Mechanicae.Lapsus(Intelligentia[1]);
 
-          this.Spatium[1] = this.Spatium[0] + this.Arma.Spatium;
+          this.Spatium[1]=(this.Arma!=null)?this.Spatium[0]+this.Arma.Spatium:this.Spatium[0];
+
+          this.Pondus[1]=this.Pondus[0];
+          foreach(var u in Archivum){
+            if(u!=null)this.Pondus[1]+=u.Pondus;
+          }
+          break;
+          case "inedia":
+          this.Vigor[1]=this.Vigor[0]/2;
+          this.Dexteritate[1]=this.Dexteritate[0]/2;
+          this.Conditio[1]=this.Conditio[0]/2;
+          this.Intelligentia[1]=this.Intelligentia[0]/2;
+          this.Sapientia[1]=this.Sapientia[0]/2;
           break;
       }
 		}
@@ -337,7 +346,7 @@ namespace ULF
           "\n"+"Perception: "+this.Perceptio);
 					break;
 				case "proportions":
-					Console.WriteLine("Height: "+this.Altitudo+"\n"+"Width: "+this.Latitudo+"\n"+"Thickness: "+this.Crassitudo[0]+"\n"+"Reach: "+this.Spatium[1]+"\n"+"Weight: "+this.Pondus+"\n"+"Volume: "+this.Carnatio+"\n"+"Front: "+this.Planitia[0]+"\n"+"Side: "+this.Planitia[1]);
+					Console.WriteLine("Height: "+this.Altitudo+"\n"+"Width: "+this.Latitudo+"\n"+"Thickness: "+this.Crassitudo[0]+"\n"+"Reach: "+this.Spatium[1]+"\n"+"Weight: "+this.Pondus[0]+"/"+this.Pondus[1]+"\n"+"Volume: "+this.Carnatio+"\n"+"Front: "+this.Planitia[0]+"\n"+"Side: "+this.Planitia[1]);
 					Console.WriteLine("Head: "+this.Caput[2]+"cm²\nEyes: "+this.Ocullus[2]+"cm²\nNeck: "+this.Collum[2]+"cm²\nHeart: "+this.Cor[2]+"cm²\nSpine: "+this.Tergum[2]+"cm²\nArms: "+this.Bracchium[2]+"cm²\nStomach: "+this.Stomachus[2]+"cm²\nLegs: "+this.Crus[2]+"cm²");
           break;
 				default:
@@ -396,6 +405,8 @@ namespace ULF
 
     public void AddicioM(string met, int lev=1, string verbum="metier"){
         // Hunter
+        // Cobbler
+        // Hipster (Woodcutter)
       if(verbum=="metier")this.Metier[met]=lev;
       else if(verbum=="peritia")this.Peritia[met]=lev;
         // Blade Proficiency
@@ -419,7 +430,7 @@ namespace ULF
           if(d!=null){
             if(d.Nomen==mers[u].Nomen){
               d.Quantitas+=Σ.unus;
-              Console.WriteLine("\nYou have acquired more "+Σ.unus+" "+mers[u].Nomen+"!");
+              Console.WriteLine("\n"+this.Cognomen+" has acquired more "+Σ.unus+" "+mers[u].Nomen+"!");
               est=true;
             }
           }
@@ -431,14 +442,36 @@ namespace ULF
               this.Archivum[d]=mers[u];
               this.Archivum[d].Quantitas=Σ.unus;
               this.panaN[mers[u].Nomen]=Σ.unus;
-              if(mers[u].Quantitas>1)Console.WriteLine("\nYou have acquired "+mers[u].Nomen+" x"+mers[u].Quantitas+"!");
-              else Console.WriteLine("\nYou have acquired "+mers[u].Nomen+"!");
+              if(mers[u].Quantitas>1)Console.WriteLine("\n"+this.Cognomen+" has acquired "+mers[u].Nomen+" x"+mers[u].Quantitas+"!");
+              else Console.WriteLine("\n"+this.Cognomen+" has acquired "+mers[u].Nomen+"!");
               break;
             }
           }
         } 
       }
       
+    }
+
+    public void ArchDel(params Caussae[] mers){
+      for(int u=0;u<mers.Length;u++){
+        foreach(Caussae c in this.Archivum){
+          if(c!=null){
+            if(mers[u]==c){
+              c.Quantitas-=1;
+              panaN[mers[u].Nomen]-=1;
+
+              if(c.Quantitas>0)Console.WriteLine("One less "+mers[u].Nomen+".");
+                else Console.WriteLine("You no longer have "+mers[u].Nomen+".");
+            }
+          }
+          
+        }
+        
+        /*Complete delete stash
+        Array.Clear(this.Archivum, Array.IndexOf(this.Archivum, mers[u]), 1);
+        panaN.Remove(mers[u].Nomen);
+        Console.WriteLine("You no longer have "+mers[u].Nomen+".");*/
+      }
     }
     public Caussae ArchTrac(string mers){
       foreach(var c in this.Archivum){
@@ -474,8 +507,7 @@ namespace ULF
         Σ.notou = Console.ReadLine();
 
         if(Σ.notou=="delete"){
-          Array.Clear(Archivum, Array.IndexOf(Archivum, ArchTrac(Σ.rector)), 1);
-          panaN.Remove(Σ.rector);
+          this.ArchDel(this.ArchTrac(Σ.rector));
           if(this.Arma.Nomen==Σ.rector)this.Arma=null;
           Console.WriteLine("You have gotten rid of "+Σ.rector+".");
         } else if(Σ.notou=="equip"){
@@ -647,7 +679,7 @@ namespace ULF
       data.altitudo = this.Altitudo;
       data.latitudo = this.Latitudo;
       data.crassitudo = this.Crassitudo;
-      data.pondus = this.Pondus;
+      data.pondus = this.Pondus[0];
       data.spatium = this.Spatium;
       data.carnatio = this.Carnatio;
       data.planitia = this.Planitia;
@@ -680,6 +712,11 @@ namespace ULF
 
       data.armaN = this.Arma.Nomen;
       for(int u=0;u<this.Archivum.Length;u++)if(this.Archivum[u]!=null)data.panaN[this.Archivum[u].Nomen]=this.Archivum[u].Quantitas;
+
+      data.Centuria=Agrum.Centuria;
+      data.Charta=this.Charta;
+      data.Reg[1]=this.Regio.Nomen;
+      data.Reg[0]=this.Regio.regioid.ToString()+"00000";
 
       bi.Serialize(file, data);
       file.Close();
@@ -715,7 +752,7 @@ namespace ULF
         this.Altitudo = data.altitudo; 
         this.Latitudo = data.latitudo; 
         this.Crassitudo = data.crassitudo; 
-        this.Pondus = data.pondus; 
+        this.Pondus[0] = data.pondus; 
         this.Spatium = data.spatium; 
         this.Carnatio = data.carnatio; 
         this.Planitia = data.planitia; 
@@ -758,6 +795,13 @@ namespace ULF
 
         this.Arma = Arma.Ornare(data.armaN.ToLower());
         this.Virtus();
+
+
+        Agrum.Centuria=data.Centuria;
+        foreach(var u in data.Charta){
+          Regio.Labor(u.Key).praesto=u.Value;
+        }
+        this.regreg=data.Reg;
       }
     }
     public void Scribere(string cog){
@@ -791,7 +835,7 @@ namespace ULF
           writer.WriteLine("Width: "+this.Latitudo);
           writer.WriteLine("Thickness: "+this.Crassitudo[0]);
           writer.WriteLine("Reach: "+this.Spatium[1]);
-          writer.WriteLine("Weight: "+this.Pondus);
+          writer.WriteLine("Weight: "+this.Pondus[0]+"/"+this.Pondus[1]);
           writer.WriteLine("Volume: "+this.Carnatio);
           writer.WriteLine("Front: "+this.Planitia[0]);
           writer.WriteLine("Side: "+this.Planitia[1]);
@@ -849,6 +893,7 @@ namespace ULF
     public string[] Actus = new string[20];
     public Dictionary<string, int> Metier = new Dictionary<string, int>();
     public Dictionary<string, int> Peritia = new Dictionary<string, int>();
+    public List<string> Studium = new List<string>();
     
 		public int[] Vigor = new int[2];
 		public int[] Dexteritate = new int[2];
@@ -859,18 +904,18 @@ namespace ULF
 		public double Altitudo{get; set;}
 		public double Latitudo{get; set;}
 		public double[] Crassitudo{get; set;}
-		public double Pondus{get; set;}
+		public double[] Pondus= new double[2];
 		public double[] Spatium{get; set;}
 		public double Carnatio{get; set;}
-    public double[] Planitia{get; set;}
-    public double[] Caput{get; set;}
-    public double[] Ocullus{get; set;}
-    public double[] Collum{get; set;}
-    public double[] Cor{get; set;}
-    public double[] Tergum{get; set;}
-    public double[] Bracchium{get; set;}
-    public double[] Stomachus{get; set;}
-    public double[] Crus{get; set;}
+    public double[] Planitia=new double[3];
+    public double[] Caput=new double[3];
+    public double[] Ocullus=new double[3];
+    public double[] Collum=new double[3];
+    public double[] Cor=new double[3];
+    public double[] Tergum=new double[3];
+    public double[] Bracchium=new double[3];
+    public double[] Stomachus=new double[3];
+    public double[] Crus=new double[3];
 		
 		public int Capacitas{get; private set;}
 		public int Potentia{get; private set;}
@@ -891,6 +936,7 @@ namespace ULF
 		public int CorpusAptus{get; private set;}
 
     public Arma Arma = new Arma();
+    public Galea Galea = new Galea();
     public Dictionary<string, int> panaN = new Dictionary<string, int>();
     public Caussae[] Archivum = new Caussae[20];
 
@@ -908,10 +954,15 @@ namespace ULF
     public bool inferi=false;
     public bool leavo=false;
 
-    public Yuno Yuno = new Yuno();
+    public Yuno Yuno=new Yuno();
     public string Sensus="Mulus";
 
-    public Regio Regio = new Regio();
+    public Regio Regio=new Regio("Incarnaan", new string[]{});
+    public Dictionary<string, string[]> Charta=new Dictionary<string, string[]>();
+    public string[] regreg=new string[2];
+
+    public double[] jeiunium=new double[2];
+    public double[] sonmus=new double[2];
   }
 }
     /*  Use Purgo for debugging to skip to name, roll or race phase.

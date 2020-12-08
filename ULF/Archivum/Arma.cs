@@ -6,7 +6,6 @@ namespace ULF
 {
   public class Arma : Caussae
   {
-    public Materiae Materia = new Materiae();
     public string Peritia{get; private set;}
     public int Acutus{get; private set;}
     public int Acutulus{get; private set;}
@@ -57,35 +56,19 @@ namespace ULF
       Arma SteelDagger = new Arma("Steel Dagger" ,"steel", "dagger", 2, 4, 4, 1, 0.1, 1, 10, 0.59, "Blade Proficiency");
       Arma ChestnutStaff = new Arma("Chestnut Staff" ,"chestnut", "staff", 0, 0, 0, 6, 0.5, 2, 70, 0.6, "");
       Arma MapleBow = new Arma("Maple Bow" ,"maple", "bow", 7, 0, 0, 1, 0.4, 3, 70, 0.4, "Bow Mastery");
+      Arma CaelumFractum = new Arma("Caelum Fractum", "azurian steel", "sword", 2, 38, 76, 38, 0.1, 3000, 9999, 1, "");
 
       Arma Fist = new Arma("First", "flesh", "fist", 0, 0, 0, 4, 0, 0, 0, 1);
 
       mat=mat.ToLower();
       switch(mat){
-        case "steel sword":
-          return SteelSword;
-        case "steel long sword":
-          return SteelLongSword;
-        case "steel dagger":
-          return SteelDagger;
-        case "chestnut staff":
-          return ChestnutStaff;
-        case "maple bow":
-          return MapleBow;
-        case "iron":
-          // return Iron;
-        case "steel":
-          // return Steel;
-        case "gold":
-          // return Gold;
-        case "osmium":
-          // return Osmium;
-        case "lead":
-          // return Lead;
-        case "ice":
-          // return Ice;
-        default:
-          return null;
+        case "steel sword":return SteelSword;
+        case "steel long sword":return SteelLongSword;
+        case "steel dagger":return SteelDagger;
+        case "chestnut staff":return ChestnutStaff;
+        case "maple bow":return MapleBow;
+        case "caelum fractum":return CaelumFractum;
+        default:return null;
       }
     }   
   

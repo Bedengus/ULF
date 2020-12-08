@@ -85,7 +85,7 @@ namespace ULF
         Ego.Crassitudo[1] = 4 + Mechanicae.Volvere(4);
       	Ego.Crassitudo[0] = Math.Round((Ego.Altitudo / 100) * Ego.Crassitudo[1], 2);
         Ego.Carnatio = Math.Round(Ego.Altitudo * Ego.Latitudo * Ego.Crassitudo[0], 2);
-        Ego.Pondus = Math.Round((Ego.Carnatio * 0.7) / 1000, 2);
+        Ego.Pondus[0] = Math.Round((Ego.Carnatio * 0.7) / 1000, 2);
         Ego.Spatium[0] = Math.Round(Ego.Altitudo / 2);
         Ego.Spatium[1] = Math.Round(Ego.Altitudo / 2);
         Ego.Planitia[0]= Math.Round(Ego.Altitudo * Ego.Latitudo, 2);
@@ -96,7 +96,7 @@ namespace ULF
         Ego.Crassitudo[1]=6;
 				Ego.Crassitudo[0]=10;
         Ego.Carnatio=180*45*10;
-        Ego.Pondus=56;
+        Ego.Pondus[0]=56;
         Ego.Spatium[0]=90;
         Ego.Spatium[1]=90;
         Ego.Planitia[0]=8100;
@@ -115,7 +115,7 @@ namespace ULF
 			}
       Ego.Crassitudo[0] = Math.Round((Ego.Altitudo / 100) * Ego.Crassitudo[1], 2);
       Ego.Carnatio = Math.Round(Ego.Altitudo * Ego.Latitudo * Ego.Crassitudo[0], 2);
-      Ego.Pondus = Math.Round((Ego.Carnatio * 0.7) / 1000, 2);
+      Ego.Pondus[0] = Math.Round((Ego.Carnatio * 0.7) / 1000, 2);
       Ego.Planitia[0]= Math.Round(Ego.Altitudo * Ego.Latitudo, 2);
       Ego.Planitia[1]= Math.Round(Ego.Altitudo * Ego.Crassitudo[0], 2);
 			Ego.Index("dimensions");
@@ -141,7 +141,7 @@ namespace ULF
       Primor.Hostis[hostis].Crassitudo[1]=6;
       Primor.Hostis[hostis].Crassitudo[0]=10;
       Primor.Hostis[hostis].Carnatio=180*45*10;
-      Primor.Hostis[hostis].Pondus=56;
+      Primor.Hostis[hostis].Pondus[0]=56;
       Primor.Hostis[hostis].Spatium[0]=90;
       Primor.Hostis[hostis].Spatium[1]=90;
       Primor.Hostis[hostis].Planitia[0]=8100;
